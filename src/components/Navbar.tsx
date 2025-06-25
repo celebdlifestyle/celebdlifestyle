@@ -1,7 +1,7 @@
 "use client";
 
 import Link from "next/link";
-import { ShoppingBag, Heart, User, Search, Divide } from "lucide-react";
+import { ShoppingBag, Heart, User, Search } from "lucide-react";
 import { dedot_title } from "@/app/fonts/font";
 import Sidebar from "@/components/Sidebar";
 import { Menu } from "lucide-react";

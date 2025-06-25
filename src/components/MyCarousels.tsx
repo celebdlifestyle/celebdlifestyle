@@ -7,7 +7,7 @@ import {
   CarouselPrevious,
   CarouselNext,
 } from "@/components/ui/carousel";
-import { Collections, Products } from "@/app/data";
+import { Collections } from "@/app/data";
 import { useState } from "react";
 
 export function ImageCarousel() {
