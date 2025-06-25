@@ -7,7 +7,8 @@ import {
   CarouselPrevious,
   CarouselNext,
 } from "@/components/ui/carousel";
-import { Collections } from "@/app/data";
+import { Collections, Products } from "@/app/data";
+import { useState } from "react";
 
 export function ImageCarousel() {
   return (
@@ -51,25 +52,82 @@ export function CollectionsCarousel() {
   return (
     <div className="relative px-6">
       <Carousel>
-        <CarouselContent className="pl-2 pr-2">
+        <CarouselContent className="px-1">
           {Collections.slice(0, 6).map((collection) => (
             <CarouselItem
               key={collection.id}
-              className="sm:basis-1/2 md:basis-1/3 lg:basis-1/4"
+              className="basis-1/2 lg:basis-1/4"
             >
               <img
                 src={collection.image}
                 alt="product image"
-                className="h-[25rem] w-full object-cover rounded-sm"
+                className="h-52 md:h-[25rem] w-full object-cover"
               />
-              <p className="text-lg font-semibold text-center w-full tracking-widest mt-2">
+              <p className="w-full mt-2 text-sm font-semibold tracking-widest text-center md:text-lg">
                 {collection.name}
               </p>
             </CarouselItem>
           ))}
         </CarouselContent>
 
-        <CarouselPrevious className="left-0 " />
+        <CarouselPrevious className="-left-5 " />
+        <CarouselNext className="-right-5" />
+      </Carousel>
+    </div>
+  );
+}
+
+// You can define a type like this for better TypeScript support:
+type Product = {
+  id: number;
+  slug: string;
+  title: string;
+  color: string;
+  price: number;
+  image1: string;
+  image2: string;
+};
+
+type ProductCarouselProps = {
+  products: Product[];
+};
+
+export function ProductCarousel({ products }: ProductCarouselProps) {
+  const [hoveredProductId, setHoveredProductId] = useState<number | null>(null);
+
+  return (
+    <div className="relative">
+      <Carousel>
+        <CarouselContent className="px-1">
+          {products.map((product) => (
+            <CarouselItem
+              key={product.id}
+              className="basis-1/3 md:basis-1/5 cursor-pointer"
+              onMouseEnter={() => setHoveredProductId(product.id)}
+              onMouseLeave={() => setHoveredProductId(null)}
+            >
+              <div>
+                <img
+                  src={
+                    hoveredProductId === product.id
+                      ? product.image2
+                      : product.image1
+                  }
+                  alt={product.slug}
+                  className="h-52 md:h-96 transition-all duration-300"
+                />
+                <div className="text-sm font-bold md:font-semibold md:text-[1rem] grid gap-1 my-1">
+                  <p className="hover:underline">
+                    {product.title} - {product.color}
+                  </p>
+                  <p>₹{product.price}</p>
+                </div>
+              </div>
+            </CarouselItem>
+          ))}
+        </CarouselContent>
+
+        <CarouselPrevious className="left-0" />
         <CarouselNext className="right-0" />
       </Carousel>
     </div>
