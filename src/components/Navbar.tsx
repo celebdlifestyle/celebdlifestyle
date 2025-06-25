@@ -8,10 +8,10 @@ import { Menu } from "lucide-react";
 import { useState } from "react";
 
 export default function Navbar() {
-  const [showMenu, setIsShowMenu] = useState(false);
+  const [showMenu, setShowMenu] = useState(false);
   return (
     <>
-      <div className="h-10 text-center py-2 bg-[#B5D0E5]">
+      <div className="h-10 text-center font-bold py-2 bg-[#B5D0E5]">
         Free Shipping over Rs. 6,900
       </div>
 
@@ -19,11 +19,11 @@ export default function Navbar() {
         <Menu
           className="md:hidden"
           onClick={() => {
-            setIsShowMenu(!showMenu);
+            setShowMenu(!showMenu);
             console.log(showMenu);
           }}
         />
-        {showMenu && <Sidebar />}
+        {showMenu && <Sidebar showMenu={showMenu} setShowMenu={setShowMenu} />}
 
         <Link
           className={`${dedot_title.className} h-16 py-4 md:hidden font-semibold text-4xl md:text-5xl`}
