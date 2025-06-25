@@ -50,7 +50,7 @@ export function ImageCarousel() {
 
 export function CollectionsCarousel() {
   return (
-    <div className="relative px-6">
+    <div className="relative">
       <Carousel>
         <CarouselContent className="px-1">
           {Collections.slice(0, 6).map((collection) => (
@@ -70,8 +70,8 @@ export function CollectionsCarousel() {
           ))}
         </CarouselContent>
 
-        <CarouselPrevious className="-left-5 " />
-        <CarouselNext className="-right-5" />
+        <CarouselPrevious className="left-0 hidden md:block" />
+        <CarouselNext className="right-0 hidden md:block" />
       </Carousel>
     </div>
   );
@@ -102,7 +102,7 @@ export function ProductCarousel({ products }: ProductCarouselProps) {
           {products.map((product) => (
             <CarouselItem
               key={product.id}
-              className="basis-1/3 md:basis-1/5 cursor-pointer"
+              className="basis-1/2 md:basis-1/5 cursor-pointer"
               onMouseEnter={() => setHoveredProductId(product.id)}
               onMouseLeave={() => setHoveredProductId(null)}
             >
@@ -127,8 +127,8 @@ export function ProductCarousel({ products }: ProductCarouselProps) {
           ))}
         </CarouselContent>
 
-        <CarouselPrevious className="left-0" />
-        <CarouselNext className="right-0" />
+        <CarouselPrevious className="left-0 hidden md:block" />
+        <CarouselNext className="right-0 hidden md:block" />
       </Carousel>
     </div>
   );
