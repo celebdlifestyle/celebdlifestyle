@@ -6,6 +6,7 @@ import { dedot_title } from "@/app/fonts/font";
 import Sidebar from "@/components/Sidebar";
 import { Menu } from "lucide-react";
 import { useState } from "react";
+import NavButtons from "@/components/NavButtons";
 
 export default function Navbar() {
   const [showMenu, setShowMenu] = useState(false);
@@ -42,36 +43,7 @@ export default function Navbar() {
             </Link>
           </div>
 
-          <div>
-            <ul className="flex text-md gap-5 font-[500] tracking-widest">
-              <li>
-                <Link className="hover:border-b-2" href={"/collections/mens"}>
-                  MENS
-                </Link>
-              </li>
-              <li>
-                <Link className="hover:border-b-2" href={"/collections/womens"}>
-                  WOMENS
-                </Link>
-              </li>
-              <li>
-                <Link
-                  className="hover:border-b-2"
-                  href={"/collections/accesories"}
-                >
-                  TEENS
-                </Link>
-              </li>
-              <li>
-                <Link
-                  className="hover:border-b-2"
-                  href={"/collections/accesories"}
-                >
-                  BLOGS
-                </Link>
-              </li>
-            </ul>
-          </div>
+          <NavButtons />
         </div>
 
         <div className="flex items-center justify-center gap-2">

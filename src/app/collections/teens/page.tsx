@@ -1,3 +1,3 @@
 export default function Page() {
-  return <div>accesories</div>;
+  return <div>Celebd Teen</div>;
 }
