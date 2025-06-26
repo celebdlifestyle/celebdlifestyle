@@ -1,6 +1,7 @@
 "use client";
 
 import { Instagram, Facebook, Twitter, Youtube } from "lucide-react";
+import Link from "next/link";
 
 export default function Footer() {
   return (
@@ -61,9 +62,9 @@ export default function Footer() {
           </div>
           <p className="text-xs text-gray-400 mb-4">
             By entering your email address, you agree to our{" "}
-            <a href="#" className="text-white hover:text-blue-400 underline">
+            <Link href="#" className="text-white hover:text-blue-400 underline">
               Privacy Policy
-            </a>{" "}
+            </Link>{" "}
             and will receive CELEBD Yoga offers and other commercial messages.
             You may unsubscribe at any time.
           </p>
@@ -87,30 +88,30 @@ export default function Footer() {
         <div className="flex flex-col sm:flex-row justify-between gap-2">
           <p>© 2025 CELEBD, LLC. All Rights Reserved.</p>
           <div className="flex flex-wrap gap-4">
-            <a
+            <Link
               href="#"
               className="hover:underline hover:text-blue-400 transition"
             >
               Terms
-            </a>
-            <a
+            </Link>
+            <Link
               href="#"
               className="hover:underline hover:text-blue-400 transition"
             >
               Privacy
-            </a>
-            <a
+            </Link>
+            <Link
               href="#"
               className="hover:underline hover:text-blue-400 transition"
             >
               Cookie Policy
-            </a>
-            <a
+            </Link>
+            <Link
               href="#"
               className="hover:underline hover:text-blue-400 transition"
             >
               Cookie Preferences
-            </a>
+            </Link>
           </div>
         </div>
       </div>
