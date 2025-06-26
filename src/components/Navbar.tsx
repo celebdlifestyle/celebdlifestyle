@@ -46,15 +46,15 @@ export default function Navbar() {
           <NavButtons />
         </div>
 
-        <div className="flex items-center justify-center gap-2">
-          <Search className="hidden cursor-pointer md:block" />
+        <div className="flex items-center justify-center gap-3 md:gap-5">
+          <Search strokeWidth={1} className="hidden cursor-pointer md:block" />
           <div className="items-end hidden gap-1 py-1 text-sm border-b-2 cursor-pointer md:flex">
-            <User />
+            <User strokeWidth={1} />
             <p className="font-semibold">SIGN IN TO BECOME CELEBD</p>
           </div>
-          <User className="md:hidden" />
-          <Heart className="cursor-pointer" />
-          <ShoppingBag className="cursor-pointer" />
+          <User strokeWidth={1} className="md:hidden" />
+          <Heart strokeWidth={1} className="cursor-pointer" />
+          <ShoppingBag strokeWidth={1} className="cursor-pointer" />
         </div>
       </nav>
 
