@@ -52,7 +52,7 @@ export function CollectionsCarousel() {
   return (
     <div className="relative">
       <Carousel>
-        <CarouselContent className="px-1">
+        <CarouselContent>
           {Collections.slice(0, 6).map((collection) => (
             <CarouselItem
               key={collection.id}
@@ -70,8 +70,8 @@ export function CollectionsCarousel() {
           ))}
         </CarouselContent>
 
-        <CarouselPrevious className="left-0 hidden md:block" />
-        <CarouselNext className="right-0 hidden md:block" />
+        <CarouselPrevious className="left-0" />
+        <CarouselNext className="right-0" />
       </Carousel>
     </div>
   );
@@ -98,7 +98,7 @@ export function ProductCarousel({ products }: ProductCarouselProps) {
   return (
     <div className="relative">
       <Carousel>
-        <CarouselContent className="px-1">
+        <CarouselContent>
           {products.map((product) => (
             <CarouselItem
               key={product.id}
@@ -127,8 +127,8 @@ export function ProductCarousel({ products }: ProductCarouselProps) {
           ))}
         </CarouselContent>
 
-        <CarouselPrevious className="left-0 hidden md:block" />
-        <CarouselNext className="right-0 hidden md:block" />
+        <CarouselPrevious className="left-0" />
+        <CarouselNext className="right-0" />
       </Carousel>
     </div>
   );

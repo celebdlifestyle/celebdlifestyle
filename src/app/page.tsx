@@ -11,7 +11,7 @@ export default function Homepage() {
     <div className="min-h-screen pb-5">
       <ImageCarousel />
 
-      <div>
+      <div className="mx-3">
         <h1 className="gap-5 mx-6 my-8 text-lg font-semibold tracking-widest">
           TRENDING NOW
         </h1>
@@ -25,7 +25,7 @@ export default function Homepage() {
         <ProductCarousel products={Products} />
       </div>
 
-      <div>
+      <div className="mx-3">
         <h1 className="gap-5 mx-6 my-8 text-lg font-semibold tracking-widest">
           SHOP BY CATEGORIES
         </h1>

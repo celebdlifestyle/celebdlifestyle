@@ -56,7 +56,7 @@ export default function NavigationMenuDemo() {
     <NavigationMenu viewport={false}>
       <NavigationMenuList>
         <NavigationMenuItem>
-          <Link href={"/collections/mens"}>
+          <Link href={"/collections/men"}>
             <NavigationMenuTrigger>MENS</NavigationMenuTrigger>
           </Link>
           <NavigationMenuContent>
@@ -90,7 +90,7 @@ export default function NavigationMenuDemo() {
         </NavigationMenuItem>
 
         <NavigationMenuItem>
-          <Link href={"/collections/womens"}>
+          <Link href={"/collections/women"}>
             <NavigationMenuTrigger>WOMENS</NavigationMenuTrigger>
           </Link>
           <NavigationMenuContent>
@@ -140,6 +140,25 @@ export default function NavigationMenuDemo() {
                   </Link>
                 </NavigationMenuLink>
               </li>
+            </ul>
+          </NavigationMenuContent>
+        </NavigationMenuItem>
+
+        <NavigationMenuItem>
+          <Link href={"/collections/women"}>
+            <NavigationMenuTrigger>ACCESSORIES</NavigationMenuTrigger>
+          </Link>
+          <NavigationMenuContent>
+            <ul className="grid w-[400px] gap-2 md:w-[500px] md:grid-cols-2 lg:w-[600px]">
+              {components.map((component) => (
+                <ListItem
+                  key={component.title}
+                  title={component.title}
+                  href={component.href}
+                >
+                  {component.description}
+                </ListItem>
+              ))}
             </ul>
           </NavigationMenuContent>
         </NavigationMenuItem>
