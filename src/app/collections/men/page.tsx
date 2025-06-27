@@ -1,3 +1,3 @@
-export default function Page() {
+export default function Men() {
   return <div>mens collection</div>;
 }
