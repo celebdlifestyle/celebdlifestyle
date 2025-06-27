@@ -12,7 +12,7 @@ export default function Navbar() {
   const [showMenu, setShowMenu] = useState(false);
   return (
     <>
-      <div className="h-10 text-center font-bold py-2 bg-[#B5D0E5]">
+      <div className="h-10 text-center font-bold hidden py-2 bg-[#B5D0E5]">
         Free Shipping over Rs. 6,900
       </div>
 
@@ -48,27 +48,11 @@ export default function Navbar() {
 
         <div className="flex items-center justify-center gap-3 md:gap-5">
           <Search strokeWidth={1} className="hidden cursor-pointer md:block" />
-          <div className="items-end hidden gap-1 py-1 text-sm border-b-2 cursor-pointer md:flex">
-            <User strokeWidth={1} />
-            <p className="font-semibold">SIGN IN TO BECOME CELEBD</p>
-          </div>
-          <User strokeWidth={1} className="md:hidden" />
+          <User strokeWidth={1} className="cursor-pointer" />
           <Heart strokeWidth={1} className="cursor-pointer" />
           <ShoppingBag strokeWidth={1} className="cursor-pointer" />
         </div>
       </nav>
-
-      <div className="flex justify-between px-1 py-2 text-sm text-center text-white bg-black md:hidden h-9 flex-center ">
-        <div>
-          SIGN IN TO BECOME{" "}
-          <span className={`${dedot_title.className} text-lg mx-1`}>
-            CELEBD
-          </span>
-        </div>
-        <div className="mx-2 text-sm font-bold tracking-widest border-b">
-          SIGN IN
-        </div>
-      </div>
     </>
   );
 }

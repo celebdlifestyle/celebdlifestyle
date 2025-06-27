@@ -15,7 +15,7 @@ export default function Homepage() {
       <ImageCarousel />
 
       <div className="mx-3">
-        <h1 className="gap-5 mx-6 my-8 text-lg font-semibold tracking-widest">
+        <h1 className="gap-5 my-8 text-lg font-semibold tracking-widest">
           TRENDING NOW
         </h1>
         <CollectionsCarousel />
