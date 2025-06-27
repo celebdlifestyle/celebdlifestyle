@@ -102,7 +102,7 @@ export function ProductCarousel({ products }: ProductCarouselProps) {
           {products.map((product) => (
             <CarouselItem
               key={product.id}
-              className="basis-1/2 md:basis-1/5 cursor-pointer"
+              className="basis-2/5 md:basis-1/5 cursor-pointer"
               onMouseEnter={() => setHoveredProductId(product.id)}
               onMouseLeave={() => setHoveredProductId(null)}
             >
