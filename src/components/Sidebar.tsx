@@ -16,48 +16,48 @@ import { Tabs, TabsList, TabsTrigger } from "@/components/ui/tabs";
 const categories = {
   women: [
     { label: "WOMEN'S CLOTHING", image: "/images/women1.jpg" },
-    { label: "BEST SELLERS", image: "/images/women2.jpg" },
-    { label: "ACCESSORIES", image: "/images/women3.jpg" },
-    { label: "SHOP BY ACTIVITY", image: "/images/women4.jpg" },
-    { label: "NEW ARRIVALS", image: "/images/women5.jpg" },
-    { label: "SHOES", image: "/images/women6.jpg" },
-    { label: "SPOTLIGHT ON", image: "/images/women7.jpg" },
-    { label: "WELLNESS", image: "/images/women8.jpg" },
+    // { label: "BEST SELLERS", image: "/images/women2.jpg" },
+    // { label: "ACCESSORIES", image: "/images/women3.jpg" },
+    // { label: "SHOP BY ACTIVITY", image: "/images/women4.jpg" },
+    // { label: "NEW ARRIVALS", image: "/images/women5.jpg" },
+    // { label: "SHOES", image: "/images/women6.jpg" },
+    // { label: "SPOTLIGHT ON", image: "/images/women7.jpg" },
+    // { label: "WELLNESS", image: "/images/women8.jpg" },
   ],
   Men: [
-    { label: "WOMEN'S CLOTHING", image: "/images/women1.jpg" },
-    { label: "BEST SELLERS", image: "/images/women2.jpg" },
-    { label: "ACCESSORIES", image: "/images/women3.jpg" },
-    { label: "SHOP BY ACTIVITY", image: "/images/women4.jpg" },
-    { label: "NEW ARRIVALS", image: "/images/women5.jpg" },
-    { label: "SHOES", image: "/images/women6.jpg" },
-    { label: "SPOTLIGHT ON", image: "/images/women7.jpg" },
-    { label: "WELLNESS", image: "/images/women8.jpg" },
+    { label: "MEN'S CLOTHING", image: "/images/women1.jpg" },
+    // { label: "BEST SELLERS", image: "/images/women2.jpg" },
+    // { label: "ACCESSORIES", image: "/images/women3.jpg" },
+    // { label: "SHOP BY ACTIVITY", image: "/images/women4.jpg" },
+    // { label: "NEW ARRIVALS", image: "/images/women5.jpg" },
+    // { label: "SHOES", image: "/images/women6.jpg" },
+    // { label: "SPOTLIGHT ON", image: "/images/women7.jpg" },
+    // { label: "WELLNESS", image: "/images/women8.jpg" },
   ],
   Teen: [
-    { label: "WOMEN'S CLOTHING", image: "/images/women1.jpg" },
-    { label: "BEST SELLERS", image: "/images/women2.jpg" },
-    { label: "ACCESSORIES", image: "/images/women3.jpg" },
-    { label: "SHOP BY ACTIVITY", image: "/images/women4.jpg" },
-    { label: "NEW ARRIVALS", image: "/images/women5.jpg" },
-    { label: "SHOES", image: "/images/women6.jpg" },
-    { label: "SPOTLIGHT ON", image: "/images/women7.jpg" },
-    { label: "WELLNESS", image: "/images/women8.jpg" },
+    { label: "TEEN'S CLOTHING", image: "/images/women1.jpg" },
+    // { label: "BEST SELLERS", image: "/images/women2.jpg" },
+    // { label: "ACCESSORIES", image: "/images/women3.jpg" },
+    // { label: "SHOP BY ACTIVITY", image: "/images/women4.jpg" },
+    // { label: "NEW ARRIVALS", image: "/images/women5.jpg" },
+    // { label: "SHOES", image: "/images/women6.jpg" },
+    // { label: "SPOTLIGHT ON", image: "/images/women7.jpg" },
+    // { label: "WELLNESS", image: "/images/women8.jpg" },
   ],
-  ACCESSORIES: [
-    { label: "WOMEN'S CLOTHING", image: "/images/women1.jpg" },
-    { label: "BEST SELLERS", image: "/images/women2.jpg" },
-    { label: "ACCESSORIES", image: "/images/women3.jpg" },
-    { label: "SHOP BY ACTIVITY", image: "/images/women4.jpg" },
-    { label: "NEW ARRIVALS", image: "/images/women5.jpg" },
-    { label: "SHOES", image: "/images/women6.jpg" },
-    { label: "SPOTLIGHT ON", image: "/images/women7.jpg" },
-    { label: "WELLNESS", image: "/images/women8.jpg" },
+  Accessories: [
+    { label: "ACCESSORIES", image: "/images/women1.jpg" },
+    // { label: "BEST SELLERS", image: "/images/women2.jpg" },
+    // { label: "ACCESSORIES", image: "/images/women3.jpg" },
+    // { label: "SHOP BY ACTIVITY", image: "/images/women4.jpg" },
+    // { label: "NEW ARRIVALS", image: "/images/women5.jpg" },
+    // { label: "SHOES", image: "/images/women6.jpg" },
+    // { label: "SPOTLIGHT ON", image: "/images/women7.jpg" },
+    // { label: "WELLNESS", image: "/images/women8.jpg" },
   ],
 };
 
 export default function Sidebar({ showMenu, setShowMenu }: MenuProps) {
-  const [activeTab] = useState<keyof typeof categories>("women");
+  const [activeTab, setActiveTab] = useState<keyof typeof categories>("women");
 
   return (
     <div className="absolute top-0 left-0 w-screen h-screen p-4 space-y-4 overflow-y-auto text-white bg-black">
@@ -82,9 +82,12 @@ export default function Sidebar({ showMenu, setShowMenu }: MenuProps) {
 
       {/* Tabs */}
       <Tabs defaultValue="women" className="w-full">
-        <TabsList className="flex w-full gap-5 mb-2 overflow-y-auto text-white rounded-md bg-zinc-800">
+        <TabsList className=" w-full mb-2 overflow-y-auto text-white rounded-md bg-zinc-800">
           {Object.keys(categories).map((cat) => (
             <TabsTrigger
+              onClick={() => {
+                setActiveTab(cat as "Accessories" | "women" | "Men" | "Teen");
+              }}
               key={cat}
               value={cat}
               className="data-[state=active]:bg-white data-[state=active]:text-black tracking-widest"
