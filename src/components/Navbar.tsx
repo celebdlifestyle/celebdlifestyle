@@ -48,9 +48,15 @@ export default function Navbar() {
 
         <div className="flex items-center justify-center gap-3 md:gap-5">
           <Search strokeWidth={1} className="hidden cursor-pointer md:block" />
-          <User strokeWidth={1} className="cursor-pointer" />
-          <Heart strokeWidth={1} className="cursor-pointer" />
-          <ShoppingBag strokeWidth={1} className="cursor-pointer" />
+          <Link href={"/profile"}>
+            <User strokeWidth={1} className="cursor-pointer" />
+          </Link>
+          <Link href={"/wishlist"}>
+            <Heart strokeWidth={1} className="cursor-pointer" />
+          </Link>
+          <Link href={"/cart"}>
+            <ShoppingBag strokeWidth={1} className="cursor-pointer" />
+          </Link>
         </div>
       </nav>
     </>
