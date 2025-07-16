@@ -30,7 +30,7 @@ export default function Navbar() {
           className={`${dedot_title.className} h-16 py-4 md:hidden font-semibold text-2xl`}
           href={"/"}
         >
-          CELEBD LIFESTYLE
+          LIFESTYLE
         </Link>
 
         <div className="items-center justify-center hidden gap-2 md:flex md:gap-10">
