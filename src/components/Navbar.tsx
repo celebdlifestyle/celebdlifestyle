@@ -16,7 +16,7 @@ export default function Navbar() {
         Free Shipping over Rs. 6,900
       </div>
 
-      <nav className="sticky top-0 z-50 flex items-center justify-between h-16 px-3 bg-white border-b border-white">
+      <nav className="sticky top-0 z-50 flex items-center justify-between h-16 px-3 text-white bg-black">
         <Menu
           className="md:hidden"
           onClick={() => {
@@ -30,7 +30,7 @@ export default function Navbar() {
           className={`${dedot_title.className} h-16 py-4 md:hidden font-semibold text-4xl md:text-5xl`}
           href={"/"}
         >
-          CELEBD
+          CELEBD LIFESTYLE
         </Link>
 
         <div className="items-center justify-center hidden gap-2 md:flex md:gap-10">
