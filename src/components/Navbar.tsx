@@ -27,7 +27,7 @@ export default function Navbar() {
         {showMenu && <Sidebar showMenu={showMenu} setShowMenu={setShowMenu} />}
 
         <Link
-          className={`${dedot_title.className} h-16 py-4 md:hidden font-semibold text-4xl md:text-5xl`}
+          className={`${dedot_title.className} h-16 py-4 md:hidden font-semibold text-2xl`}
           href={"/"}
         >
           CELEBD LIFESTYLE
@@ -36,10 +36,10 @@ export default function Navbar() {
         <div className="items-center justify-center hidden gap-2 md:flex md:gap-10">
           <div>
             <Link
-              className={`${dedot_title.className} font-semibold text-4xl md:text-5xl`}
+              className={`${dedot_title.className} font-semibold text-4xl`}
               href={"/"}
             >
-              CELEBD
+              CELEBD LIFESTYLE
             </Link>
           </div>
 
