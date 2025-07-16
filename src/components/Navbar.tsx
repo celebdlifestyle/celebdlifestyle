@@ -16,7 +16,7 @@ export default function Navbar() {
         Free Shipping over Rs. 6,900
       </div>
 
-      <nav className="sticky top-0 z-50 flex items-center justify-between h-16 px-3 text-white bg-black">
+      <nav className="sticky top-0 z-50 flex items-center justify-between h-16 px-3 bg-black">
         <Menu
           className="md:hidden"
           onClick={() => {
@@ -48,9 +48,15 @@ export default function Navbar() {
 
         <div className="flex items-center justify-center gap-3 md:gap-5">
           <Search strokeWidth={1} className="hidden cursor-pointer md:block" />
-          <User strokeWidth={1} className="cursor-pointer" />
-          <Heart strokeWidth={1} className="cursor-pointer" />
-          <ShoppingBag strokeWidth={1} className="cursor-pointer" />
+          <Link href={"/profile"}>
+            <User strokeWidth={1} className="cursor-pointer" />
+          </Link>
+          <Link href={"/wishlist"}>
+            <Heart strokeWidth={1} className="cursor-pointer" />
+          </Link>
+          <Link href={"/cart"}>
+            <ShoppingBag strokeWidth={1} className="cursor-pointer" />
+          </Link>
         </div>
       </nav>
     </>
