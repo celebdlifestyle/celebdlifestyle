@@ -22,7 +22,6 @@ export type Product = {
     average: number;
     count: number;
   };
-  reviews: any[]; // you can define a separate type for reviews if needed
   shipping: {
     estimatedDelivery: string;
     shippingFee: number;

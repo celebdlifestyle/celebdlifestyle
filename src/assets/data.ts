@@ -127,7 +127,6 @@ export const Products = [
       average: 4.5,
       count: 38,
     },
-    reviews: [],
     shipping: {
       estimatedDelivery: "5-7 business days",
       shippingFee: 0,
@@ -169,7 +168,6 @@ export const Products = [
       average: 4.4,
       count: 25,
     },
-    reviews: [],
     shipping: {
       estimatedDelivery: "5-7 business days",
       shippingFee: 0,
@@ -211,7 +209,6 @@ export const Products = [
       average: 4.6,
       count: 30,
     },
-    reviews: [],
     shipping: {
       estimatedDelivery: "5-7 business days",
       shippingFee: 0,
@@ -253,7 +250,6 @@ export const Products = [
       average: 4.5,
       count: 18,
     },
-    reviews: [],
     shipping: {
       estimatedDelivery: "5-7 business days",
       shippingFee: 0,
@@ -295,7 +291,6 @@ export const Products = [
       average: 4.7,
       count: 20,
     },
-    reviews: [],
     shipping: {
       estimatedDelivery: "5-7 business days",
       shippingFee: 0,
@@ -336,7 +331,6 @@ export const Products = [
       average: 4.6,
       count: 28,
     },
-    reviews: [],
     shipping: {
       estimatedDelivery: "5-7 business days",
       shippingFee: 0,
@@ -378,7 +372,6 @@ export const Products = [
       average: 4.7,
       count: 23,
     },
-    reviews: [],
     shipping: {
       estimatedDelivery: "5-7 business days",
       shippingFee: 0,
@@ -420,7 +413,6 @@ export const Products = [
       average: 4.5,
       count: 32,
     },
-    reviews: [],
     shipping: {
       estimatedDelivery: "5-7 business days",
       shippingFee: 0,
@@ -462,7 +454,6 @@ export const Products = [
       average: 4.6,
       count: 24,
     },
-    reviews: [],
     shipping: {
       estimatedDelivery: "5-7 business days",
       shippingFee: 0,
@@ -503,7 +494,6 @@ export const Products = [
       average: 4.4,
       count: 22,
     },
-    reviews: [],
     shipping: {
       estimatedDelivery: "5-7 business days",
       shippingFee: 0,
@@ -548,7 +538,6 @@ export const TrendingNow = [
       average: 4.5,
       count: 32,
     },
-    reviews: [],
     shipping: {
       estimatedDelivery: "5-7 business days",
       shippingFee: 0,
@@ -590,7 +579,6 @@ export const FinishingTouches = [
     ],
     videoUrl: "",
     rating: { average: 4.5, count: 42 },
-    reviews: [],
     shipping: {
       estimatedDelivery: "5-7 business days",
       shippingFee: 0,
@@ -625,7 +613,6 @@ export const FinishingTouches = [
     ],
     videoUrl: "",
     rating: { average: 4.4, count: 33 },
-    reviews: [],
     shipping: {
       estimatedDelivery: "5-7 business days",
       shippingFee: 0,
@@ -660,7 +647,6 @@ export const FinishingTouches = [
     ],
     videoUrl: "",
     rating: { average: 4.3, count: 28 },
-    reviews: [],
     shipping: {
       estimatedDelivery: "5-7 business days",
       shippingFee: 0,
@@ -696,7 +682,6 @@ export const FinishingTouches = [
     ],
     videoUrl: "",
     rating: { average: 4.6, count: 52 },
-    reviews: [],
     shipping: {
       estimatedDelivery: "5-7 business days",
       shippingFee: 0,
@@ -732,7 +717,6 @@ export const FinishingTouches = [
     ],
     videoUrl: "",
     rating: { average: 4.5, count: 37 },
-    reviews: [],
     shipping: {
       estimatedDelivery: "5-7 business days",
       shippingFee: 0,
@@ -767,7 +751,6 @@ export const FinishingTouches = [
     ],
     videoUrl: "",
     rating: { average: 4.5, count: 48 },
-    reviews: [],
     shipping: {
       estimatedDelivery: "5-7 business days",
       shippingFee: 0,
@@ -803,7 +786,6 @@ export const FinishingTouches = [
     ],
     videoUrl: "",
     rating: { average: 4.4, count: 34 },
-    reviews: [],
     shipping: {
       estimatedDelivery: "5-7 business days",
       shippingFee: 0,
@@ -838,7 +820,6 @@ export const FinishingTouches = [
     ],
     videoUrl: "",
     rating: { average: 4.3, count: 30 },
-    reviews: [],
     shipping: {
       estimatedDelivery: "5-7 business days",
       shippingFee: 0,
@@ -873,7 +854,6 @@ export const FinishingTouches = [
     ],
     videoUrl: "",
     rating: { average: 4.5, count: 50 },
-    reviews: [],
     shipping: {
       estimatedDelivery: "5-7 business days",
       shippingFee: 0,
@@ -909,7 +889,6 @@ export const FinishingTouches = [
     ],
     videoUrl: "",
     rating: { average: 4.5, count: 55 },
-    reviews: [],
     shipping: {
       estimatedDelivery: "5-7 business days",
       shippingFee: 0,
