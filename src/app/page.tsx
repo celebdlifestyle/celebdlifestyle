@@ -3,11 +3,11 @@ import {
   ImageCarousel,
   CollectionsCarousel,
   ProductCarousel,
-} from "@/components/MyCarousels";
-import { Products, FinishingTouches } from "@/app/data";
+} from "@/components/Carousels";
+import { Products, FinishingTouches } from "@/assets/data";
 import Banner from "@/components/Banner";
-import CollectionBanner from "@/components/CollectionBanner";
-import NewHere from "@/components/NewHere";
+import ShopByLooks from "@/components/ShopByLooks";
+import { NewHereBanner } from "@/components/Banner";
 
 export default function Homepage() {
   return (
@@ -37,7 +37,7 @@ export default function Homepage() {
         <CollectionsCarousel />
       </div>
 
-      <CollectionBanner />
+      <ShopByLooks />
 
       <div className="mx-3">
         <h1 className="gap-5 my-8 text-2xl font-semibold ">
@@ -46,7 +46,7 @@ export default function Homepage() {
         <ProductCarousel products={FinishingTouches} />
       </div>
 
-      <NewHere />
+      <NewHereBanner />
     </div>
   );
 }

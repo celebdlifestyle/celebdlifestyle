@@ -27,21 +27,19 @@ export default function Navbar() {
         {showMenu && <Sidebar showMenu={showMenu} setShowMenu={setShowMenu} />}
 
         <Link
-          className={`${dedot_title.className} h-16 py-4 md:hidden font-semibold text-2xl`}
+          className={`${dedot_title.className} h-16 pt-5 lg:hidden font-semibold text-xl`}
           href={"/"}
         >
-          LIFESTYLE
+          CELEBD LIFESTYLE
         </Link>
 
-        <div className="items-center justify-center hidden gap-2 md:flex md:gap-10">
-          <div>
-            <Link
-              className={`${dedot_title.className} font-semibold text-4xl`}
-              href={"/"}
-            >
-              CELEBD LIFESTYLE
-            </Link>
-          </div>
+        <div className="items-center justify-center hidden gap-2 lg:flex md:gap-10">
+          <Link
+            className={`${dedot_title.className} font-semibold text-4xl`}
+            href={"/"}
+          >
+            CELEBD LIFESTYLE
+          </Link>
 
           <NavButtons />
         </div>
@@ -55,7 +53,10 @@ export default function Navbar() {
             <Heart strokeWidth={1} className="cursor-pointer" />
           </Link>
           <Link href={"/cart"}>
-            <ShoppingBag strokeWidth={1} className="cursor-pointer" />
+            <ShoppingBag
+              strokeWidth={1}
+              className="hidden cursor-pointer md:block"
+            />
           </Link>
         </div>
       </nav>

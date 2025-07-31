@@ -1,5 +1,4 @@
 import Autoplay from "embla-carousel-autoplay";
-
 import {
   Carousel,
   CarouselContent,
@@ -7,8 +6,10 @@ import {
   CarouselPrevious,
   CarouselNext,
 } from "@/components/ui/carousel";
-import { Collections } from "@/app/data";
-import { useState } from "react";
+import { Collections } from "@/assets/data";
+
+import ProductCard from "./ProductCard";
+import { ProductProps } from "@/types/product";
 
 export function ImageCarousel() {
   return (
@@ -77,24 +78,7 @@ export function CollectionsCarousel() {
   );
 }
 
-// You can define a type like this for better TypeScript support:
-type Product = {
-  id: number;
-  slug: string;
-  title: string;
-  color: string;
-  price: number;
-  image1: string;
-  image2: string;
-};
-
-type ProductCarouselProps = {
-  products: Product[];
-};
-
-export function ProductCarousel({ products }: ProductCarouselProps) {
-  const [hoveredProductId, setHoveredProductId] = useState<number | null>(null);
-
+export function ProductCarousel({ products }: ProductProps) {
   return (
     <div className="relative">
       <Carousel>
@@ -102,27 +86,9 @@ export function ProductCarousel({ products }: ProductCarouselProps) {
           {products.map((product) => (
             <CarouselItem
               key={product.id}
-              className="basis-2/5 md:basis-1/5 cursor-pointer"
-              onMouseEnter={() => setHoveredProductId(product.id)}
-              onMouseLeave={() => setHoveredProductId(null)}
+              className="cursor-pointer basis-2/5 md:basis-1/5"
             >
-              <div>
-                <img
-                  src={
-                    hoveredProductId === product.id
-                      ? product.image2
-                      : product.image1
-                  }
-                  alt={product.slug}
-                  className="h-52 md:h-96 transition-all duration-300"
-                />
-                <div className="text-sm font-bold md:font-semibold md:text-[1rem] grid gap-1 my-1">
-                  <p className="hover:underline">
-                    {product.title} - {product.color}
-                  </p>
-                  <p>₹{product.price}</p>
-                </div>
-              </div>
+              <ProductCard product={product} />
             </CarouselItem>
           ))}
         </CarouselContent>
