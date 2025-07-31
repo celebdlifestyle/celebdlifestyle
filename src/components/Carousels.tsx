@@ -6,10 +6,38 @@ import {
   CarouselPrevious,
   CarouselNext,
 } from "@/components/ui/carousel";
+import Image from "next/image";
 import { Collections } from "@/assets/data";
-
 import ProductCard from "./ProductCard";
 import { ProductProps } from "@/types/product";
+
+import Slider1 from "@/assets/images/slider-1.jpg";
+import Slider2 from "@/assets/images/slider-2.jpg";
+import Slider3 from "@/assets/images/slider-3.jpg";
+import Slider4 from "@/assets/images/slider-4.jpg";
+
+export const Sliders = [
+  {
+    id: 1,
+    title: "Streetwear Collection",
+    image: Slider1,
+  },
+  {
+    id: 2,
+    title: "Hoodies & Sweatshirts",
+    image: Slider2,
+  },
+  {
+    id: 3,
+    title: "Casual Summer Fits",
+    image: Slider3,
+  },
+  {
+    id: 4,
+    title: "Trending Accessories",
+    image: Slider4,
+  },
+];
 
 export function ImageCarousel() {
   return (
@@ -26,24 +54,16 @@ export function ImageCarousel() {
       className="z-0"
     >
       <CarouselContent>
-        <CarouselItem className="basis-1/1">
-          <img
-            src="https://cdn.shopify.com/s/files/1/2185/2813/files/SITE_5.14_Mens_Limestone_LP_DESKTOP_NoCTA_1_2000x2000.jpg?v=1748475033"
-            alt="image"
-          />
-        </CarouselItem>
-        <CarouselItem className="basis-1/1">
-          <img
-            src="https://www.aloyoga.com/cdn/shop/files/DESKTOP_CR_BIS_02-1_ee2f9f88-bd2a-46f2-ba56-87d88445700a_1944x.progressive.jpg?v=1750275472"
-            alt="image"
-          />
-        </CarouselItem>
-        <CarouselItem className="basis-1/1">
-          <img
-            src="https://www.aloyoga.com/cdn/shop/files/DESKTOP_SB_TENNIS_CLUB-1_1944x.progressive.jpg?v=1750451798"
-            alt="image"
-          />
-        </CarouselItem>
+        {Sliders.map((slide) => (
+          <CarouselItem key={slide.id} className="basis-1/1">
+            <Image
+              src={slide.image}
+              alt={slide.title}
+              className="w-full h-auto object-cover object-top md:h-[35rem]"
+              priority={slide.id === 1} // first image loads faster
+            />
+          </CarouselItem>
+        ))}
       </CarouselContent>
     </Carousel>
   );
@@ -59,9 +79,9 @@ export function CollectionsCarousel() {
               key={collection.id}
               className="basis-1/2 lg:basis-1/4"
             >
-              <img
+              <Image
                 src={collection.image}
-                alt="product image"
+                alt={collection.name}
                 className="h-52 md:h-[25rem] w-full object-cover"
               />
               <p className="w-full mt-2 text-sm font-semibold tracking-widest text-center md:text-lg">
