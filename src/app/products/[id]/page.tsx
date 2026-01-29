@@ -8,6 +8,7 @@ import { Products, ProductReviews } from "@/assets/data";
 import { ScrollArea } from "@/components/ui/scroll-area";
 import { useRouter } from "next/navigation";
 import RenderStarts from "@/components/RenderStarts";
+import Image from "next/image";
 
 const Product = () => {
   const router = useRouter();
@@ -57,22 +58,30 @@ const Product = () => {
       <div className="grid grid-cols-1 gap-12 md:grid-cols-2">
         {/* Product Image */}
         <div className="flex flex-col items-center">
-          <img
-            src={mainImage || productData.images[0]}
-            alt={productData.title}
-            className="object-cover w-full max-w-xl rounded-xl"
-          />
+          {/* Main Image */}
+          <div className="relative w-full max-w-xl aspect-square">
+            <Image
+              src={mainImage || productData.images[0]}
+              alt={productData.title}
+              width={600}
+              height={600}
+              className="object-cover w-full max-w-xl rounded-xl"
+            />
+          </div>
+
           {/* Thumbnails */}
           <div className="grid w-full max-w-xl grid-cols-4 gap-4 mt-4">
             {productData.images.map((image, index) => (
               <div
                 key={index}
                 onClick={() => setMainImage(image)}
-                className="overflow-hidden transition bg-gray-700 rounded-lg cursor-pointer hover:ring-2 hover:ring-orange-400"
+                className="relative overflow-hidden transition bg-gray-700 rounded-lg cursor-pointer aspect-square hover:ring-2 hover:ring-orange-400"
               >
-                <img
+                <Image
                   src={image}
                   alt={`thumbnail-${index}`}
+                  width={150}
+                  height={150}
                   className="object-cover w-full h-auto"
                 />
               </div>

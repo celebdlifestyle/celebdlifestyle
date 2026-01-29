@@ -26,9 +26,13 @@ export default function CategoriesBanner() {
 export function NewHereBanner() {
   return (
     <div className="relative md:p-20">
-      <img
+      <Image
         src="https://cdn.shopify.com/s/files/1/2185/2813/files/00_NewToAlo_Hero_Desktop_f9ccd18c-2759-4e46-a29f-dbdf833522e9_2000x2000.jpg?v=1746056193"
         alt="banner-image"
+        width={2000}
+        height={800}
+        className="object-cover w-full"
+        priority
       />
 
       <div className="absolute bottom-[20%] left-[25%] md:bottom-[40%] md:left-[36%]">

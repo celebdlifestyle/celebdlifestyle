@@ -4,6 +4,7 @@ import { useState } from "react";
 import { useParams, useRouter } from "next/navigation";
 import { Products } from "@/assets/data";
 import RenderStarts from "@/components/RenderStarts";
+import Image from "next/image";
 
 const OwnItForm = () => {
   const router = useRouter();
@@ -48,10 +49,12 @@ const OwnItForm = () => {
             <div>
               <div className="grid grid-cols-3 gap-4 mb-4">
                 {productData.images.slice(0, 3).map((image, index) => (
-                  <div key={index}>
-                    <img
+                  <div key={index} className="relative w-full h-80">
+                    <Image
                       src={image}
                       alt={`${productData.title} - ${index}`}
+                      width={400}
+                      height={320}
                       className="object-cover w-full h-80 rounded-xl"
                     />
                   </div>
@@ -83,11 +86,14 @@ const OwnItForm = () => {
           {/* Product Preview */}
           {productData && (
             <div className="flex items-center gap-4 p-4 mb-6 bg-gray-800 md:hidden rounded-xl">
-              <img
+              <Image
                 src={productData.images[0]}
                 alt={productData.title}
+                width={80}
+                height={80}
                 className="object-cover w-20 h-20 rounded-lg"
               />
+
               <div>
                 <p className="font-medium text-white">{productData.title}</p>
                 <p className="font-semibold text-orange-400">

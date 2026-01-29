@@ -1,4 +1,5 @@
 import { useRouter } from "next/navigation";
+import Image from "next/image";
 
 export default function ShopByLook() {
   const router = useRouter();
@@ -6,10 +7,14 @@ export default function ShopByLook() {
     <div className="grid items-center justify-center h-full gap-10 my-10 md:gap-5 md:flex ">
       <div className="md:w-[35rem]">
         <div className="relative cursor-pointer ">
-          <img
+          <Image
             src="https://cdn.shopify.com/s/files/1/2185/2813/files/ssb_editorial_1200x1200.jpg?v=1750102499"
             alt="category-1"
+            width={300}
+            height={300}
+            className="object-cover w-full"
           />
+
           <h3 className="absolute bg-black text-white w-[20rem] px-2 md:w-[28rem] h-10 flex items-end justify-end bottom-0 right-0 font-semibold tracking-widest text-md ">
             VACATIONS MODE ACTIVATED
           </h3>
@@ -31,9 +36,12 @@ export default function ShopByLook() {
 
       <div className="md:w-[35rem]">
         <div className="relative cursor-pointer ">
-          <img
+          <Image
             src="https://cdn.shopify.com/s/files/1/2185/2813/files/editorial_trending_1200x1200.jpg?v=1750706203"
             alt="category-1"
+            width={600}
+            height={600}
+            className="object-cover"
           />
           <h3 className="absolute bg-black text-white w-[20rem] px-2 md:w-[28rem] h-10 flex items-end justify-end bottom-0 right-0 font-semibold tracking-widest text-md ">
             TREND REPORT
