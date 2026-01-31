@@ -1,0 +1,585 @@
+"use client";
+
+import { useState, useEffect } from "react";
+import {
+  Plus,
+  Search,
+  X,
+  Layers,
+  Package,
+  Edit2,
+  Trash2,
+  Loader2,
+  ImageIcon,
+} from "lucide-react";
+import type { Product } from "@/types/product.type";
+import ImageUploader from "@/components/admin/ImageUploader";
+import { useCategoryStore } from "@/store/categories.store";
+import { useProductStore } from "@/store/product.store";
+
+interface CategoryStats {
+  _id: string;
+  name: string;
+  slug: string;
+  image: string;
+  count: number;
+  totalValue: number;
+}
+
+export default function CategoriesPage() {
+  const {
+    categories,
+    loading,
+    fetchCategories,
+    createCategory,
+    updateCategory,
+    deleteCategory,
+  } = useCategoryStore();
+  const { products, fetchProducts } = useProductStore();
+
+  const [categoryStats, setCategoryStats] = useState<CategoryStats[]>([]);
+  const [searchTerm, setSearchTerm] = useState("");
+  const [showModal, setShowModal] = useState(false);
+  const [activeCategory, setActiveCategory] = useState<any | null>(null);
+  const [saving, setSaving] = useState(false);
+
+  const [categoryForm, setCategoryForm] = useState({
+    name: "",
+    slug: "",
+    image: "",
+  });
+
+  useEffect(() => {
+    fetchCategories();
+    fetchProducts();
+  }, [fetchCategories, fetchProducts]);
+
+  useEffect(() => {
+    if (categories.length > 0 && products.length > 0) {
+      calculateCategoryStats();
+    }
+  }, [categories, products]);
+
+  const calculateCategoryStats = () => {
+    const stats = categories.map((category) => {
+      const categoryProducts = products.filter(
+        (p) => p.category === category.name || p.category === category._id,
+      );
+
+      const count = categoryProducts.length;
+      const totalValue = categoryProducts.reduce(
+        (sum, p) => sum + p.price * p.stock,
+        0,
+      );
+
+      return {
+        ...category,
+        count,
+        totalValue,
+      };
+    });
+
+    setCategoryStats(stats);
+  };
+
+  const handleSave = async () => {
+    if (!categoryForm.name.trim()) {
+      alert("Category name is required");
+      return;
+    }
+
+    setSaving(true);
+    try {
+      const payload = {
+        name: categoryForm.name.trim(),
+        slug:
+          categoryForm.slug.trim() ||
+          categoryForm.name.toLowerCase().replace(/\s+/g, "-"),
+        image: categoryForm.image,
+      };
+
+      if (activeCategory) {
+        await updateCategory(activeCategory._id, payload);
+      } else {
+        await createCategory(payload);
+      }
+
+      setShowModal(false);
+      setActiveCategory(null);
+      setCategoryForm({ name: "", slug: "", image: "" });
+      await fetchCategories();
+    } catch (error) {
+      console.error("Error saving category:", error);
+      alert("Failed to save category. Please try again.");
+    } finally {
+      setSaving(false);
+    }
+  };
+
+  const handleDelete = async (id: string, name: string) => {
+    const categoryProducts = products.filter(
+      (p) => p.category === name || p.category === id,
+    );
+
+    if (categoryProducts.length > 0) {
+      if (
+        !confirm(
+          `This category has ${categoryProducts.length} product(s). Deleting it may affect those products. Continue?`,
+        )
+      ) {
+        return;
+      }
+    } else {
+      if (!confirm(`Are you sure you want to delete "${name}"?`)) {
+        return;
+      }
+    }
+
+    try {
+      await deleteCategory(id);
+      await fetchCategories();
+    } catch (error) {
+      console.error("Error deleting category:", error);
+      alert("Failed to delete category.");
+    }
+  };
+
+  const filteredCategories = categoryStats.filter(
+    (c) => c.name ?? "".toLowerCase().includes(searchTerm.toLowerCase()),
+  );
+
+  const totalProducts = products.length;
+  const avgProductsPerCategory =
+    categoryStats.length > 0
+      ? Math.round(totalProducts / categoryStats.length)
+      : 0;
+
+  return (
+    <div className="space-y-6">
+      {/* Stats */}
+      <div className="grid grid-cols-1 gap-5 md:grid-cols-3">
+        {/* Total Categories */}
+        <div className="bg-[#13131a] border border-white/5 rounded-xl p-5">
+          <div className="flex items-center gap-3 mb-3">
+            <div className="w-10 h-10 rounded-lg bg-orange-500/10 border border-orange-500/20 flex items-center justify-center">
+              <Layers className="text-orange-400" size={18} strokeWidth={2} />
+            </div>
+            <p className="text-xs font-medium tracking-wider text-gray-400 uppercase">
+              Total Categories
+            </p>
+          </div>
+          <p className="text-2xl font-bold text-white">
+            {categoryStats.length}
+          </p>
+        </div>
+
+        {/* Total Products */}
+        <div className="bg-[#13131a] border border-white/5 rounded-xl p-5">
+          <div className="flex items-center gap-3 mb-3">
+            <div className="w-10 h-10 rounded-lg bg-blue-500/10 border border-blue-500/20 flex items-center justify-center">
+              <Package className="text-blue-400" size={18} strokeWidth={2} />
+            </div>
+            <p className="text-xs font-medium tracking-wider text-gray-400 uppercase">
+              Total Products
+            </p>
+          </div>
+          <p className="text-2xl font-bold text-white">{totalProducts}</p>
+        </div>
+
+        {/* Avg Products per Category */}
+        <div className="bg-[#13131a] border border-white/5 rounded-xl p-5">
+          <div className="flex items-center gap-3 mb-3">
+            <div className="w-10 h-10 rounded-lg bg-slate-500/10 border border-slate-500/20 flex items-center justify-center">
+              <span className="text-sm font-bold text-slate-400">AVG</span>
+            </div>
+            <p className="text-xs font-medium tracking-wider text-gray-400 uppercase">
+              Products Per Category
+            </p>
+          </div>
+          <p className="text-2xl font-bold text-white">
+            {avgProductsPerCategory}
+          </p>
+        </div>
+      </div>
+
+      {/* Header */}
+      <div className="flex items-center justify-between">
+        <div>
+          <h1 className="text-3xl font-bold text-white">Categories</h1>
+          <p className="text-sm text-gray-400">
+            Manage your product categories ({categoryStats.length} total)
+          </p>
+        </div>
+
+        <button
+          onClick={() => {
+            setActiveCategory(null);
+            setCategoryForm({ name: "", slug: "", image: "" });
+            setShowModal(true);
+          }}
+          className="flex items-center gap-2 px-5 py-3 text-white transition-all duration-200 bg-orange-500 shadow-lg rounded-xl hover:bg-orange-600 hover:shadow-orange-500/50 active:scale-95"
+        >
+          <Plus size={18} />
+          Add Category
+        </button>
+      </div>
+
+      {/* Search */}
+      <div className="relative max-w-md">
+        <Search
+          className="absolute text-gray-500 -translate-y-1/2 left-4 top-1/2"
+          size={18}
+        />
+        <input
+          value={searchTerm}
+          onChange={(e) => setSearchTerm(e.target.value)}
+          placeholder="Search categories..."
+          className="w-full pl-11 pr-4 py-3 bg-[#13131a] border border-white/5 rounded-xl text-white placeholder-gray-500 focus:outline-none focus:ring-2 focus:ring-orange-500 focus:border-transparent transition-all"
+        />
+      </div>
+
+      {/* Grid */}
+      {loading ? (
+        <div className="flex justify-center py-20">
+          <div className="flex flex-col items-center gap-3">
+            <Loader2 className="w-10 h-10 text-orange-500 animate-spin" />
+            <p className="text-gray-400">Loading categories...</p>
+          </div>
+        </div>
+      ) : filteredCategories.length === 0 ? (
+        <div className="flex flex-col items-center justify-center py-20">
+          <Layers className="w-16 h-16 mb-4 text-gray-600" />
+          <h3 className="mb-2 text-xl font-semibold text-white">
+            {searchTerm ? "No categories found" : "No categories yet"}
+          </h3>
+          <p className="mb-6 text-gray-400">
+            {searchTerm
+              ? "Try adjusting your search"
+              : "Get started by adding your first category"}
+          </p>
+          {!searchTerm && (
+            <button
+              onClick={() => {
+                setActiveCategory(null);
+                setCategoryForm({ name: "", slug: "", image: "" });
+                setShowModal(true);
+              }}
+              className="flex items-center gap-2 px-5 py-3 text-white transition-all bg-orange-500 rounded-xl hover:bg-orange-600"
+            >
+              <Plus size={18} />
+              Add Your First Category
+            </button>
+          )}
+        </div>
+      ) : (
+        <div className="grid grid-cols-1 gap-5 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4">
+          {filteredCategories.map((c) => (
+            <CategoryCard
+              key={c._id}
+              category={c}
+              onEdit={(cat) => {
+                setActiveCategory(cat);
+                setCategoryForm({
+                  name: cat.name,
+                  slug: cat.slug,
+                  image: cat.image || "",
+                });
+                setShowModal(true);
+              }}
+              onDelete={() => handleDelete(c._id, c.name)}
+            />
+          ))}
+        </div>
+      )}
+
+      {/* Add/Edit Modal */}
+      {/* Add/Edit Modal */}
+      {showModal && (
+        <>
+          {/* Backdrop */}
+          <div
+            className="fixed inset-0 z-40 bg-black/60 backdrop-blur-sm animate-fadeIn"
+            onClick={() => !saving && setShowModal(false)}
+          />
+
+          {/* Modal */}
+          <div className="fixed inset-0 z-50 flex items-center justify-center p-6">
+            <div className="bg-[#13131a] border border-white/5 rounded-2xl p-6 max-w-4xl w-full shadow-2xl max-h-[90vh] overflow-y-auto">
+              {/* Header */}
+              <div className="flex items-center justify-between mb-5">
+                <div>
+                  <h2 className="text-xl font-bold text-white">
+                    {activeCategory ? "Edit Category" : "Add New Category"}
+                  </h2>
+                  <p className="text-sm text-gray-400">
+                    {activeCategory
+                      ? "Update category information"
+                      : "Create a new product category"}
+                  </p>
+                </div>
+
+                <button
+                  onClick={() => !saving && setShowModal(false)}
+                  disabled={saving}
+                  className="p-2 text-gray-400 transition-colors rounded-lg hover:bg-white/5 hover:text-white disabled:opacity-50"
+                >
+                  <X size={20} />
+                </button>
+              </div>
+
+              {/* Loading Overlay */}
+              {saving && (
+                <div className="absolute inset-0 z-50 flex items-center justify-center bg-black/50 backdrop-blur-sm rounded-2xl">
+                  <div className="flex gap-3 bg-[#13131a] p-6 rounded-xl border border-white/10 shadow-2xl">
+                    <Loader2 className="w-6 h-6 text-orange-500 animate-spin" />
+                    <span className="text-white">
+                      {activeCategory ? "Updating..." : "Creating..."}
+                    </span>
+                  </div>
+                </div>
+              )}
+
+              {/* Form - Landscape Layout */}
+              <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+                {/* Left: Image Upload */}
+                <div className="p-4 bg-[#0f0f14] border border-white/5 rounded-xl">
+                  <label className="block mb-3 text-sm font-medium text-gray-400">
+                    Category Image
+                  </label>
+
+                  {categoryForm.image ? (
+                    <div className="relative group">
+                      <div className="relative overflow-hidden bg-gray-900 rounded-lg aspect-square">
+                        <img
+                          src={categoryForm.image}
+                          alt="Category"
+                          className="object-cover w-full h-full"
+                        />
+
+                        {/* Hover overlay */}
+                        <div className="absolute inset-0 flex items-center justify-center transition-opacity duration-200 opacity-0 bg-black/60 backdrop-blur-sm group-hover:opacity-100">
+                          <button
+                            type="button"
+                            onClick={() =>
+                              setCategoryForm({ ...categoryForm, image: "" })
+                            }
+                            className="px-4 py-2 text-sm font-medium text-white transition-all bg-orange-500 rounded-lg hover:bg-orange-600 active:scale-95"
+                          >
+                            Change Image
+                          </button>
+                        </div>
+                      </div>
+                      <p className="mt-2 text-xs text-center text-gray-500">
+                        Hover to change image
+                      </p>
+                    </div>
+                  ) : (
+                    <div>
+                      <ImageUploader
+                        onPresetGet={() => "Celebd_Category_Upload_Preset"}
+                        onImagesChange={(imgs) =>
+                          setCategoryForm({
+                            ...categoryForm,
+                            image: imgs[0] || "",
+                          })
+                        }
+                      />
+                      <p className="mt-2 text-xs text-center text-gray-500">
+                        Upload a category image
+                      </p>
+                    </div>
+                  )}
+                </div>
+
+                {/* Right: Form Fields */}
+                <div className="flex flex-col justify-between space-y-4">
+                  <div className="space-y-4">
+                    {/* Category Name */}
+                    <div>
+                      <label className="block mb-2 text-sm font-medium text-gray-400">
+                        Category Name *
+                      </label>
+                      <input
+                        required
+                        value={categoryForm.name}
+                        onChange={(e) => {
+                          const name = e.target.value;
+                          setCategoryForm({
+                            ...categoryForm,
+                            name,
+                            slug: name
+                              .toLowerCase()
+                              .replace(/\s+/g, "-")
+                              .replace(/[^a-z0-9-]/g, ""),
+                          });
+                        }}
+                        placeholder="e.g., Hoodies"
+                        className="w-full px-4 py-3 bg-[#0f0f14] border border-white/5 rounded-xl text-white placeholder-gray-500 focus:outline-none focus:ring-2 focus:ring-orange-500 focus:border-transparent transition-all"
+                      />
+                    </div>
+
+                    {/* Slug */}
+                    <div>
+                      <label className="block mb-2 text-sm font-medium text-gray-400">
+                        Slug (URL-friendly) *
+                      </label>
+                      <input
+                        required
+                        value={categoryForm.slug}
+                        onChange={(e) =>
+                          setCategoryForm({
+                            ...categoryForm,
+                            slug: e.target.value
+                              .toLowerCase()
+                              .replace(/\s+/g, "-"),
+                          })
+                        }
+                        placeholder="e.g., hoodies"
+                        className="w-full px-4 py-3 bg-[#0f0f14] border border-white/5 rounded-xl text-white placeholder-gray-500 focus:outline-none focus:ring-2 focus:ring-orange-500 focus:border-transparent transition-all"
+                      />
+                      <p className="mt-1 text-xs text-gray-500">
+                        This will be used in URLs: /categories/
+                        {categoryForm.slug || "slug"}
+                      </p>
+                    </div>
+
+                    {/* Preview Info */}
+                    {categoryForm.name && (
+                      <div className="p-4 border rounded-lg bg-orange-500/5 border-orange-500/20">
+                        <p className="mb-1 text-xs font-medium text-orange-400">
+                          Preview
+                        </p>
+                        <p className="text-sm text-white">
+                          {categoryForm.name}
+                        </p>
+                        <p className="text-xs text-gray-400">
+                          /{categoryForm.slug}
+                        </p>
+                      </div>
+                    )}
+                  </div>
+
+                  {/* Actions - Always visible at bottom */}
+                  <div className="flex gap-3 pt-4 border-t border-white/5">
+                    <button
+                      type="button"
+                      onClick={() => setShowModal(false)}
+                      disabled={saving}
+                      className="flex-1 py-3 cursor-pointer text-white transition-all border border-white/10 rounded-xl bg-white/5 hover:bg-white/10 disabled:opacity-50"
+                    >
+                      Cancel
+                    </button>
+
+                    <button
+                      onClick={handleSave}
+                      disabled={saving || !categoryForm.name.trim()}
+                      className="flex-1 py-3 cursor-pointer text-white transition-all bg-orange-500 shadow-lg rounded-xl hover:bg-orange-600 hover:shadow-orange-500/50 disabled:opacity-50 disabled:cursor-not-allowed active:scale-95"
+                    >
+                      {saving
+                        ? "Saving..."
+                        : activeCategory
+                          ? "Update Category"
+                          : "Create Category"}
+                    </button>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </>
+      )}
+    </div>
+  );
+}
+
+/* ================= CATEGORY CARD ================= */
+
+function CategoryCard({
+  category,
+  onEdit,
+  onDelete,
+}: {
+  category: CategoryStats;
+  onEdit: (cat: CategoryStats) => void;
+  onDelete: () => void;
+}) {
+  const [showActions, setShowActions] = useState(false);
+
+  return (
+    <div
+      className="bg-[#13131a] border border-white/5 rounded-xl overflow-hidden hover:border-orange-500/50 transition-all duration-200 group"
+      onMouseEnter={() => setShowActions(true)}
+      onMouseLeave={() => setShowActions(false)}
+    >
+      {/* Image */}
+      <div className="relative h-40">
+        {category.image ? (
+          <img
+            src={category.image}
+            alt={category.name}
+            className="object-cover w-full h-full"
+          />
+        ) : (
+          <div className="flex items-center justify-center w-full h-full bg-gradient-to-br from-orange-500/10 to-orange-500/5">
+            <Layers className="text-gray-600" size={40} />
+          </div>
+        )}
+
+        {/* Product count badge */}
+        <div className="absolute px-3 py-1 text-xs font-semibold text-white bg-orange-500 rounded-full shadow-lg top-3 right-3">
+          {category.count} {category.count === 1 ? "Product" : "Products"}
+        </div>
+
+        {/* Action buttons overlay */}
+        {showActions && (
+          <div className="absolute inset-0 flex items-center justify-center gap-2 transition-all bg-black/60 backdrop-blur-sm animate-fadeIn">
+            <button
+              onClick={(e) => {
+                e.stopPropagation();
+                onEdit(category);
+              }}
+              className="px-4 py-2 cursor-pointer text-sm font-medium text-white transition-all bg-orange-500 rounded-lg hover:bg-orange-600 active:scale-95"
+            >
+              <Edit2 size={16} />
+            </button>
+            <button
+              onClick={(e) => {
+                e.stopPropagation();
+                onDelete();
+              }}
+              className="px-4 py-2 cursor-pointer text-sm font-medium text-white transition-all bg-red-500 rounded-lg hover:bg-red-600 active:scale-95"
+            >
+              <Trash2 size={16} />
+            </button>
+          </div>
+        )}
+      </div>
+
+      {/* Content */}
+      <div className="p-4">
+        <h3 className="mb-3 text-lg font-bold text-white truncate">
+          {category.name}
+        </h3>
+
+        <div className="flex items-center justify-between pt-3 border-t border-white/5">
+          <div>
+            <p className="text-xs text-gray-500">Products</p>
+            <p className="font-semibold text-white">{category.count}</p>
+          </div>
+
+          <div className="text-right">
+            <p className="text-xs text-gray-500">Total Value</p>
+            <p className="font-semibold text-white">
+              ₹{category.totalValue.toLocaleString()}
+            </p>
+          </div>
+        </div>
+
+        {/* Slug */}
+        <div className="px-2 py-1 mt-3 text-xs text-center text-gray-400 border rounded bg-white/5 border-white/5">
+          /{category.slug}
+        </div>
+      </div>
+    </div>
+  );
+}

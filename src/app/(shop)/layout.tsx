@@ -1,14 +1,14 @@
 import type { Metadata } from "next";
 import { Geist, Geist_Mono } from "next/font/google";
 import "../globals.css";
+import Navbar from "@/components/shop/Navbar";
+import Footer from "@/components/shop/Footer";
 import { ThemeProvider } from "@/components/ThemeProvider";
 import { ClerkProvider } from "@clerk/nextjs";
-
 const geistSans = Geist({
   variable: "--font-geist-sans",
   subsets: ["latin"],
 });
-import Sidebar from "@/components/admin/Sidebar";
 
 const geistMono = Geist_Mono({
   variable: "--font-geist-mono",
@@ -37,7 +37,9 @@ export default function RootLayout({
             enableSystem
             disableTransitionOnChange
           >
-            <Sidebar>{children}</Sidebar>
+            <Navbar />
+            {children}
+            <Footer />
           </ThemeProvider>
         </body>
       </html>

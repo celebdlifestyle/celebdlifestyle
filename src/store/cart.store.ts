@@ -1,6 +1,6 @@
 // src/store/cartStore.ts
 import { create } from "zustand";
-import { Product } from "@/types/product";
+import { Product } from "@/types/product.type";
 
 type CartItem = Product;
 
@@ -21,7 +21,7 @@ export const useCartStore = create<CartState>((set) => ({
           items: state.items.map((i) =>
             i.id === item.id
               ? { ...i, quantity: i.quantity + item.quantity }
-              : i
+              : i,
           ),
         };
       }

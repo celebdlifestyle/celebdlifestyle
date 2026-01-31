@@ -118,3 +118,27 @@
     @apply bg-background text-foreground;
   }
 }
+
+@keyframes slideFromRight {
+  from {
+    transform: translateX(40px);
+    opacity: 0;
+  }
+  to {
+    transform: translateX(0);
+    opacity: 1;
+  }
+}
+
+.animate-slideFromRight {
+  animation: slideFromRight 0.25s ease-out;
+}
+
+.input {
+  width: 100%;
+  padding: 12px 14px;
+  border-radius: 12px;
+  background: rgba(255, 255, 255, 0.05);
+  border: 1px solid rgba(255, 255, 255, 0.08);
+  color: white;
+}

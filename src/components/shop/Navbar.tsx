@@ -1,15 +1,26 @@
 "use client";
 
 import Link from "next/link";
-import { ShoppingBag, Heart, User, Search } from "lucide-react";
+import { Search, ShieldUser } from "lucide-react";
 import { dedot_title } from "@/app/fonts/font";
-import Sidebar from "@/components/Sidebar";
+import Sidebar from "./Sidebar";
 import { Menu } from "lucide-react";
 import { useState } from "react";
-import NavButtons from "@/components/NavButtons";
+import NavButtons from "./NavButtons";
+
+import {
+  SignInButton,
+  useUser,
+  SignedIn,
+  SignedOut,
+  UserButton,
+} from "@clerk/nextjs";
 
 export default function Navbar() {
   const [showMenu, setShowMenu] = useState(false);
+  const { user } = useUser();
+  const isAdmin = user?.publicMetadata?.role === "admin";
+
   return (
     <>
       <div className="h-10 text-center font-bold hidden py-2 bg-[#B5D0E5]">
@@ -46,18 +57,26 @@ export default function Navbar() {
 
         <div className="flex items-center justify-center gap-3 md:gap-5">
           <Search strokeWidth={1} className="hidden cursor-pointer md:block" />
-          <Link href={"/profile"}>
-            <User strokeWidth={1} className="cursor-pointer" />
-          </Link>
-          <Link href={"/wishlist"}>
-            <Heart strokeWidth={1} className="cursor-pointer" />
-          </Link>
-          <Link href={"/cart"}>
-            <ShoppingBag
-              strokeWidth={1}
-              className="hidden cursor-pointer md:block"
-            />
-          </Link>
+
+          {isAdmin && (
+            <Link href="/admin">
+              <button className="flex items-center gap-2 px-6 h-10 rounded-md bg-zinc-900 text-white text-sm font-semibold tracking-wide transition-all hover:bg-zinc-700 active:bg-zinc-600 cursor-pointer">
+                <ShieldUser />
+                <span>Admin Dashboard</span>
+              </button>
+            </Link>
+          )}
+
+          <SignedOut>
+            <SignInButton>
+              <button className="bg-orange-500 text-white rounded-md font-medium text-sm sm:text-base h-10 sm:h-10 px-4 sm:px-5 cursor-pointer">
+                Sign In
+              </button>
+            </SignInButton>
+          </SignedOut>
+          <SignedIn>
+            <UserButton />
+          </SignedIn>
         </div>
       </nav>
     </>

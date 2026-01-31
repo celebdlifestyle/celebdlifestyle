@@ -1,4 +1,4 @@
-import CartItems from "@/components/CartItems";
+import CartItems from "@/components/shop/CartItems";
 
 export default function Cart() {
   return (

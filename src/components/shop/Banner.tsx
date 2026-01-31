@@ -1,6 +1,7 @@
 import Link from "next/link";
 import Image from "next/image";
 import Banner from "@/assets/images/banner.jpg";
+import { SignUpButton, SignedIn, SignedOut } from "@clerk/nextjs";
 
 export default function CategoriesBanner() {
   return (
@@ -39,9 +40,20 @@ export function NewHereBanner() {
         <h1 className="text-2xl font-bold text-white md:text-5xl">
           NEW TO CELEBD?
         </h1>
-        <div className="px-6 py-2 mt-1 font-bold text-center text-black bg-white cursor-pointer md:mt-16 text-nowrap md:px-10 md:py-3">
-          START HERE
-        </div>
+
+        <SignedIn>
+          <div className="px-6 py-2 mt-1 font-bold text-center text-black bg-white cursor-pointer md:mt-16 text-nowrap md:px-10 md:py-3">
+            SHOP HERE
+          </div>
+        </SignedIn>
+
+        <SignedOut>
+          <SignUpButton>
+            <div className="px-6 py-2 mt-1 font-bold text-center text-black bg-white cursor-pointer md:mt-16 text-nowrap md:px-10 md:py-3">
+              START HERE
+            </div>
+          </SignUpButton>
+        </SignedOut>
       </div>
     </div>
   );

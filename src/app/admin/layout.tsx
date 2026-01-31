@@ -3,6 +3,7 @@ import { Geist, Geist_Mono } from "next/font/google";
 import "../globals.css";
 import { ThemeProvider } from "@/components/ThemeProvider";
 import { ClerkProvider } from "@clerk/nextjs";
+import RouteProtector from "@/components/admin/RouteProtector";
 
 const geistSans = Geist({
   variable: "--font-geist-sans",
@@ -31,14 +32,16 @@ export default function RootLayout({
         <body
           className={`${geistSans.variable} ${geistMono.variable} antialiased`}
         >
-          <ThemeProvider
-            attribute="class"
-            defaultTheme="dark"
-            enableSystem
-            disableTransitionOnChange
-          >
-            <Sidebar>{children}</Sidebar>
-          </ThemeProvider>
+          <RouteProtector>
+            <ThemeProvider
+              attribute="class"
+              defaultTheme="dark"
+              enableSystem
+              disableTransitionOnChange
+            >
+              <Sidebar>{children}</Sidebar>
+            </ThemeProvider>
+          </RouteProtector>
         </body>
       </html>
     </ClerkProvider>

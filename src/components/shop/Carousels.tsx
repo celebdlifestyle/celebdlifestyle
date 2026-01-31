@@ -7,14 +7,17 @@ import {
   CarouselNext,
 } from "@/components/ui/carousel";
 import Image from "next/image";
-import { Collections } from "@/assets/data";
 import ProductCard from "./ProductCard";
-import { ProductProps } from "@/types/product";
+import { ProductProps } from "@/types/product.type";
 
 import Slider1 from "@/assets/images/slider-1.jpg";
 import Slider2 from "@/assets/images/slider-2.jpg";
 import Slider3 from "@/assets/images/slider-3.jpg";
 import Slider4 from "@/assets/images/slider-4.jpg";
+
+import { useEffect } from "react";
+import { useCategoryStore } from "@/store/categories.store";
+import { useRouter } from "next/navigation";
 
 export const Sliders = [
   {
@@ -70,20 +73,34 @@ export function ImageCarousel() {
 }
 
 export function CollectionsCarousel() {
+  const router = useRouter();
+  const { categories, fetchCategories, loading } = useCategoryStore();
+  useEffect(() => {
+    fetchCategories();
+  }, []);
+
+  if (loading) return <div className="p-6">Loading categories...</div>;
+
   return (
     <div className="relative">
       <Carousel>
         <CarouselContent>
-          {Collections.slice(0, 6).map((collection) => (
+          {categories.slice(0, 6).map((collection) => (
             <CarouselItem
-              key={collection.id}
-              className="basis-1/2 lg:basis-1/4"
+              onClick={() =>
+                router.push(`/collections/${collection.slug}/${collection._id}`)
+              }
+              key={collection._id}
+              className="basis-1/2 lg:basis-1/4 cursor-pointer"
             >
               <Image
                 src={collection.image}
                 alt={collection.name}
-                className="h-52 md:h-[25rem] w-full object-cover"
+                width={800}
+                height={1000}
+                className="w-full h-auto object-cover"
               />
+
               <p className="w-full mt-2 text-sm font-semibold tracking-widest text-center md:text-lg">
                 {collection.name}
               </p>
@@ -105,7 +122,7 @@ export function ProductCarousel({ products }: ProductProps) {
         <CarouselContent>
           {products.map((product) => (
             <CarouselItem
-              key={product.id}
+              key={product._id}
               className="cursor-pointer basis-2/5 md:basis-1/5"
             >
               <ProductCard product={product} />
