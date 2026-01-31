@@ -60,7 +60,7 @@ export default function Navbar() {
 
           {isAdmin && (
             <Link href="/admin">
-              <button className="flex items-center gap-2 px-6 h-10 rounded-md bg-zinc-900 text-white text-sm font-semibold tracking-wide transition-all hover:bg-zinc-700 active:bg-zinc-600 cursor-pointer">
+              <button className="hidden md:flex items-center gap-2 px-6 h-10 rounded-md bg-zinc-900 text-white text-sm font-semibold tracking-wide transition-all hover:bg-zinc-700 active:bg-zinc-600 cursor-pointer">
                 <ShieldUser />
                 <span>Admin Dashboard</span>
               </button>
