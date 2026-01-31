@@ -111,7 +111,7 @@ export default function DashboardPage() {
     .slice(0, 5);
 
   return (
-    <div className="min-h-screen p-4 sm:p-6 lg:p-8">
+    <div className="min-h-screen">
       <div className="max-w-[1600px] mx-auto space-y-8">
         {/* Header */}
         <div className="flex flex-col gap-4 sm:flex-row sm:items-center sm:justify-between">
