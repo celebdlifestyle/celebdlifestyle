@@ -5,9 +5,11 @@ import { Plus, Search, X, Trash2, Package, Loader2 } from "lucide-react";
 import type { Product } from "@/types/product.type";
 import ImageUploader from "@/components/admin/ImageUploader";
 import { useProductStore } from "@/store/product.store";
+import { useCategoryStore } from "@/store/categories.store";
 
 export default function ProductsPage() {
   const { products, loading, fetchProducts, deleteProduct } = useProductStore();
+  const { categories, fetchCategories } = useCategoryStore();
 
   const [showPanel, setShowPanel] = useState(false);
   const [activeProduct, setActiveProduct] = useState<Product | null>(null);
@@ -15,7 +17,8 @@ export default function ProductsPage() {
 
   useEffect(() => {
     fetchProducts();
-  }, [fetchProducts]);
+    fetchCategories();
+  }, [fetchProducts, fetchCategories]);
 
   const filteredProducts = products.filter(
     (p) =>
@@ -117,7 +120,7 @@ export default function ProductsPage() {
         </div>
       )}
 
-      {/* Right Panel */}
+      {/* Centered Modal Panel */}
       {showPanel && (
         <>
           {/* Backdrop */}
@@ -126,16 +129,19 @@ export default function ProductsPage() {
             onClick={() => setShowPanel(false)}
           />
 
-          {/* Panel */}
-          <div className="fixed inset-y-0 right-0 z-50 w-full max-w-4xl bg-[#0f0f14] shadow-2xl animate-slideFromRight overflow-y-auto">
-            <AddEditPanel
-              product={activeProduct}
-              onClose={() => setShowPanel(false)}
-              onSaved={() => {
-                setShowPanel(false);
-                fetchProducts();
-              }}
-            />
+          {/* Panel - Centered Modal */}
+          <div className="fixed inset-0 z-50 flex items-center justify-center p-4">
+            <div className="bg-[#0f0f14] rounded-2xl shadow-2xl w-full max-w-6xl max-h-[90vh] overflow-hidden animate-scaleIn">
+              <AddEditPanel
+                product={activeProduct}
+                categories={categories}
+                onClose={() => setShowPanel(false)}
+                onSaved={() => {
+                  setShowPanel(false);
+                  fetchProducts();
+                }}
+              />
+            </div>
           </div>
         </>
       )}
@@ -145,7 +151,7 @@ export default function ProductsPage() {
 
 /* ================= ADD / EDIT PANEL ================= */
 
-function AddEditPanel({ product, onClose, onSaved }: any) {
+function AddEditPanel({ product, categories, onClose, onSaved }: any) {
   const { createProduct, updateProduct } = useProductStore();
 
   const [images, setImages] = useState<string[]>(product?.images || []);
@@ -166,6 +172,25 @@ function AddEditPanel({ product, onClose, onSaved }: any) {
     istrending: product?.istrending || false,
     isbestselling: product?.isbestselling || false,
   });
+
+  // Auto-generate slug from name
+  const generateSlug = (name: string) => {
+    return name
+      .toLowerCase()
+      .trim()
+      .replace(/[^\w\s-]/g, "") // Remove special characters
+      .replace(/\s+/g, "-") // Replace spaces with hyphens
+      .replace(/-+/g, "-") // Replace multiple hyphens with single hyphen
+      .replace(/^-+|-+$/g, ""); // Remove leading/trailing hyphens
+  };
+
+  const handleNameChange = (name: string) => {
+    setForm({
+      ...form,
+      name,
+      slug: generateSlug(name),
+    });
+  };
 
   const handleImageChange = (newImages: string[]) => {
     if (editingImageIndex !== null && editingImageIndex >= 0) {
@@ -217,9 +242,9 @@ function AddEditPanel({ product, onClose, onSaved }: any) {
   }
 
   return (
-    <div className="relative h-full p-8 overflow-y-auto">
+    <div className="flex flex-col h-full max-h-[90vh]">
       {/* Header */}
-      <div className="flex items-center justify-between mb-6">
+      <div className="flex items-center justify-between px-8 py-6 border-b border-white/5">
         <div>
           <h2 className="text-2xl font-bold text-white">
             {product ? "Edit Product" : "Add New Product"}
@@ -250,165 +275,188 @@ function AddEditPanel({ product, onClose, onSaved }: any) {
         </div>
       )}
 
-      {/* Form */}
-      <form onSubmit={submit} className="space-y-6">
-        {/* Image Section - Compact */}
-        <div className="p-4 bg-[#13131a] border border-white/5 rounded-2xl">
-          <div className="flex items-center justify-between mb-3">
-            <h3 className="text-base font-semibold text-white">
-              Product Images ({images.length})
-            </h3>
-          </div>
+      {/* Form - Scrollable Content */}
+      <form onSubmit={submit} className="flex-1 overflow-y-auto">
+        <div className="grid grid-cols-12 gap-6 p-8">
+          {/* LEFT COLUMN - Images & Basic Info */}
+          <div className="col-span-12 lg:col-span-5 space-y-6">
+            {/* Image Section */}
+            <div>
+              <div className="flex items-center justify-between mb-3">
+                <h3 className="text-sm font-semibold text-white">
+                  Product Images ({images.length})
+                </h3>
+              </div>
 
-          {/* Image Grid */}
-          <div className="grid grid-cols-5 gap-3">
-            {/* Existing Images */}
-            {images.map((image, index) => (
-              <div
-                key={index}
-                className="relative overflow-hidden bg-gray-900 rounded-lg group aspect-square"
-              >
-                <img
-                  src={image}
-                  alt={`Product ${index + 1}`}
-                  className="object-cover w-full h-full p-2"
-                />
-
-                {/* Hover Overlay */}
-                <div className="absolute inset-0 flex flex-col items-center justify-center gap-1 transition-opacity duration-200 opacity-0 bg-black/70 backdrop-blur-sm group-hover:opacity-100">
-                  <button
-                    type="button"
-                    onClick={() => setEditingImageIndex(index)}
-                    className="px-3 py-1 text-xs font-medium text-white transition-all bg-orange-500 rounded hover:bg-orange-600"
+              {/* Image Grid */}
+              <div className="grid grid-cols-3 gap-3">
+                {/* Existing Images */}
+                {images.map((image, index) => (
+                  <div
+                    key={index}
+                    className="relative overflow-hidden bg-white/5 rounded-lg group aspect-square"
                   >
-                    Change
-                  </button>
-                  <button
-                    type="button"
-                    onClick={() => removeImage(index)}
-                    className="px-3 py-1 text-xs font-medium text-white transition-all bg-red-500 rounded hover:bg-red-600"
-                  >
-                    Remove
-                  </button>
-                </div>
+                    <img
+                      src={image}
+                      alt={`Product ${index + 1}`}
+                      className="object-cover w-full h-full p-2"
+                    />
 
-                {/* Primary Badge */}
-                {index === 0 && (
-                  <div className="absolute top-1 left-1">
-                    <span className="px-1.5 py-0.5 text-[10px] font-semibold text-white bg-orange-500 rounded">
-                      Main
-                    </span>
+                    {/* Hover Overlay */}
+                    <div className="absolute inset-0 flex flex-col items-center justify-center gap-1 transition-opacity duration-200 opacity-0 bg-black/70 backdrop-blur-sm group-hover:opacity-100">
+                      <button
+                        type="button"
+                        onClick={() => setEditingImageIndex(index)}
+                        className="px-3 py-1 text-xs font-medium text-white transition-all bg-orange-500 rounded hover:bg-orange-600"
+                      >
+                        Change
+                      </button>
+                      <button
+                        type="button"
+                        onClick={() => removeImage(index)}
+                        className="px-3 py-1 text-xs font-medium text-white transition-all bg-red-500 rounded hover:bg-red-600"
+                      >
+                        Remove
+                      </button>
+                    </div>
+
+                    {/* Primary Badge */}
+                    {index === 0 && (
+                      <div className="absolute top-1 left-1">
+                        <span className="px-1.5 py-0.5 text-[10px] font-semibold text-white bg-orange-500 rounded">
+                          Main
+                        </span>
+                      </div>
+                    )}
                   </div>
+                ))}
+
+                {/* Add New Image Button */}
+                {images.length < 10 && (
+                  <button
+                    type="button"
+                    onClick={() => setEditingImageIndex(-1)}
+                    className="flex flex-col items-center justify-center gap-1 transition-all border-2 border-dashed rounded-lg aspect-square border-white/10 hover:border-orange-500/50 hover:bg-orange-500/5"
+                  >
+                    <Plus className="text-gray-500" size={20} />
+                    <span className="text-[10px] text-gray-500">Add Image</span>
+                  </button>
                 )}
               </div>
-            ))}
 
-            {/* Add New Image Button */}
-            {images.length < 10 && (
-              <button
-                type="button"
-                onClick={() => setEditingImageIndex(-1)}
-                className="flex flex-col items-center justify-center gap-1 transition-all border-2 border-dashed rounded-lg aspect-square border-white/10 hover:border-orange-500/50 hover:bg-orange-500/5"
-              >
-                <Plus className="text-gray-500" size={20} />
-                <span className="text-[10px] text-gray-500">Add Image</span>
-              </button>
-            )}
-          </div>
+              {/* Helper Text */}
+              {images.length === 0 && (
+                <p className="mt-3 text-xs text-gray-500">
+                  Click "Add Image" to upload product images
+                </p>
+              )}
+              {images.length > 0 && (
+                <p className="mt-3 text-xs text-gray-500">
+                  First image will be the main product image
+                </p>
+              )}
+            </div>
 
-          {/* Image Uploader Modal */}
-          {editingImageIndex !== null && (
-            <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/60 backdrop-blur-sm">
-              <div className="bg-[#13131a] border border-white/10 rounded-2xl p-6 max-w-2xl w-full mx-4 max-h-[80vh] overflow-y-auto">
-                <div className="flex items-center justify-between mb-4">
-                  <h3 className="text-lg font-semibold text-white">
-                    {editingImageIndex === -1
-                      ? "Add New Image"
-                      : `Change Image ${editingImageIndex + 1}`}
-                  </h3>
+            {/* Image Uploader Modal */}
+            {editingImageIndex !== null && (
+              <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/60 backdrop-blur-sm">
+                <div className="bg-[#13131a] border border-white/10 rounded-2xl p-6 max-w-2xl w-full mx-4 max-h-[80vh] overflow-y-auto">
+                  <div className="flex items-center justify-between mb-4">
+                    <h3 className="text-lg font-semibold text-white">
+                      {editingImageIndex === -1
+                        ? "Add New Image"
+                        : `Change Image ${editingImageIndex + 1}`}
+                    </h3>
+                    <button
+                      type="button"
+                      onClick={() => setEditingImageIndex(null)}
+                      className="p-2 text-gray-400 transition-colors rounded-lg hover:bg-white/5 hover:text-white"
+                    >
+                      <X size={20} />
+                    </button>
+                  </div>
+
+                  <ImageUploader
+                    onPresetGet={() => "Celebd_Product_Upload_Preset"}
+                    onImagesChange={(newImages) => {
+                      handleImageChange(newImages);
+                    }}
+                  />
+
                   <button
                     type="button"
                     onClick={() => setEditingImageIndex(null)}
-                    className="p-2 text-gray-400 transition-colors rounded-lg hover:bg-white/5 hover:text-white"
+                    className="w-full py-2 mt-4 text-white cursor-pointer transition-all border border-white/10 rounded-lg bg-white/5 hover:bg-white/10"
                   >
-                    <X size={20} />
+                    Cancel
                   </button>
                 </div>
+              </div>
+            )}
 
-                <ImageUploader
-                  onPresetGet={() => "Celebd_Product_Upload_Preset"}
-                  onImagesChange={(newImages) => {
-                    handleImageChange(newImages);
-                  }}
+            {/* Name, Slug & ID Section */}
+            <div className="space-y-4">
+              {/* Product ID and Category ID if available */}
+              {(product || form.category) && (
+                <div className="pb-3 border-b border-white/5 flex flex-wrap items-center gap-2">
+                  {product && (
+                    <span className="inline-flex items-center gap-1.5 px-2.5 py-1 text-[10px] font-mono text-gray-500 bg-white/5 rounded">
+                      <span className="text-gray-600">Product ID:</span>{" "}
+                      {product._id}
+                    </span>
+                  )}
+                  {form.category && (
+                    <span className="inline-flex items-center gap-1.5 px-2.5 py-1 text-[10px] font-mono text-gray-500 bg-white/5 rounded">
+                      <span className="text-gray-600">Category ID:</span>{" "}
+                      {categories.find((cat: any) => cat.name === form.category)
+                        ?._id || "N/A"}
+                    </span>
+                  )}
+                </div>
+              )}
+
+              {/* Name */}
+              <div>
+                <label className="block mb-2 text-sm font-medium text-gray-400">
+                  Product Name *
+                </label>
+                <input
+                  required
+                  className="w-full px-4 py-3 bg-white/5 border border-white/10 rounded-lg text-white placeholder-gray-500 focus:outline-none focus:border-orange-500 transition-all"
+                  value={form.name}
+                  placeholder="e.g., Premium Hoodie"
+                  onChange={(e) => handleNameChange(e.target.value)}
                 />
+              </div>
 
-                <button
-                  type="button"
-                  onClick={() => setEditingImageIndex(null)}
-                  className="w-full py-2 mt-4 text-white cursor-pointer transition-all border border-white/10 rounded-lg bg-white/5 hover:bg-white/10"
-                >
-                  Cancel
-                </button>
+              {/* Slug */}
+              <div>
+                <label className="block mb-2 text-sm font-medium text-gray-400">
+                  Slug *
+                </label>
+                <input
+                  required
+                  className="w-full px-4 py-3 bg-white/5 border border-white/10 rounded-lg text-white placeholder-gray-500 focus:outline-none focus:border-orange-500 transition-all"
+                  value={form.slug}
+                  placeholder="e.g., premium-hoodie"
+                  onChange={(e) => setForm({ ...form, slug: e.target.value })}
+                />
+                <p className="mt-1 text-xs text-gray-500">
+                  Auto-generated from name
+                </p>
               </div>
             </div>
-          )}
+          </div>
 
-          {/* Helper Text */}
-          {images.length === 0 && (
-            <p className="mt-3 text-xs text-center text-gray-500">
-              Click "Add Image" to upload product images
-            </p>
-          )}
-          {images.length > 0 && (
-            <p className="mt-3 text-xs text-center text-gray-500">
-              The first image will be used as the main product image. Hover over
-              images to change or remove.
-            </p>
-          )}
-        </div>
-
-        {/* Product Details */}
-        <div className="p-6 bg-[#13131a] border border-white/5 rounded-2xl space-y-4">
-          <h3 className="mb-4 text-lg font-semibold text-white">
-            Product Details
-          </h3>
-
-          <div className="space-y-4">
-            {/* Name */}
-            <div>
-              <label className="block mb-2 text-sm font-medium text-gray-400">
-                Product Name *
-              </label>
-              <input
-                required
-                className="w-full px-4 py-3 bg-[#0f0f14] border border-white/5 rounded-xl text-white placeholder-gray-500 focus:outline-none focus:ring-2 focus:ring-orange-500 focus:border-transparent transition-all"
-                value={form.name}
-                placeholder="e.g., Premium Hoodie"
-                onChange={(e) => setForm({ ...form, name: e.target.value })}
-              />
-            </div>
-
-            {/* Slug */}
-            <div>
-              <label className="block mb-2 text-sm font-medium text-gray-400">
-                Slug (URL-friendly name) *
-              </label>
-              <input
-                required
-                className="w-full px-4 py-3 bg-[#0f0f14] border border-white/5 rounded-xl text-white placeholder-gray-500 focus:outline-none focus:ring-2 focus:ring-orange-500 focus:border-transparent transition-all"
-                value={form.slug}
-                placeholder="e.g., premium-hoodie"
-                onChange={(e) => setForm({ ...form, slug: e.target.value })}
-              />
-            </div>
-
+          {/* RIGHT COLUMN - Rest of Form */}
+          <div className="col-span-12 lg:col-span-7 space-y-6">
             {/* Description */}
             <div>
               <label className="block mb-2 text-sm font-medium text-gray-400">
                 Description
               </label>
               <textarea
-                className="w-full px-4 py-3 bg-[#0f0f14] border border-white/5 rounded-xl text-white placeholder-gray-500 focus:outline-none focus:ring-2 focus:ring-orange-500 focus:border-transparent transition-all resize-none"
+                className="w-full px-4 py-3 bg-white/5 border border-white/10 rounded-lg text-white placeholder-gray-500 focus:outline-none focus:border-orange-500 transition-all resize-none"
                 rows={4}
                 value={form.description}
                 placeholder="Describe your product..."
@@ -425,7 +473,7 @@ function AddEditPanel({ product, onClose, onSaved }: any) {
                   Brand
                 </label>
                 <input
-                  className="w-full px-4 py-3 bg-[#0f0f14] border border-white/5 rounded-xl text-white placeholder-gray-500 focus:outline-none focus:ring-2 focus:ring-orange-500 focus:border-transparent transition-all"
+                  className="w-full px-4 py-3 bg-white/5 border border-white/10 rounded-lg text-white placeholder-gray-500 focus:outline-none focus:border-orange-500 transition-all"
                   value={form.brand}
                   placeholder="e.g., Nike"
                   onChange={(e) => setForm({ ...form, brand: e.target.value })}
@@ -435,15 +483,27 @@ function AddEditPanel({ product, onClose, onSaved }: any) {
                 <label className="block mb-2 text-sm font-medium text-gray-400">
                   Category *
                 </label>
-                <input
+                <select
                   required
-                  className="w-full px-4 py-3 bg-[#0f0f14] border border-white/5 rounded-xl text-white placeholder-gray-500 focus:outline-none focus:ring-2 focus:ring-orange-500 focus:border-transparent transition-all"
+                  className="w-full px-4 py-3 bg-white/5 border border-white/10 rounded-lg text-white placeholder-gray-500 focus:outline-none focus:border-orange-500 transition-all appearance-none cursor-pointer"
                   value={form.category}
-                  placeholder="e.g., Clothing"
                   onChange={(e) =>
                     setForm({ ...form, category: e.target.value })
                   }
-                />
+                >
+                  <option value="" disabled className="bg-[#0f0f14]">
+                    Select a category
+                  </option>
+                  {categories.map((category: any) => (
+                    <option
+                      key={category._id}
+                      value={category.name}
+                      className="bg-[#0f0f14]"
+                    >
+                      {category.name}
+                    </option>
+                  ))}
+                </select>
               </div>
             </div>
 
@@ -458,7 +518,7 @@ function AddEditPanel({ product, onClose, onSaved }: any) {
                   type="number"
                   min="0"
                   step="0.01"
-                  className="w-full px-4 py-3 bg-[#0f0f14] border border-white/5 rounded-xl text-white placeholder-gray-500 focus:outline-none focus:ring-2 focus:ring-orange-500 focus:border-transparent transition-all"
+                  className="w-full px-4 py-3 bg-white/5 border border-white/10 rounded-lg text-white placeholder-gray-500 focus:outline-none focus:border-orange-500 transition-all [appearance:textfield] [&::-webkit-outer-spin-button]:appearance-none [&::-webkit-inner-spin-button]:appearance-none"
                   value={form.price}
                   placeholder="e.g., 1999"
                   onChange={(e) => setForm({ ...form, price: e.target.value })}
@@ -472,7 +532,7 @@ function AddEditPanel({ product, onClose, onSaved }: any) {
                   required
                   type="number"
                   min="0"
-                  className="w-full px-4 py-3 bg-[#0f0f14] border border-white/5 rounded-xl text-white placeholder-gray-500 focus:outline-none focus:ring-2 focus:ring-orange-500 focus:border-transparent transition-all"
+                  className="w-full px-4 py-3 bg-white/5 border border-white/10 rounded-lg text-white placeholder-gray-500 focus:outline-none focus:border-orange-500 transition-all [appearance:textfield] [&::-webkit-outer-spin-button]:appearance-none [&::-webkit-inner-spin-button]:appearance-none"
                   value={form.stock}
                   placeholder="e.g., 50"
                   onChange={(e) => setForm({ ...form, stock: e.target.value })}
@@ -486,7 +546,7 @@ function AddEditPanel({ product, onClose, onSaved }: any) {
                 Tags (comma separated)
               </label>
               <input
-                className="w-full px-4 py-3 bg-[#0f0f14] border border-white/5 rounded-xl text-white placeholder-gray-500 focus:outline-none focus:ring-2 focus:ring-orange-500 focus:border-transparent transition-all"
+                className="w-full px-4 py-3 bg-white/5 border border-white/10 rounded-lg text-white placeholder-gray-500 focus:outline-none focus:border-orange-500 transition-all"
                 value={form.tags}
                 placeholder="e.g., summer, casual, trending"
                 onChange={(e) => setForm({ ...form, tags: e.target.value })}
@@ -496,7 +556,7 @@ function AddEditPanel({ product, onClose, onSaved }: any) {
             {/* Trending & Bestselling Toggles */}
             <div className="grid grid-cols-2 gap-4">
               {/* Trending Toggle */}
-              <div className="flex items-center justify-between px-4 py-3 bg-[#0f0f14] border border-white/5 rounded-xl">
+              <div className="flex items-center justify-between px-4 py-3 bg-white/5 rounded-lg">
                 <div>
                   <p className="text-sm font-medium text-white">Trending</p>
                   <p className="text-xs text-gray-500">
@@ -521,7 +581,7 @@ function AddEditPanel({ product, onClose, onSaved }: any) {
               </div>
 
               {/* Bestselling Toggle */}
-              <div className="flex items-center justify-between px-4 py-3 bg-[#0f0f14] border border-white/5 rounded-xl">
+              <div className="flex items-center justify-between px-4 py-3 bg-white/5 rounded-lg">
                 <div>
                   <p className="text-sm font-medium text-white">Bestselling</p>
                   <p className="text-xs text-gray-500">
@@ -548,19 +608,19 @@ function AddEditPanel({ product, onClose, onSaved }: any) {
           </div>
         </div>
 
-        {/* Action Buttons */}
-        <div className="flex gap-3 pt-4">
+        {/* Action Buttons - Sticky Bottom */}
+        <div className="flex gap-3 px-8 py-6 border-t border-white/5 bg-[#0f0f14]">
           <button
             type="button"
             onClick={onClose}
-            className="flex-1 py-3 cursor-pointer text-white transition-all border border-white/10 rounded-xl bg-white/5 hover:bg-white/10"
+            className="flex-1 py-3 cursor-pointer text-white transition-all border border-white/10 rounded-lg bg-white/5 hover:bg-white/10"
           >
             Cancel
           </button>
           <button
             type="submit"
             disabled={loading}
-            className="flex-1 py-3 text-white cursor-pointer transition-all bg-orange-500 shadow-lg rounded-xl hover:bg-orange-600 hover:shadow-orange-500/50 disabled:opacity-50 disabled:cursor-not-allowed active:scale-95"
+            className="flex-1 py-3 text-white cursor-pointer transition-all bg-orange-500 rounded-lg hover:bg-orange-600 disabled:opacity-50 disabled:cursor-not-allowed active:scale-95"
           >
             {loading
               ? "Saving..."
