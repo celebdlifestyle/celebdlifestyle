@@ -78,9 +78,7 @@ export function CollectionsCarousel() {
   useEffect(() => {
     fetchCategories();
   }, []);
-
   if (loading) return <div className="p-6">Loading categories...</div>;
-
   return (
     <div className="relative">
       <Carousel>
@@ -93,21 +91,22 @@ export function CollectionsCarousel() {
               key={collection._id}
               className="basis-1/2 lg:basis-1/4 cursor-pointer"
             >
-              <Image
-                src={collection.image}
-                alt={collection.name}
-                width={800}
-                height={1000}
-                className="w-full h-auto object-cover"
-              />
-
+              {/* Fixed-height wrapper keeps all cards the same size */}
+              <div className="w-full h-64 lg:h-80 overflow-hidden">
+                <Image
+                  src={collection.image}
+                  alt={collection.name}
+                  width={800}
+                  height={1000}
+                  className="w-full h-full object-cover"
+                />
+              </div>
               <p className="w-full mt-2 text-sm font-semibold tracking-widest text-center md:text-lg">
                 {collection.name}
               </p>
             </CarouselItem>
           ))}
         </CarouselContent>
-
         <CarouselPrevious className="left-0" />
         <CarouselNext className="right-0" />
       </Carousel>
