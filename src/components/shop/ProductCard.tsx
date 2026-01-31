@@ -7,7 +7,7 @@ export default function ProductCard({ product }: { product: Product }) {
   const [isHovered, setIsHovered] = useState(false);
   const router = useRouter();
 
-  const image = isHovered ? product.images[0] : product.images[1];
+  const image = isHovered ? product.images[1] : product.images[0];
 
   return (
     <div
