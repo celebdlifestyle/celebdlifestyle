@@ -50,12 +50,12 @@ const Product = () => {
         {/* Product Images */}
         <div className="flex flex-col space-y-4">
           {/* Main Image */}
-          <div className="relative w-full  overflow-hidden bg-gray-900 rounded-2xl aspect-square hover:border-orange-500 hover:shadow-orange-500/10 cursor-pointer">
+          <div className="relative w-full overflow-hidden bg-gray-900 rounded-2xl aspect-square hover:border-orange-500 hover:shadow-orange-500/10 cursor-pointer group">
             <Image
               src={mainImage || productData.images[0]}
               alt={productData.name}
               fill
-              className="object-cover p-4"
+              className="object-cover p-4 transition-transform duration-500 ease-in-out group-hover:scale-110"
               priority
             />
           </div>
@@ -67,7 +67,7 @@ const Product = () => {
                 <div
                   key={index}
                   onClick={() => setMainImage(image)}
-                  className={`relative overflow-hidden bg-gray-900  rounded-lg cursor-pointer aspect-square transition-all duration-200
+                  className={`relative overflow-hidden bg-gray-900 rounded-lg cursor-pointer aspect-square transition-all duration-200 group
                     ${mainImage === image ? "ring-2 ring-orange-400 scale-95" : "hover:ring-2 hover:ring-gray-600"}
                   `}
                 >
@@ -75,7 +75,7 @@ const Product = () => {
                     src={image}
                     alt={`thumbnail-${index}`}
                     fill
-                    className="object-cover p-2"
+                    className="object-cover p-2 transition-transform duration-500 ease-in-out group-hover:scale-110"
                   />
                 </div>
               ))}

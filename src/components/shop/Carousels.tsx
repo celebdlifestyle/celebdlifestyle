@@ -91,19 +91,21 @@ export function CollectionsCarousel() {
               key={collection._id}
               className="basis-1/2 lg:basis-1/4 cursor-pointer"
             >
-              {/* Fixed-height wrapper keeps all cards the same size */}
-              <div className="w-full h-64 lg:h-80 overflow-hidden">
-                <Image
-                  src={collection.image}
-                  alt={collection.name}
-                  width={800}
-                  height={1000}
-                  className="w-full h-full object-cover"
-                />
+              {/* Pop-in wrapper: scales up + adds shadow on hover */}
+              <div className="transition-all duration-300 ease-out hover:scale-[1.03] hover:shadow-xl hover:shadow-black/40 hover:-translate-y-1">
+                <div className="w-full h-64 lg:h-80 overflow-hidden">
+                  <Image
+                    src={collection.image}
+                    alt={collection.name}
+                    width={800}
+                    height={1000}
+                    className="w-full h-full object-cover transition-transform duration-300 group-hover:scale-105"
+                  />
+                </div>
+                <p className="w-full mt-2 text-sm font-semibold tracking-widest text-center md:text-lg">
+                  {collection.name}
+                </p>
               </div>
-              <p className="w-full mt-2 text-sm font-semibold tracking-widest text-center md:text-lg">
-                {collection.name}
-              </p>
             </CarouselItem>
           ))}
         </CarouselContent>
