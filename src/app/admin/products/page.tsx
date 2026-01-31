@@ -163,22 +163,17 @@ function AddEditPanel({ product, onClose, onSaved }: any) {
     category: product?.category || "",
     stock: product?.stock?.toString() || "",
     tags: product?.tags?.join(", ") || "",
+    istrending: product?.istrending || false,
+    isbestselling: product?.isbestselling || false,
   });
 
-  // FIX: Guard against editingImageIndex === -1 (the "Add New" case).
-  // Previously, -1 !== null was true, so it entered the "replace" branch,
-  // did updatedImages[-1] = url (a no-op on the visible array), and the
-  // uploaded image vanished.  Now we only replace when the index is a
-  // valid, non-negative position.
   const handleImageChange = (newImages: string[]) => {
     if (editingImageIndex !== null && editingImageIndex >= 0) {
-      // Replace a specific existing image
       const updatedImages = [...images];
       updatedImages[editingImageIndex] = newImages[0];
       setImages(updatedImages);
       setEditingImageIndex(null);
     } else {
-      // Append new images (triggered when editingImageIndex is null or -1)
       setImages((prev) => [...prev, ...newImages]);
       setEditingImageIndex(null);
     }
@@ -497,6 +492,59 @@ function AddEditPanel({ product, onClose, onSaved }: any) {
                 onChange={(e) => setForm({ ...form, tags: e.target.value })}
               />
             </div>
+
+            {/* Trending & Bestselling Toggles */}
+            <div className="grid grid-cols-2 gap-4">
+              {/* Trending Toggle */}
+              <div className="flex items-center justify-between px-4 py-3 bg-[#0f0f14] border border-white/5 rounded-xl">
+                <div>
+                  <p className="text-sm font-medium text-white">Trending</p>
+                  <p className="text-xs text-gray-500">
+                    Mark as trending product
+                  </p>
+                </div>
+                <button
+                  type="button"
+                  onClick={() =>
+                    setForm({ ...form, istrending: !form.istrending })
+                  }
+                  className={`relative w-11 h-6 rounded-full transition-colors duration-300 focus:outline-none ${
+                    form.istrending ? "bg-orange-500" : "bg-white/10"
+                  }`}
+                >
+                  <span
+                    className={`absolute top-0.5 left-0.5 w-5 h-5 bg-white rounded-full shadow-md transform transition-transform duration-300 ${
+                      form.istrending ? "translate-x-5" : "translate-x-0"
+                    }`}
+                  />
+                </button>
+              </div>
+
+              {/* Bestselling Toggle */}
+              <div className="flex items-center justify-between px-4 py-3 bg-[#0f0f14] border border-white/5 rounded-xl">
+                <div>
+                  <p className="text-sm font-medium text-white">Bestselling</p>
+                  <p className="text-xs text-gray-500">
+                    Mark as bestselling product
+                  </p>
+                </div>
+                <button
+                  type="button"
+                  onClick={() =>
+                    setForm({ ...form, isbestselling: !form.isbestselling })
+                  }
+                  className={`relative w-11 h-6 rounded-full transition-colors duration-300 focus:outline-none ${
+                    form.isbestselling ? "bg-orange-500" : "bg-white/10"
+                  }`}
+                >
+                  <span
+                    className={`absolute top-0.5 left-0.5 w-5 h-5 bg-white rounded-full shadow-md transform transition-transform duration-300 ${
+                      form.isbestselling ? "translate-x-5" : "translate-x-0"
+                    }`}
+                  />
+                </button>
+              </div>
+            </div>
           </div>
         </div>
 
@@ -569,6 +617,20 @@ function ProductCard({
         >
           {product.stock} in stock
         </span>
+
+        {/* Trending / Bestselling badges */}
+        <div className="absolute top-3 left-3 flex flex-col gap-1">
+          {product.istrending && (
+            <span className="px-2 py-0.5 text-xs font-semibold text-white bg-orange-500 rounded-full shadow-lg">
+              🔥 Trending
+            </span>
+          )}
+          {product.isbestselling && (
+            <span className="px-2 py-0.5 text-xs font-semibold text-white bg-yellow-600 rounded-full shadow-lg">
+              ⭐ Bestselling
+            </span>
+          )}
+        </div>
 
         {/* Action buttons overlay */}
         {showActions && (
