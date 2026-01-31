@@ -167,6 +167,7 @@ function AddEditPanel({ product, categories, onClose, onSaved }: any) {
     brand: product?.brand || "",
     price: product?.price?.toString() || "",
     category: product?.category || "",
+    gender: product?.gender || "men",
     stock: product?.stock?.toString() || "",
     tags: product?.tags?.join(", ") || "",
     istrending: product?.istrending || false,
@@ -215,6 +216,7 @@ function AddEditPanel({ product, categories, onClose, onSaved }: any) {
     try {
       const payload = {
         ...form,
+        gender: form.gender,
         images: images,
         thumbnail: images[0] || "",
         image: images[0] || "",
@@ -466,33 +468,34 @@ function AddEditPanel({ product, categories, onClose, onSaved }: any) {
               />
             </div>
 
-            {/* Brand & Category */}
-            <div className="grid grid-cols-2 gap-4">
+            {/* Brand / Category / Gender */}
+            {/* Brand / Category / Gender */}
+            <div className="grid grid-cols-3 gap-4">
               <div>
                 <label className="block mb-2 text-sm font-medium text-gray-400">
                   Brand
                 </label>
                 <input
-                  className="w-full px-4 py-3 bg-white/5 border border-white/10 rounded-lg text-white placeholder-gray-500 focus:outline-none focus:border-orange-500 transition-all"
+                  className="w-full px-4 py-3 bg-white/5 border border-white/10 rounded-lg text-white focus:outline-none focus:border-orange-500 transition-all"
                   value={form.brand}
-                  placeholder="e.g., Nike"
                   onChange={(e) => setForm({ ...form, brand: e.target.value })}
                 />
               </div>
+
               <div>
                 <label className="block mb-2 text-sm font-medium text-gray-400">
                   Category *
                 </label>
                 <select
                   required
-                  className="w-full px-4 py-3 bg-white/5 border border-white/10 rounded-lg text-white placeholder-gray-500 focus:outline-none focus:border-orange-500 transition-all appearance-none cursor-pointer"
+                  className="w-full px-4 py-3 bg-white/5 border border-white/10 rounded-lg text-white appearance-none cursor-pointer focus:outline-none focus:border-orange-500 transition-all"
                   value={form.category}
                   onChange={(e) =>
                     setForm({ ...form, category: e.target.value })
                   }
                 >
                   <option value="" disabled className="bg-[#0f0f14]">
-                    Select a category
+                    Select
                   </option>
                   {categories.map((category: any) => (
                     <option
@@ -503,6 +506,31 @@ function AddEditPanel({ product, categories, onClose, onSaved }: any) {
                       {category.name}
                     </option>
                   ))}
+                </select>
+              </div>
+
+              <div>
+                <label className="block mb-2 text-sm font-medium text-gray-400">
+                  Gender *
+                </label>
+                <select
+                  required
+                  className="w-full px-4 py-3 bg-white/5 border border-white/10 rounded-lg text-white appearance-none cursor-pointer focus:outline-none focus:border-orange-500 transition-all"
+                  value={form.gender}
+                  onChange={(e) => setForm({ ...form, gender: e.target.value })}
+                >
+                  <option value="men" className="bg-[#0f0f14]">
+                    Men
+                  </option>
+                  <option value="women" className="bg-[#0f0f14]">
+                    Women
+                  </option>
+                  <option value="teens" className="bg-[#0f0f14]">
+                    Teens
+                  </option>
+                  <option value="unisex" className="bg-[#0f0f14]">
+                    Unisex
+                  </option>
                 </select>
               </div>
             </div>
