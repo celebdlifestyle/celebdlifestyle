@@ -7,6 +7,7 @@ import Sidebar from "./Sidebar";
 import { Menu } from "lucide-react";
 import { useState } from "react";
 import NavButtons from "./NavButtons";
+import SearchPanel from "./SearchPanel";
 
 import {
   SignInButton,
@@ -18,6 +19,7 @@ import {
 
 export default function Navbar() {
   const [showMenu, setShowMenu] = useState(false);
+  const [showSearch, setShowSearch] = useState(false);
   const { user } = useUser();
   const isAdmin = user?.publicMetadata?.role === "admin";
 
@@ -56,7 +58,11 @@ export default function Navbar() {
         </div>
 
         <div className="flex items-center justify-center gap-3 md:gap-5">
-          <Search strokeWidth={1} className="hidden cursor-pointer md:block" />
+          <Search
+            strokeWidth={1}
+            className="hidden cursor-pointer md:block"
+            onClick={() => setShowSearch(true)}
+          />
 
           {isAdmin && (
             <Link href="/admin">
@@ -79,6 +85,9 @@ export default function Navbar() {
           </SignedIn>
         </div>
       </nav>
+
+      {/* Search Panel */}
+      <SearchPanel isOpen={showSearch} onClose={() => setShowSearch(false)} />
     </>
   );
 }
