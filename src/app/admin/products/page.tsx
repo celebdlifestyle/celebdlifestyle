@@ -162,7 +162,6 @@ function AddEditPanel({ product, categories, onClose, onSaved }: any) {
 
   const [form, setForm] = useState({
     name: product?.name || "",
-    slug: product?.slug || "",
     description: product?.description || "",
     brand: product?.brand || "",
     price: product?.price?.toString() || "",
@@ -173,25 +172,6 @@ function AddEditPanel({ product, categories, onClose, onSaved }: any) {
     istrending: product?.istrending || false,
     isbestselling: product?.isbestselling || false,
   });
-
-  // Auto-generate slug from name
-  const generateSlug = (name: string) => {
-    return name
-      .toLowerCase()
-      .trim()
-      .replace(/[^\w\s-]/g, "") // Remove special characters
-      .replace(/\s+/g, "-") // Replace spaces with hyphens
-      .replace(/-+/g, "-") // Replace multiple hyphens with single hyphen
-      .replace(/^-+|-+$/g, ""); // Remove leading/trailing hyphens
-  };
-
-  const handleNameChange = (name: string) => {
-    setForm({
-      ...form,
-      name,
-      slug: generateSlug(name),
-    });
-  };
 
   const handleImageChange = (newImages: string[]) => {
     if (editingImageIndex !== null && editingImageIndex >= 0) {
@@ -215,7 +195,10 @@ function AddEditPanel({ product, categories, onClose, onSaved }: any) {
 
     try {
       const payload = {
-        ...form,
+        name: form.name,
+        description: form.description,
+        brand: form.brand,
+        category: form.category,
         gender: form.gender,
         images: images,
         thumbnail: images[0] || "",
@@ -226,6 +209,8 @@ function AddEditPanel({ product, categories, onClose, onSaved }: any) {
           .split(",")
           .map((t: any) => t.trim())
           .filter(Boolean),
+        istrending: form.istrending,
+        isbestselling: form.isbestselling,
       };
 
       if (product) {
@@ -396,27 +381,8 @@ function AddEditPanel({ product, categories, onClose, onSaved }: any) {
               </div>
             )}
 
-            {/* Name, Slug & ID Section */}
+            {/* Name & Gender Section */}
             <div className="space-y-4">
-              {/* Product ID and Category ID if available */}
-              {(product || form.category) && (
-                <div className="pb-3 border-b border-white/5 flex flex-wrap items-center gap-2">
-                  {product && (
-                    <span className="inline-flex items-center gap-1.5 px-2.5 py-1 text-[10px] font-mono text-gray-500 bg-white/5 rounded">
-                      <span className="text-gray-600">Product ID:</span>{" "}
-                      {product._id}
-                    </span>
-                  )}
-                  {form.category && (
-                    <span className="inline-flex items-center gap-1.5 px-2.5 py-1 text-[10px] font-mono text-gray-500 bg-white/5 rounded">
-                      <span className="text-gray-600">Category ID:</span>{" "}
-                      {categories.find((cat: any) => cat.name === form.category)
-                        ?._id || "N/A"}
-                    </span>
-                  )}
-                </div>
-              )}
-
               {/* Name */}
               <div>
                 <label className="block mb-2 text-sm font-medium text-gray-400">
@@ -427,25 +393,34 @@ function AddEditPanel({ product, categories, onClose, onSaved }: any) {
                   className="w-full px-4 py-3 bg-white/5 border border-white/10 rounded-lg text-white placeholder-gray-500 focus:outline-none focus:border-orange-500 transition-all"
                   value={form.name}
                   placeholder="e.g., Premium Hoodie"
-                  onChange={(e) => handleNameChange(e.target.value)}
+                  onChange={(e) => setForm({ ...form, name: e.target.value })}
                 />
               </div>
 
-              {/* Slug */}
+              {/* Gender */}
               <div>
                 <label className="block mb-2 text-sm font-medium text-gray-400">
-                  Slug *
+                  Gender *
                 </label>
-                <input
+                <select
                   required
-                  className="w-full px-4 py-3 bg-white/5 border border-white/10 rounded-lg text-white placeholder-gray-500 focus:outline-none focus:border-orange-500 transition-all"
-                  value={form.slug}
-                  placeholder="e.g., premium-hoodie"
-                  onChange={(e) => setForm({ ...form, slug: e.target.value })}
-                />
-                <p className="mt-1 text-xs text-gray-500">
-                  Auto-generated from name
-                </p>
+                  className="w-full px-4 py-3 bg-white/5 border border-white/10 rounded-lg text-white appearance-none cursor-pointer focus:outline-none focus:border-orange-500 transition-all"
+                  value={form.gender}
+                  onChange={(e) => setForm({ ...form, gender: e.target.value })}
+                >
+                  <option value="men" className="bg-[#0f0f14]">
+                    Men
+                  </option>
+                  <option value="women" className="bg-[#0f0f14]">
+                    Women
+                  </option>
+                  <option value="teens" className="bg-[#0f0f14]">
+                    Teens
+                  </option>
+                  <option value="unisex" className="bg-[#0f0f14]">
+                    Unisex
+                  </option>
+                </select>
               </div>
             </div>
           </div>
@@ -468,9 +443,8 @@ function AddEditPanel({ product, categories, onClose, onSaved }: any) {
               />
             </div>
 
-            {/* Brand / Category / Gender */}
-            {/* Brand / Category / Gender */}
-            <div className="grid grid-cols-3 gap-4">
+            {/* Brand / Category */}
+            <div className="grid grid-cols-2 gap-4">
               <div>
                 <label className="block mb-2 text-sm font-medium text-gray-400">
                   Brand
@@ -506,31 +480,6 @@ function AddEditPanel({ product, categories, onClose, onSaved }: any) {
                       {category.name}
                     </option>
                   ))}
-                </select>
-              </div>
-
-              <div>
-                <label className="block mb-2 text-sm font-medium text-gray-400">
-                  Gender *
-                </label>
-                <select
-                  required
-                  className="w-full px-4 py-3 bg-white/5 border border-white/10 rounded-lg text-white appearance-none cursor-pointer focus:outline-none focus:border-orange-500 transition-all"
-                  value={form.gender}
-                  onChange={(e) => setForm({ ...form, gender: e.target.value })}
-                >
-                  <option value="men" className="bg-[#0f0f14]">
-                    Men
-                  </option>
-                  <option value="women" className="bg-[#0f0f14]">
-                    Women
-                  </option>
-                  <option value="teens" className="bg-[#0f0f14]">
-                    Teens
-                  </option>
-                  <option value="unisex" className="bg-[#0f0f14]">
-                    Unisex
-                  </option>
                 </select>
               </div>
             </div>
