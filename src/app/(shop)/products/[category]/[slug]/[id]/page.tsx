@@ -44,7 +44,7 @@ const Product = () => {
   }
 
   return (
-    <div className="min-h-screen px-4 py-8 text-white bg-black sm:px-6 md:px-12 lg:px-16 xl:px-24">
+    <div className="min-h-screen px-4 py-3 text-white bg-black sm:px-6 md:px-12 lg:px-16 xl:px-24">
       {/* Product Section */}
       <div className="grid max-w-[1400px] mx-auto grid-cols-1 gap-8 lg:gap-12 md:grid-cols-2 mb-16">
         {/* Product Images */}

@@ -29,7 +29,7 @@ export default function Navbar() {
         Free Shipping over Rs. 6,900
       </div>
 
-      <nav className="sticky top-0 z-50 flex items-center justify-between h-16 px-3 bg-black">
+      <nav className="sticky top-0 z-50 flex items-center justify-between h-16 px-5 mt-2 bg-black">
         <Menu
           className="md:hidden"
           onClick={() => {
