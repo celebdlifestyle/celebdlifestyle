@@ -163,23 +163,25 @@ export default function Sidebar({ showMenu, setShowMenu }: MenuProps) {
 
         {/* Tabs */}
         <Tabs value={activeTab} onValueChange={setActiveTab} className="w-full">
-          <TabsList className="w-full mb-4 overflow-x-auto text-white rounded-lg bg-zinc-900 h-auto p-1">
-            <TabsTrigger
-              value="all"
-              className="data-[state=active]:bg-orange-500 data-[state=active]:text-white tracking-widest px-4 py-2 rounded-md transition-all"
-            >
-              ALL
-            </TabsTrigger>
-            {uniqueCategories.map((cat) => (
+          <div className="w-full mb-4 overflow-x-auto scrollbar-hide">
+            <TabsList className="inline-flex min-w-full text-white rounded-lg bg-zinc-900 h-auto p-1">
               <TabsTrigger
-                key={cat}
-                value={cat.toLowerCase()}
-                className="data-[state=active]:bg-orange-500 data-[state=active]:text-white tracking-widest px-4 py-2 rounded-md transition-all whitespace-nowrap"
+                value="all"
+                className="data-[state=active]:bg-orange-500 data-[state=active]:text-white tracking-widest px-4 py-2 rounded-md transition-all"
               >
-                {cat.toUpperCase()}
+                ALL
               </TabsTrigger>
-            ))}
-          </TabsList>
+              {uniqueCategories.map((cat) => (
+                <TabsTrigger
+                  key={cat}
+                  value={cat.toLowerCase()}
+                  className="data-[state=active]:bg-orange-500 data-[state=active]:text-white tracking-widest px-4 py-2 rounded-md transition-all whitespace-nowrap"
+                >
+                  {cat.toUpperCase()}
+                </TabsTrigger>
+              ))}
+            </TabsList>
+          </div>
 
           {/* Category/Product Grid */}
           <div className="grid grid-cols-2 gap-4">
@@ -274,10 +276,7 @@ export default function Sidebar({ showMenu, setShowMenu }: MenuProps) {
             className="flex items-center justify-center gap-2 px-6 w-full h-10 rounded-md bg-zinc-900 text-white text-md font-semibold tracking-wide transition-all hover:bg-zinc-700 active:bg-zinc-600 cursor-pointer"
           >
             <span>All Collections</span>
-            <ChevronRight
-              size={14}
-              className="opacity-0 group-hover:opacity-100 transition-opacity"
-            />
+            <ChevronRight size={14} />
           </button>
 
           <button
@@ -288,10 +287,7 @@ export default function Sidebar({ showMenu, setShowMenu }: MenuProps) {
             className="flex items-center justify-center gap-2 px-6 w-full h-10 rounded-md bg-zinc-900 text-white text-md font-semibold tracking-wide transition-all hover:bg-zinc-700 active:bg-zinc-600 cursor-pointer"
           >
             <span>All Products</span>
-            <ChevronRight
-              size={14}
-              className="opacity-0 group-hover:opacity-100 transition-opacity"
-            />
+            <ChevronRight size={14} />
           </button>
         </div>
       </div>
