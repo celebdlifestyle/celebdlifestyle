@@ -116,9 +116,9 @@ const Product = () => {
   const [mainImage, setMainImage] = useState("");
   const [visibleProducts, setVisibleProducts] = useState(5);
   const params = useParams();
-  const { id } = params;
+  const { slug } = params;
 
-  const productData = products.find((p) => p._id.toString() === id);
+  const productData = products.find((p) => p.slug.toString() === slug);
 
   // Set initial main image when product loads
   useEffect(() => {

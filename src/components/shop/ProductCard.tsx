@@ -13,7 +13,7 @@ export default function ProductCard({ product }: { product: Product }) {
     <div
       onClick={() =>
         router.push(
-          `/products/${product.category.toLocaleLowerCase()}/${product.slug}/${product._id}`,
+          `/products/${product.category.toLocaleLowerCase()}/${product.slug}`,
         )
       }
       className="cursor-pointer basis-2/5 md:basis-1/5 rounded-md"

@@ -1,5 +1,6 @@
 import { NextRequest, NextResponse } from "next/server";
 import { getDatabase } from "@/lib/mongodb";
+import slugify from "slugify";
 
 export async function GET() {
   try {
@@ -27,7 +28,6 @@ export async function POST(req: NextRequest) {
 
     const {
       name,
-      slug,
       description,
       brand,
       thumbnail,
@@ -35,6 +35,7 @@ export async function POST(req: NextRequest) {
       price,
       category,
       categoryId,
+      gender,
       tags,
       stock,
       istrending,
@@ -50,6 +51,23 @@ export async function POST(req: NextRequest) {
 
     const db = await getDatabase();
 
+    // 🔐 Ensure unique index exists (safe to call multiple times)
+    await db.collection("products").createIndex({ slug: 1 }, { unique: true });
+
+    // 🧠 Generate slug from name
+    let baseSlug = slugify(name, {
+      lower: true,
+      strict: true,
+    });
+
+    let slug = baseSlug;
+    let count = 1;
+
+    // 🔁 Auto-increment if slug already exists
+    while (await db.collection("products").findOne({ slug })) {
+      slug = `${baseSlug}-${count++}`;
+    }
+
     const product = {
       name,
       slug,
@@ -60,6 +78,7 @@ export async function POST(req: NextRequest) {
       price: Number(price),
       category,
       categoryId,
+      gender,
       istrending: Boolean(istrending),
       isbestselling: Boolean(isbestselling),
       tags: tags || [],
@@ -74,8 +93,17 @@ export async function POST(req: NextRequest) {
       { _id: result.insertedId, ...product },
       { status: 201 },
     );
-  } catch (err) {
+  } catch (err: any) {
     console.error(err);
+
+    // 🛡 Handle duplicate slug race condition
+    if (err.code === 11000) {
+      return NextResponse.json(
+        { error: "Product slug already exists" },
+        { status: 409 },
+      );
+    }
+
     return NextResponse.json(
       { error: "Failed to add product" },
       { status: 500 },

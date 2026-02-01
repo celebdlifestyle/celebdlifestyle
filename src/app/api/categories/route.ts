@@ -1,5 +1,6 @@
 import { NextRequest, NextResponse } from "next/server";
 import { getDatabase } from "@/lib/mongodb";
+import slugify from "slugify";
 
 export async function GET() {
   try {
@@ -25,27 +26,34 @@ export async function POST(req: NextRequest) {
   try {
     const body = await req.json();
 
-    const { name, slug, image } = body;
+    const { name, image } = body;
 
-    if (!name || !slug) {
+    if (!name) {
       return NextResponse.json(
-        { error: "Missing required fields (name, slug)" },
+        { error: "Missing required field (name)" },
         { status: 400 },
       );
     }
 
     const db = await getDatabase();
 
-    // Check if slug already exists
-    const existingCategory = await db
+    // 🔐 Ensure unique index exists
+    await db
       .collection("categories")
-      .findOne({ slug });
+      .createIndex({ slug: 1 }, { unique: true });
 
-    if (existingCategory) {
-      return NextResponse.json(
-        { error: "Category with this slug already exists" },
-        { status: 409 },
-      );
+    // 🧠 Generate slug from name
+    let baseSlug = slugify(name, {
+      lower: true,
+      strict: true,
+    });
+
+    let slug = baseSlug;
+    let count = 1;
+
+    // 🔁 Auto-increment if exists
+    while (await db.collection("categories").findOne({ slug })) {
+      slug = `${baseSlug}-${count++}`;
     }
 
     const category = {
@@ -62,8 +70,17 @@ export async function POST(req: NextRequest) {
       { _id: result.insertedId, ...category },
       { status: 201 },
     );
-  } catch (err) {
+  } catch (err: any) {
     console.error(err);
+
+    // 🛡 Duplicate slug protection
+    if (err.code === 11000) {
+      return NextResponse.json(
+        { error: "Category slug already exists" },
+        { status: 409 },
+      );
+    }
+
     return NextResponse.json(
       { error: "Failed to add category" },
       { status: 500 },
