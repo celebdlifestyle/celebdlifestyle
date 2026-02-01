@@ -10,6 +10,7 @@ import { NewHereBanner } from "@/components/shop/Banner";
 import { useEffect } from "react";
 import { useProductStore } from "@/store/product.store";
 import { useRouter } from "next/navigation";
+import { ChevronRight } from "lucide-react";
 
 function SkeletonCard() {
   return (
@@ -47,15 +48,18 @@ export default function Homepage() {
 
       {/* TRENDING */}
       <div className="mx-3">
-        <h1 className="gap-5 my-8 text-lg font-semibold tracking-widest flex justify-between">
-          <span>TRENDING</span>
-          <span
+        <div className="my-8 flex items-center justify-between gap-3">
+          <h1 className="text-lg sm:text-lg font-semibold tracking-widest">
+            TRENDING
+          </h1>
+          <button
             onClick={() => router.push("/products")}
-            className="cursor-pointer hover:border-b-1 border-b-white flex justify-between"
+            className="flex items-center gap-1 px-3 py-1.5 text-xs sm:text-sm font-medium tracking-wide bg-zinc-900 hover:bg-zinc-800 rounded-md transition-colors whitespace-nowrap"
           >
-            SHOW MORE →
-          </span>
-        </h1>
+            <span>SHOW MORE</span>
+            <ChevronRight size={14} />
+          </button>
+        </div>
         {loading ? (
           <ProductSkeletonRow />
         ) : (
@@ -65,21 +69,26 @@ export default function Homepage() {
 
       {/* SHADES OF CELEBD */}
       <div className="mx-3">
-        <h1 className="gap-5 my-8 text-lg font-semibold tracking-widest flex justify-between">
-          <span>SHADES OF CELEBD</span>
-          <span
+        <div className="my-8 flex items-center justify-between gap-3">
+          <h1 className="text-lg sm:text-lg font-semibold tracking-widest">
+            SHADES OF CELEBD
+          </h1>
+          <button
             onClick={() => router.push("/collections")}
-            className="cursor-pointer hover:border-b-1 border-b-white flex justify-between"
+            className="flex items-center gap-1 px-3 py-1.5 text-xs sm:text-sm font-medium tracking-wide bg-zinc-900 hover:bg-zinc-800 rounded-md transition-colors whitespace-nowrap"
           >
-            SHOW MORE →
-          </span>
-        </h1>
+            <span>SHOW MORE</span>
+            <ChevronRight size={14} />
+          </button>
+        </div>
         <CollectionsCarousel />
       </div>
 
       {/* BEST SELLINGS */}
       <div className="mx-3">
-        <h1 className="gap-5 my-8 text-2xl font-semibold">BEST SELLINGS</h1>
+        <h1 className="my-8 text-xl sm:text-2xl font-semibold tracking-wide">
+          BEST SELLINGS
+        </h1>
         {loading ? (
           <ProductSkeletonRow />
         ) : (
