@@ -11,7 +11,11 @@ export default function ProductCard({ product }: { product: Product }) {
 
   return (
     <div
-      onClick={() => router.push(`/products/${product._id}`)}
+      onClick={() =>
+        router.push(
+          `/products/${product.category.toLocaleLowerCase()}/${product.slug}/${product._id}`,
+        )
+      }
       className="cursor-pointer basis-2/5 md:basis-1/5 rounded-md"
       onMouseEnter={() => setIsHovered(true)}
       onMouseLeave={() => setIsHovered(false)}

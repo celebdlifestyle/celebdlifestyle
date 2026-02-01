@@ -49,33 +49,37 @@ const Product = () => {
       <div className="grid max-w-[1400px] mx-auto grid-cols-1 gap-8 lg:gap-12 md:grid-cols-2 mb-16">
         {/* Product Images */}
         <div className="flex flex-col space-y-4">
-          {/* Main Image */}
-          <div className="relative w-full overflow-hidden bg-gray-900 rounded-2xl aspect-square hover:border-orange-500 hover:shadow-orange-500/10 cursor-pointer group">
+          {/* Main Image - 4:5 aspect ratio */}
+          <div
+            className="relative w-full overflow-hidden bg-gray-900 rounded-2xl hover:border-orange-500 hover:shadow-orange-500/10 cursor-pointer group"
+            style={{ aspectRatio: "4/5" }}
+          >
             <Image
               src={mainImage || productData.images[0]}
               alt={productData.name}
               fill
-              className="object-cover p-4 transition-transform duration-500 ease-in-out group-hover:scale-110"
+              className="object-cover transition-transform duration-500 ease-in-out group-hover:scale-110"
               priority
             />
           </div>
 
-          {/* Thumbnails */}
+          {/* Thumbnails - 4:5 aspect ratio */}
           {productData.images.length > 1 && (
             <div className="grid grid-cols-4 gap-3 sm:gap-4 ">
               {productData.images.map((image, index) => (
                 <div
                   key={index}
                   onClick={() => setMainImage(image)}
-                  className={`relative overflow-hidden bg-gray-900 rounded-lg cursor-pointer aspect-square transition-all duration-200 group
+                  className={`relative overflow-hidden bg-gray-900 rounded-lg cursor-pointer transition-all duration-200 group
                     ${mainImage === image ? "ring-2 ring-orange-400 scale-95" : "hover:ring-2 hover:ring-gray-600"}
                   `}
+                  style={{ aspectRatio: "4/5" }}
                 >
                   <Image
                     src={image}
                     alt={`thumbnail-${index}`}
                     fill
-                    className="object-cover p-2 transition-transform duration-500 ease-in-out group-hover:scale-110"
+                    className="object-cover transition-transform duration-500 ease-in-out group-hover:scale-110"
                   />
                 </div>
               ))}
