@@ -163,7 +163,13 @@ export default function Sidebar({ showMenu, setShowMenu }: MenuProps) {
 
         {/* Tabs */}
         <Tabs value={activeTab} onValueChange={setActiveTab} className="w-full">
-          <div className="w-full mb-4 overflow-x-auto scrollbar-hide">
+          <div
+            className="w-full mb-4 overflow-x-auto scrollbar-hide overscroll-x-none touch-pan-x"
+            style={{
+              WebkitOverflowScrolling: "touch",
+              scrollbarWidth: "none",
+            }}
+          >
             <TabsList className="inline-flex min-w-full text-white rounded-lg bg-zinc-900 h-auto p-1">
               <TabsTrigger
                 value="all"
