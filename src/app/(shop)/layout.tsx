@@ -5,6 +5,8 @@ import Navbar from "@/components/shop/Navbar";
 import Footer from "@/components/shop/Footer";
 import { ThemeProvider } from "@/components/ThemeProvider";
 import { ClerkProvider } from "@clerk/nextjs";
+import ImageGuard from "@/components/shop/ImageGuard";
+
 const geistSans = Geist({
   variable: "--font-geist-sans",
   subsets: ["latin"],
@@ -37,6 +39,7 @@ export default function RootLayout({
             enableSystem
             disableTransitionOnChange
           >
+            <ImageGuard />
             <Navbar />
             {children}
             <Footer />
