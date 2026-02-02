@@ -46,7 +46,7 @@ export default function Sidebar({ showMenu, setShowMenu }: MenuProps) {
     // Minimum loading time of 2 seconds
     const timer = setTimeout(() => {
       setMinLoadingComplete(true);
-    }, 2000);
+    }, 100);
 
     return () => clearTimeout(timer);
   }, [fetchProducts, fetchCategories]);

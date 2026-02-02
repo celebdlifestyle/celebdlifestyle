@@ -19,7 +19,7 @@ export default function CollectionPage() {
     // Minimum loading time of 500ms
     const timer = setTimeout(() => {
       setMinLoadingComplete(true);
-    }, 500);
+    }, 100);
 
     return () => clearTimeout(timer);
   }, [fetchProducts]);

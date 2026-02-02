@@ -15,7 +15,7 @@ export default function Women() {
     // Minimum loading time of 2 seconds
     const timer = setTimeout(() => {
       setMinLoadingComplete(true);
-    }, 500);
+    }, 100);
 
     return () => clearTimeout(timer);
   }, [fetchProducts]);

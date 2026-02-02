@@ -84,7 +84,7 @@ export function CollectionsCarousel() {
     // Minimum loading time of 1.2 seconds
     const timer = setTimeout(() => {
       setMinLoadingComplete(true);
-    }, 500);
+    }, 100);
 
     return () => clearTimeout(timer);
   }, [fetchCategories]);
@@ -156,7 +156,7 @@ export function ProductCarousel({
     // Minimum loading time of 1.2 seconds
     const timer = setTimeout(() => {
       setMinLoadingComplete(true);
-    }, 1200);
+    }, 100);
 
     return () => clearTimeout(timer);
   }, []);
