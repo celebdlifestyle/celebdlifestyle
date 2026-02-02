@@ -6,98 +6,7 @@ import { useParams } from "next/navigation";
 import Image from "next/image";
 import { useProductStore } from "@/store/product.store";
 import Link from "next/link";
-
-// Skeleton Loader Component
-const ProductSkeleton = () => {
-  return (
-    <div className="container px-4 py-8 mx-auto md:px-8">
-      <div className="grid grid-cols-1 gap-8 lg:grid-cols-2">
-        {/* Images Skeleton */}
-        <div className="space-y-4">
-          {/* Main Image Skeleton */}
-          <div
-            className="relative w-full overflow-hidden bg-gray-800 rounded-lg animate-pulse"
-            style={{ aspectRatio: "4/5" }}
-          >
-            <div className="absolute inset-0 bg-gradient-to-r from-gray-800 via-gray-700 to-gray-800"></div>
-          </div>
-
-          {/* Thumbnails Skeleton */}
-          <div className="grid grid-cols-4 gap-2">
-            {[1, 2, 3, 4].map((i) => (
-              <div
-                key={i}
-                className="relative w-full overflow-hidden bg-gray-800 rounded-lg animate-pulse"
-                style={{ aspectRatio: "4/5" }}
-              >
-                <div className="absolute inset-0 bg-gradient-to-r from-gray-800 via-gray-700 to-gray-800"></div>
-              </div>
-            ))}
-          </div>
-        </div>
-
-        {/* Info Skeleton */}
-        <div className="space-y-6">
-          {/* Brand Skeleton */}
-          <div className="w-24 h-4 bg-gray-800 rounded animate-pulse"></div>
-
-          {/* Title Skeleton */}
-          <div className="space-y-2">
-            <div className="w-3/4 h-8 bg-gray-800 rounded animate-pulse"></div>
-            <div className="w-1/2 h-8 bg-gray-800 rounded animate-pulse"></div>
-          </div>
-
-          {/* Price Skeleton */}
-          <div className="w-32 h-10 bg-gray-800 rounded animate-pulse"></div>
-
-          {/* Description Skeleton */}
-          <div className="space-y-2">
-            <div className="w-24 h-6 bg-gray-800 rounded animate-pulse"></div>
-            <div className="w-full h-4 bg-gray-800 rounded animate-pulse"></div>
-            <div className="w-full h-4 bg-gray-800 rounded animate-pulse"></div>
-            <div className="w-3/4 h-4 bg-gray-800 rounded animate-pulse"></div>
-          </div>
-
-          {/* Details Skeleton */}
-          <div className="p-6 space-y-4 border border-gray-800 rounded-lg">
-            <div className="w-32 h-6 bg-gray-800 rounded animate-pulse"></div>
-            {[1, 2, 3].map((i) => (
-              <div key={i} className="flex items-center justify-between">
-                <div className="w-20 h-4 bg-gray-800 rounded animate-pulse"></div>
-                <div className="w-32 h-4 bg-gray-800 rounded animate-pulse"></div>
-              </div>
-            ))}
-          </div>
-
-          {/* Button Skeleton */}
-          <div className="w-full h-14 bg-gray-800 rounded-xl animate-pulse"></div>
-        </div>
-      </div>
-
-      {/* Featured Products Skeleton */}
-      <div className="mt-16">
-        <div className="w-48 h-8 mx-auto mb-8 bg-gray-800 rounded animate-pulse"></div>
-        <div className="grid grid-cols-1 gap-6 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5">
-          {[1, 2, 3, 4, 5].map((i) => (
-            <div
-              key={i}
-              className="overflow-hidden border border-gray-800 rounded-lg"
-            >
-              <div
-                className="relative w-full bg-gray-800 animate-pulse"
-                style={{ aspectRatio: "4/5" }}
-              ></div>
-              <div className="p-4 space-y-2">
-                <div className="w-3/4 h-4 bg-gray-800 rounded animate-pulse"></div>
-                <div className="w-1/2 h-6 bg-gray-800 rounded animate-pulse"></div>
-              </div>
-            </div>
-          ))}
-        </div>
-      </div>
-    </div>
-  );
-};
+import { ProductPageSkeleton } from "@/components/shop/Skeletons";
 
 const Product = () => {
   const { products, fetchProducts } = useProductStore();
@@ -128,7 +37,7 @@ const Product = () => {
 
   // Show skeleton while loading
   if (isLoading) {
-    return <ProductSkeleton />;
+    return <ProductPageSkeleton />;
   }
 
   if (!productData) {
@@ -297,19 +206,20 @@ const Product = () => {
 
           <Link
             href={`/products/${productData.category.toLocaleLowerCase()}/${productData.slug}/ownit`}
-            className="h-14 w-full bg-orange-500 mt-10 rounded-xl cursor-pointer"
+            className="mt-10 h-14 w-full rounded-xl bg-orange-500 flex items-center justify-center
+             text-lg font-bold text-white cursor-pointer
+             transition-all duration-200
+             hover:bg-orange-600 hover:shadow-lg active:scale-[0.98]"
           >
-            <div className="flex items-center justify-center w-full h-full text-lg font-bold text-white transition-all duration-200 hover:bg-orange-600">
-              OWN IT
-            </div>
+            OWN IT
           </Link>
         </div>
       </div>
 
-      {/* Featured Products Section */}
+      {/* Similar Products Section */}
       <div className="mt-10">
         <h2 className="mb-8 text-2xl font-bold text-center text-gray-100">
-          Featured Products
+          Similar Products
         </h2>
         <div className="grid grid-cols-2 gap-6 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5">
           {products.slice(0, visibleProducts).map((product) => (

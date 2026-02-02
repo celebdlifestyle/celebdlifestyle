@@ -54,3 +54,72 @@ export const SidebarProductCardSkeleton = () => {
     </div>
   );
 };
+
+export const ProductPageSkeleton = () => {
+  return (
+    <div className="container px-4 py-8 mx-auto md:px-8">
+      <div className="grid grid-cols-1 gap-8 lg:grid-cols-2">
+        {/* Images Skeleton */}
+        <div className="space-y-4">
+          {/* Main Image Skeleton */}
+          <div
+            className="relative w-full overflow-hidden bg-gray-800 rounded-lg animate-pulse"
+            style={{ aspectRatio: "4/5" }}
+          >
+            <div className="absolute inset-0 bg-gradient-to-r from-gray-800 via-gray-700 to-gray-800"></div>
+          </div>
+
+          {/* Thumbnails Skeleton */}
+          <div className="grid grid-cols-4 gap-2">
+            {[1, 2, 3, 4].map((i) => (
+              <div
+                key={i}
+                className="relative w-full overflow-hidden bg-gray-800 rounded-lg animate-pulse"
+                style={{ aspectRatio: "4/5" }}
+              >
+                <div className="absolute inset-0 bg-gradient-to-r from-gray-800 via-gray-700 to-gray-800"></div>
+              </div>
+            ))}
+          </div>
+        </div>
+
+        {/* Info Skeleton */}
+        <div className="space-y-6">
+          {/* Brand Skeleton */}
+          <div className="w-24 h-4 bg-gray-800 rounded animate-pulse"></div>
+
+          {/* Title Skeleton */}
+          <div className="space-y-2">
+            <div className="w-3/4 h-8 bg-gray-800 rounded animate-pulse"></div>
+            <div className="w-1/2 h-8 bg-gray-800 rounded animate-pulse"></div>
+          </div>
+
+          {/* Price Skeleton */}
+          <div className="w-32 h-10 bg-gray-800 rounded animate-pulse"></div>
+
+          {/* Description Skeleton */}
+          <div className="space-y-2">
+            <div className="w-24 h-6 bg-gray-800 rounded animate-pulse"></div>
+            <div className="w-full h-4 bg-gray-800 rounded animate-pulse"></div>
+            <div className="w-full h-4 bg-gray-800 rounded animate-pulse"></div>
+            <div className="w-3/4 h-4 bg-gray-800 rounded animate-pulse"></div>
+          </div>
+
+          {/* Details Skeleton */}
+          <div className="p-6 space-y-4 border border-gray-800 rounded-lg">
+            <div className="w-32 h-6 bg-gray-800 rounded animate-pulse"></div>
+            {[1, 2, 3].map((i) => (
+              <div key={i} className="flex items-center justify-between">
+                <div className="w-20 h-4 bg-gray-800 rounded animate-pulse"></div>
+                <div className="w-32 h-4 bg-gray-800 rounded animate-pulse"></div>
+              </div>
+            ))}
+          </div>
+
+          {/* Button Skeleton */}
+          <div className="w-full h-14 bg-gray-800 rounded-xl animate-pulse"></div>
+        </div>
+      </div>
+    </div>
+  );
+};
