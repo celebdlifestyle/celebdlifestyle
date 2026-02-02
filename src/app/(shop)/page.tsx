@@ -33,12 +33,12 @@ export default function Homepage() {
   );
 
   return (
-    <div className="min-h-screen pb-5">
+    <div className="min-h-screen pb-5 ">
       <ImageCarousel />
 
       {/* TRENDING */}
 
-      <div className="mx-3">
+      <div className="mx-3 md:px-5">
         <div className="my-8 flex items-center justify-between gap-3">
           <h1 className="text-lg sm:text-lg font-semibold tracking-widest">
             TRENDING
@@ -56,7 +56,7 @@ export default function Homepage() {
 
       {/* SHADES OF CELEBD - Categories*/}
 
-      <div className="mx-3">
+      <div className="mx-3 md:px-5">
         <div className="my-8 flex items-center justify-between gap-3">
           <h1 className="text-lg sm:text-lg font-semibold tracking-widest">
             SHADES OF CELEBD
@@ -74,7 +74,7 @@ export default function Homepage() {
 
       {/* BEST SELLINGS */}
 
-      <div className="mx-3">
+      <div className="mx-3 md:px-5">
         <div className="my-8 flex items-center justify-between gap-3">
           <h1 className="text-lg sm:text-lg font-semibold tracking-widest">
             BEST SELLINGS
@@ -96,7 +96,7 @@ export default function Homepage() {
 
       {/* Black Plated */}
 
-      <div className="mx-3">
+      <div className="mx-3 md:px-5">
         <div className="my-8 flex items-center justify-between gap-3">
           <h1 className="text-lg sm:text-lg font-semibold tracking-widest">
             CELEBD BLACK PLATED
@@ -117,7 +117,7 @@ export default function Homepage() {
 
       {/* Gold Plated */}
 
-      <div className="mx-3">
+      <div className="mx-3 md:px-5">
         <div className="my-8 flex items-center justify-between gap-3">
           <h1 className="text-lg sm:text-lg font-semibold tracking-widest">
             CELEBD GOLD PLATED
@@ -142,7 +142,7 @@ export default function Homepage() {
 
       {/* WHITE Plated */}
 
-      <div className="mx-3">
+      <div className="mx-3 md:px-5">
         <div className="my-8 flex items-center justify-between gap-3">
           <h1 className="text-lg sm:text-lg font-semibold tracking-widest">
             CELEBD WHITE PLATED
@@ -163,7 +163,7 @@ export default function Homepage() {
 
       {/* SILVER Plated */}
 
-      <div className="mx-3">
+      <div className="mx-3 md:px-5">
         <div className="my-8 flex items-center justify-between gap-3">
           <h1 className="text-lg sm:text-lg font-semibold tracking-widest">
             CELEBD SILVER PLATED
