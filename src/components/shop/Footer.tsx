@@ -6,10 +6,10 @@ import { dedot_title } from "@/app/fonts/font";
 
 export default function Footer() {
   return (
-    <footer className="px-5 py-12 text-sm text-white bg-black border-t border-gray-800 md:px-16">
-      <div className="grid grid-cols-1 gap-12 mx-auto max-w-7xl md:grid-cols-3 lg:grid-cols-5 lg:gap-10">
+    <footer className="px-5 py-12 text-sm text-white bg-black border-t border-gray-800  w-full">
+      <div className="grid grid-cols-1 gap-8 md:mx-16 md:grid-cols-3 lg:grid-cols-5 lg:gap-10">
         {/* Brand Logo, Motto, Newsletter & Social Media */}
-        <div className="col-span-2 md:col-span-2 lg:col-span-2">
+        <div className="col-span-2 md:col-span-2 mr-12 lg:col-span-2">
           <Link
             className={`${dedot_title.className} font-bold text-4xl md:text-5xl hover:text-gray-300 transition-colors duration-300 inline-block`}
             href="/"
@@ -118,39 +118,48 @@ export default function Footer() {
       </div>
 
       {/* Bottom legal bar */}
-      <div className="pt-8 mx-auto mt-12 space-y-4 text-xs text-gray-500 border-t border-gray-800 max-w-7xl">
-        <p className="text-center md:text-left">
+      <div className="mt-12 pt-6 border-t text-center border-gray-800">
+        {/* Shipping Info */}
+        <p className="mb-2 text-xs text-gray-500 leading-relaxed">
           For applicable countries, duties & taxes will be automatically
           calculated and displayed during checkout. Depending on the country,
           you will have the option to choose DDP (Delivery Duty Paid) or DDU
           (Delivery Duty Unpaid).
         </p>
-        <div className="flex flex-col items-center justify-between gap-4 md:flex-row">
-          <p className="text-gray-400">
+
+        {/* Copyright and Links */}
+        <div className="flex flex-col md:flex-row md:items-center md:justify-center gap-4">
+          {/* Copyright */}
+          <p className="text-xs text-gray-400">
             © 2025 CELEBD, LLC. All Rights Reserved.
           </p>
-          <div className="flex flex-wrap justify-center gap-6">
+
+          {/* Legal Links */}
+          <div className="flex flex-wrap items-center gap-1">
             <Link
               href="/pages/terms"
-              className="transition-colors duration-200 hover:text-white"
+              className="px-3 py-1 text-xs text-gray-400 hover:text-white transition-colors duration-200"
             >
               Terms
             </Link>
+            <span className="text-gray-700">•</span>
             <Link
               href="/pages/privacy"
-              className="transition-colors duration-200 hover:text-white"
+              className="px-3 py-1 text-xs text-gray-400 hover:text-white transition-colors duration-200"
             >
               Privacy
             </Link>
+            <span className="text-gray-700">•</span>
             <Link
               href="/pages/cookie-policy"
-              className="transition-colors duration-200 hover:text-white"
+              className="px-3 py-1 text-xs text-gray-400 hover:text-white transition-colors duration-200"
             >
               Cookie Policy
             </Link>
+            <span className="text-gray-700">•</span>
             <Link
               href="/pages/cookie-preferences"
-              className="transition-colors duration-200 hover:text-white"
+              className="px-3 py-1 text-xs text-gray-400 hover:text-white transition-colors duration-200"
             >
               Cookie Preferences
             </Link>
