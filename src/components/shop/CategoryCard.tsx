@@ -15,7 +15,7 @@ export default function CategoryCard({
   slug,
 }: CategoryCardProps) {
   return (
-    <Link href={`/products/${slug}`}>
+    <Link href={`/collections/${slug}`}>
       <div className="group cursor-pointer">
         {/* Image Container - 4:5 aspect ratio */}
         <div

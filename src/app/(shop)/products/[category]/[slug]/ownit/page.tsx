@@ -253,7 +253,7 @@ const OwnItForm = () => {
               type="submit"
               className="w-full py-4 mt-6 font-semibold text-white transition-all duration-200 rounded-lg shadow-lg bg-gradient-to-r from-orange-500 to-orange-600 hover:from-orange-600 hover:to-orange-700 hover:shadow-orange-500/50 active:scale-[0.98]"
             >
-              Complete Purchase
+              ENTER THE CELEBD CLASS
             </button>
 
             <p className="mt-4 text-xs text-center text-gray-500">
