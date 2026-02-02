@@ -1,15 +1,23 @@
 "use client";
 
-import { useEffect, useMemo } from "react";
+import { useEffect, useMemo, useState } from "react";
 import { useProductStore } from "@/store/product.store";
 import ProductCard from "@/components/shop/ProductCard";
-import { Loader2 } from "lucide-react";
+import { ProductCardSkeleton } from "@/components/shop/Skeletons";
 
 export default function Women() {
   const { products, fetchProducts, loading } = useProductStore();
+  const [minLoadingComplete, setMinLoadingComplete] = useState(false);
 
   useEffect(() => {
     fetchProducts();
+
+    // Minimum loading time of 2 seconds
+    const timer = setTimeout(() => {
+      setMinLoadingComplete(true);
+    }, 2000);
+
+    return () => clearTimeout(timer);
   }, [fetchProducts]);
 
   const womenProducts = useMemo(() => {
@@ -18,19 +26,11 @@ export default function Women() {
     );
   }, [products]);
 
-  if (loading) {
-    return (
-      <div className="min-h-screen flex items-center justify-center bg-black">
-        <div className="flex flex-col items-center gap-3">
-          <Loader2 className="w-10 h-10 text-orange-500 animate-spin" />
-          <p className="text-gray-400">Loading women's collection...</p>
-        </div>
-      </div>
-    );
-  }
+  // Show loading only if either API is loading OR minimum time hasn't passed
+  const isLoading = loading || !minLoadingComplete;
 
   return (
-    <div className="min-h-screen bg-black text-white px-4 py-10 sm:px-6 md:px-12 lg:px-16 xl:px-24">
+    <div className="min-h-screen bg-black text-white px-4 py-5 sm:px-6 md:px-12 lg:px-16 xl:px-24">
       <div className="max-w-[1400px] mx-auto">
         {/* Header */}
         <div className="mb-10 text-center">
@@ -38,7 +38,7 @@ export default function Women() {
             Women's <span className="text-orange-500">Collection</span>
           </h1>
           <div className="w-24 h-1 mx-auto mt-3 bg-orange-500 rounded-full" />
-          {womenProducts.length > 0 && (
+          {!isLoading && womenProducts.length > 0 && (
             <p className="text-gray-500 text-sm mt-3">
               {womenProducts.length} product
               {womenProducts.length !== 1 ? "s" : ""} available
@@ -46,19 +46,31 @@ export default function Women() {
           )}
         </div>
 
-        {/* Product Grid */}
-        {womenProducts.length === 0 ? (
-          <div className="flex flex-col items-center justify-center py-24">
-            <p className="text-gray-500 text-lg">
-              No women's products available yet.
-            </p>
-          </div>
-        ) : (
+        {/* Loading State - Skeleton Grid */}
+        {isLoading ? (
           <div className="grid grid-cols-2 gap-4 sm:gap-6 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5">
-            {womenProducts.map((product) => (
-              <ProductCard key={product._id} product={product} />
+            {Array.from({ length: 10 }).map((_, index) => (
+              <ProductCardSkeleton key={index} />
             ))}
           </div>
+        ) : (
+          <>
+            {/* No Products State */}
+            {womenProducts.length === 0 ? (
+              <div className="flex flex-col items-center justify-center py-24">
+                <p className="text-gray-500 text-lg">
+                  No women's products available yet.
+                </p>
+              </div>
+            ) : (
+              /* Product Grid */
+              <div className="grid grid-cols-2 gap-4 sm:gap-6 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5">
+                {womenProducts.map((product) => (
+                  <ProductCard key={product._id} product={product} />
+                ))}
+              </div>
+            )}
+          </>
         )}
       </div>
     </div>
