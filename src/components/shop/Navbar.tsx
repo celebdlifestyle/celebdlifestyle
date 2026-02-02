@@ -40,13 +40,13 @@ export default function Navbar() {
         {showMenu && <Sidebar showMenu={showMenu} setShowMenu={setShowMenu} />}
 
         <Link
-          className={`${dedot_title.className} h-16 pt-5 lg:hidden font-semibold text-xl`}
+          className={`${dedot_title.className} h-16 pt-5 md:hidden font-semibold text-xl`}
           href={"/"}
         >
           CELEBD LIFESTYLE
         </Link>
 
-        <div className="items-center justify-center hidden gap-2 lg:flex md:gap-10">
+        <div className="items-center justify-center hidden gap-2 md:flex md:gap-10">
           <Link
             className={`${dedot_title.className} font-semibold text-4xl`}
             href={"/"}
@@ -75,8 +75,8 @@ export default function Navbar() {
 
           <SignedOut>
             <SignInButton>
-              <button className="bg-orange-500 text-white rounded-md font-medium text-sm sm:text-base h-10 sm:h-10 px-4 sm:px-5 cursor-pointer">
-                Sign In
+              <button className="bg-orange-500 text-white rounded-md font-semibold text-sm sm:text-base h-8 sm:h-10 px-3 sm:px-5 cursor-pointer">
+                SIGN IN
               </button>
             </SignInButton>
           </SignedOut>

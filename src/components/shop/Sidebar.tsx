@@ -75,43 +75,46 @@ export default function Sidebar({ showMenu, setShowMenu }: MenuProps) {
   return (
     <div className="fixed inset-0 z-50 bg-black/95 backdrop-blur-sm">
       <div className="absolute top-0 left-0 w-full h-full p-4 space-y-4 overflow-y-auto text-white bg-black">
-        {/* Close Button */}
-        <button
-          onClick={() => setShowMenu(false)}
-          className="absolute p-2 transition-colors rounded-lg top-3 right-3 hover:bg-white/10"
-        >
-          <X className="w-6 h-6" />
-        </button>
+        {/* Auth Section & Close Button  */}
+        <div className="flex flex-row-reverse w-full gap-5  items-center border-b border-white/10 pb-2">
+          {/* Close Button  */}
+          <button
+            onClick={() => setShowMenu(false)}
+            className="  transition-colors mb-2  rounded-lg hover:bg-white/10"
+          >
+            <X className="w-8 h-8" />
+          </button>
 
-        {/* Auth Section */}
-        <div className="pt-2 pb-4 border-b border-white/10">
-          <SignedIn>
-            <div className="flex items-center gap-3">
-              {user?.imageUrl && (
-                <img
-                  src={user.imageUrl}
-                  alt={user.firstName || "User"}
-                  className="w-10 h-10 rounded-full object-cover"
-                />
-              )}
-              <div className="flex flex-col">
-                <span className="text-sm font-semibold text-white">
-                  {user?.firstName} {user?.lastName}
-                </span>
-                <span className="text-xs text-gray-500">
-                  {user?.primaryEmailAddress?.emailAddress}
-                </span>
+          {/* Auth Section  */}
+          <div className="pt-2 pb-4  w-full">
+            <SignedIn>
+              <div className="flex items-center gap-3">
+                {user?.imageUrl && (
+                  <img
+                    src={user.imageUrl}
+                    alt={user.firstName || "User"}
+                    className="w-10 h-10 rounded-full object-cover"
+                  />
+                )}
+                <div className="flex flex-col">
+                  <span className="text-sm font-semibold text-white">
+                    {user?.firstName} {user?.lastName}
+                  </span>
+                  <span className="text-xs text-gray-500">
+                    {user?.primaryEmailAddress?.emailAddress}
+                  </span>
+                </div>
               </div>
-            </div>
-          </SignedIn>
+            </SignedIn>
 
-          <SignedOut>
-            <SignInButton>
-              <button className="w-full h-10 bg-orange-500 text-white rounded-md font-medium text-sm cursor-pointer transition-all hover:bg-orange-600 active:bg-orange-700">
-                Sign In
-              </button>
-            </SignInButton>
-          </SignedOut>
+            <SignedOut>
+              <SignInButton>
+                <button className="w-full h-10  bg-orange-500 text-white rounded-md font-bold text-sm cursor-pointer transition-all hover:bg-orange-600 active:bg-orange-700">
+                  SING IN
+                </button>
+              </SignInButton>
+            </SignedOut>
+          </div>
         </div>
 
         {isAdmin && (
