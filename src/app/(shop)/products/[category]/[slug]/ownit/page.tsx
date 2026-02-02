@@ -10,13 +10,13 @@ const OwnItForm = () => {
   const { fetchProducts, products } = useProductStore();
   const router = useRouter();
   const params = useParams();
-  const { id } = params;
+  const { slug } = params;
 
   useEffect(() => {
     fetchProducts();
   }, [fetchProducts]);
 
-  const productData = products.find((p) => p._id.toString() === id);
+  const productData = products.find((p) => p.slug.toString() === slug);
 
   const [name, setName] = useState("");
   const [email, setEmail] = useState("");
@@ -35,7 +35,7 @@ const OwnItForm = () => {
     }
 
     setError("");
-    alert(`Form submitted for ${productData?.name || "Product ID " + id}!`);
+    alert(`Form submitted for ${productData?.name || "Product ID " + slug}!`);
   };
 
   if (!productData) {
@@ -68,7 +68,9 @@ const OwnItForm = () => {
       <div className="max-w-[1400px] mx-auto grid grid-cols-1 lg:grid-cols-2 gap-8 lg:gap-12">
         {/* Left: Product Preview (Desktop Only) */}
         <div
-          onClick={() => router.push(`/products/${id}`)}
+          onClick={() =>
+            router.push(`/products/${productData.category}/${productData.slug}`)
+          }
           className="hidden lg:flex flex-col justify-between h-full p-8 transition-all duration-200 bg-gray-900 border border-gray-800 cursor-pointer rounded-2xl hover:border-orange-500 hover:shadow-lg hover:shadow-orange-500/10"
         >
           <div>
@@ -143,7 +145,11 @@ const OwnItForm = () => {
           >
             {/* Mobile Product Preview */}
             <div
-              onClick={() => router.push(`/products/${id}`)}
+              onClick={() =>
+                router.push(
+                  `/products/${productData.category}/${productData.slug}`,
+                )
+              }
               className="flex items-center gap-4 p-4 mb-6 transition-all duration-200 bg-gray-800 cursor-pointer lg:hidden rounded-xl hover:bg-gray-700"
             >
               <div className="relative flex-shrink-0 w-20 h-20 overflow-hidden bg-gray-900 rounded-lg sm:w-24 sm:h-24">

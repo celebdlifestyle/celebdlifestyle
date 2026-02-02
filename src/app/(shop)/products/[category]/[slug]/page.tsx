@@ -146,7 +146,7 @@ const Product = () => {
   }
 
   return (
-    <div className="container px-4 py-8 mx-auto md:px-8">
+    <div className="container px-4 py-3 md:py-7 mx-auto md:px-8">
       {/* Product Section */}
       <div className="grid grid-cols-1 gap-8 lg:grid-cols-2">
         {/* Product Images */}
@@ -297,7 +297,11 @@ const Product = () => {
           )}
 
           <div
-            onClick={() => router.push(`/products/${productData._id}/ownit`)}
+            onClick={() =>
+              router.push(
+                `/products/${productData.category}/${productData.slug}/ownit`,
+              )
+            }
             className="h-14 w-full bg-orange-500 mt-10 rounded-xl cursor-pointer"
           >
             <div className="flex items-center justify-center w-full h-full text-lg font-bold text-white transition-all duration-200 hover:bg-orange-600">
