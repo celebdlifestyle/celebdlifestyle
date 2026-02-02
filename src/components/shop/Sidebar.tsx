@@ -8,14 +8,12 @@ import { Tabs, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { useProductStore } from "@/store/product.store";
 import { useCategoryStore } from "@/store/categories.store";
 import { useRouter } from "next/navigation";
-import {
-  useUser,
-  UserAvatar,
-  SignedIn,
-  SignedOut,
-  SignInButton,
-} from "@clerk/nextjs";
+import { useUser, SignedIn, SignedOut, SignInButton } from "@clerk/nextjs";
 import type { Product } from "@/types/product.type";
+import {
+  SidebarCategoryCardSkeleton,
+  SidebarProductCardSkeleton,
+} from "./Skeletons";
 
 type MenuProps = {
   showMenu: boolean;
@@ -26,15 +24,31 @@ export default function Sidebar({ showMenu, setShowMenu }: MenuProps) {
   const router = useRouter();
   const { user } = useUser();
   const isAdmin = user?.publicMetadata?.role === "admin";
-  const { products, fetchProducts } = useProductStore();
-  const { categories, fetchCategories } = useCategoryStore();
+  const {
+    products,
+    fetchProducts,
+    loading: productsLoading,
+  } = useProductStore();
+  const {
+    categories,
+    fetchCategories,
+    loading: categoriesLoading,
+  } = useCategoryStore();
   const [activeTab, setActiveTab] = useState<string>("all");
   const [searchQuery, setSearchQuery] = useState("");
   const [filteredProducts, setFilteredProducts] = useState<Product[]>([]);
+  const [minLoadingComplete, setMinLoadingComplete] = useState(false);
 
   useEffect(() => {
     fetchProducts();
     fetchCategories();
+
+    // Minimum loading time of 2 seconds
+    const timer = setTimeout(() => {
+      setMinLoadingComplete(true);
+    }, 2000);
+
+    return () => clearTimeout(timer);
   }, [fetchProducts, fetchCategories]);
 
   useEffect(() => {
@@ -71,6 +85,9 @@ export default function Sidebar({ showMenu, setShowMenu }: MenuProps) {
     router.push(`/products/${productId.toString()}`);
     setShowMenu(false);
   };
+
+  // Show loading if either data is loading OR minimum time hasn't passed
+  const isLoading = productsLoading || categoriesLoading || !minLoadingComplete;
 
   return (
     <div className="fixed inset-0 z-50 bg-black/95 backdrop-blur-sm">
@@ -110,7 +127,7 @@ export default function Sidebar({ showMenu, setShowMenu }: MenuProps) {
             <SignedOut>
               <SignInButton>
                 <button className="w-full h-10  bg-orange-500 text-white rounded-md font-bold text-sm cursor-pointer transition-all hover:bg-orange-600 active:bg-orange-700">
-                  SING IN
+                  SIGN IN
                 </button>
               </SignInButton>
             </SignedOut>
@@ -157,7 +174,7 @@ export default function Sidebar({ showMenu, setShowMenu }: MenuProps) {
         </div>
 
         {/* Search Results Count */}
-        {searchQuery && (
+        {searchQuery && !isLoading && (
           <div className="text-xs text-white/60">
             Found {filteredProducts.length} result
             {filteredProducts.length !== 1 ? "s" : ""}
@@ -180,97 +197,115 @@ export default function Sidebar({ showMenu, setShowMenu }: MenuProps) {
               >
                 ALL
               </TabsTrigger>
-              {uniqueCategories.map((cat) => (
-                <TabsTrigger
-                  key={cat}
-                  value={cat.toLowerCase()}
-                  className="data-[state=active]:bg-orange-500 data-[state=active]:text-white tracking-widest px-4 py-2 rounded-md transition-all whitespace-nowrap"
-                >
-                  {cat.toUpperCase()}
-                </TabsTrigger>
-              ))}
+              {!isLoading &&
+                uniqueCategories.map((cat) => (
+                  <TabsTrigger
+                    key={cat}
+                    value={cat.toLowerCase()}
+                    className="data-[state=active]:bg-orange-500 data-[state=active]:text-white tracking-widest px-4 py-2 rounded-md transition-all whitespace-nowrap"
+                  >
+                    {cat.toUpperCase()}
+                  </TabsTrigger>
+                ))}
             </TabsList>
           </div>
 
           {/* Category/Product Grid */}
           <div className="grid grid-cols-2 gap-4">
-            {activeTab === "all" && !searchQuery ? (
-              categories.length === 0 ? (
-                <div className="col-span-2 py-12 text-center">
-                  <p className="text-white/60">No categories available</p>
-                </div>
-              ) : (
-                categories.slice(0, 8).map((category) => (
-                  <button
-                    key={category._id}
-                    onClick={() =>
-                      handleCategoryClick(category._id, category.slug)
-                    }
-                    className="space-y-2 text-left transition-transform hover:scale-105"
-                  >
-                    <div className="relative w-full overflow-hidden rounded-lg h-28">
-                      <Image
-                        src={category.image}
-                        alt={category.name}
-                        fill
-                        className="object-cover transition-transform hover:scale-110"
-                      />
-                      <div className="absolute inset-0 bg-gradient-to-t from-black/60 to-transparent" />
-                      <div className="absolute bottom-0 left-0 right-0 p-2">
-                        <div className="text-xs font-bold text-white">
-                          {category.name}
+            {isLoading ? (
+              // Loading State - Show Skeletons
+              <>
+                {activeTab === "all" && !searchQuery
+                  ? // Category Skeletons
+                    Array.from({ length: 8 }).map((_, index) => (
+                      <SidebarCategoryCardSkeleton key={index} />
+                    ))
+                  : // Product Skeletons
+                    Array.from({ length: 6 }).map((_, index) => (
+                      <SidebarProductCardSkeleton key={index} />
+                    ))}
+              </>
+            ) : (
+              <>
+                {activeTab === "all" && !searchQuery ? (
+                  categories.length === 0 ? (
+                    <div className="col-span-2 py-12 text-center">
+                      <p className="text-white/60">No categories available</p>
+                    </div>
+                  ) : (
+                    categories.slice(0, 8).map((category) => (
+                      <button
+                        key={category._id}
+                        onClick={() =>
+                          handleCategoryClick(category._id, category.slug)
+                        }
+                        className="space-y-2 text-left transition-transform hover:scale-105"
+                      >
+                        <div className="relative w-full overflow-hidden rounded-lg h-28">
+                          <Image
+                            src={category.image}
+                            alt={category.name}
+                            fill
+                            className="object-cover transition-transform hover:scale-110"
+                          />
+                          <div className="absolute inset-0 bg-gradient-to-t from-black/60 to-transparent" />
+                          <div className="absolute bottom-0 left-0 right-0 p-2">
+                            <div className="text-xs font-bold text-white">
+                              {category.name}
+                            </div>
+                          </div>
+                        </div>
+                      </button>
+                    ))
+                  )
+                ) : filteredProducts.length === 0 ? (
+                  <div className="col-span-2 py-12 text-center">
+                    <p className="text-white/60">
+                      {searchQuery
+                        ? "No products found matching your search"
+                        : "No products in this category"}
+                    </p>
+                  </div>
+                ) : (
+                  filteredProducts.slice(0, 6).map((product) => (
+                    <button
+                      key={product._id}
+                      onClick={() => handleProductClick(product._id)}
+                      className="space-y-2 text-left transition-transform hover:scale-105"
+                    >
+                      <div className="relative w-full overflow-hidden rounded-lg h-28">
+                        <Image
+                          src={
+                            product.images[0] ||
+                            "https://res.cloudinary.com/dhydrnckd/image/upload/v1769857248/Placeholder_m6whpi.png"
+                          }
+                          alt={product.name}
+                          fill
+                          className="object-cover transition-transform hover:scale-110"
+                        />
+                        {product.stock === 0 && (
+                          <div className="absolute top-2 right-2 px-2 py-0.5 text-xs font-bold text-white bg-red-500 rounded">
+                            Out of Stock
+                          </div>
+                        )}
+                      </div>
+                      <div className="space-y-1">
+                        <div className="text-xs font-semibold text-white line-clamp-1">
+                          {product.name}
+                        </div>
+                        <div className="flex items-center justify-between">
+                          <div className="text-xs font-bold text-orange-400">
+                            ₹{product.price.toLocaleString()}
+                          </div>
+                          <div className="text-[10px] text-white/50">
+                            {product.category}
+                          </div>
                         </div>
                       </div>
-                    </div>
-                  </button>
-                ))
-              )
-            ) : filteredProducts.length === 0 ? (
-              <div className="col-span-2 py-12 text-center">
-                <p className="text-white/60">
-                  {searchQuery
-                    ? "No products found matching your search"
-                    : "No products in this category"}
-                </p>
-              </div>
-            ) : (
-              filteredProducts.slice(0, 6).map((product) => (
-                <button
-                  key={product._id}
-                  onClick={() => handleProductClick(product._id)}
-                  className="space-y-2 text-left transition-transform hover:scale-105"
-                >
-                  <div className="relative w-full overflow-hidden rounded-lg h-28">
-                    <Image
-                      src={
-                        product.images[0] ||
-                        "https://res.cloudinary.com/dhydrnckd/image/upload/v1769857248/Placeholder_m6whpi.png"
-                      }
-                      alt={product.name}
-                      fill
-                      className="object-cover transition-transform hover:scale-110"
-                    />
-                    {product.stock === 0 && (
-                      <div className="absolute top-2 right-2 px-2 py-0.5 text-xs font-bold text-white bg-red-500 rounded">
-                        Out of Stock
-                      </div>
-                    )}
-                  </div>
-                  <div className="space-y-1">
-                    <div className="text-xs font-semibold text-white line-clamp-1">
-                      {product.name}
-                    </div>
-                    <div className="flex items-center justify-between">
-                      <div className="text-xs font-bold text-orange-400">
-                        ₹{product.price.toLocaleString()}
-                      </div>
-                      <div className="text-[10px] text-white/50">
-                        {product.category}
-                      </div>
-                    </div>
-                  </div>
-                </button>
-              ))
+                    </button>
+                  ))
+                )}
+              </>
             )}
           </div>
         </Tabs>

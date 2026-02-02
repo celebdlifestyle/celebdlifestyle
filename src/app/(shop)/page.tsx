@@ -12,32 +12,13 @@ import { useProductStore } from "@/store/product.store";
 import { useRouter } from "next/navigation";
 import { ChevronRight } from "lucide-react";
 
-function SkeletonCard() {
-  return (
-    <div className="animate-pulse">
-      <div className="w-full h-64 lg:h-80 rounded-md bg-zinc-800" />
-      <div className="mt-3 mx-auto w-24 h-4 rounded-full bg-zinc-800" />
-    </div>
-  );
-}
-
-function ProductSkeletonRow() {
-  return (
-    <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-4 gap-3">
-      {Array.from({ length: 4 }).map((_, i) => (
-        <SkeletonCard key={i} />
-      ))}
-    </div>
-  );
-}
-
 export default function Homepage() {
   const router = useRouter();
   const { products, fetchProducts, loading } = useProductStore();
 
   useEffect(() => {
     fetchProducts();
-  }, []);
+  }, [fetchProducts]);
 
   const trendingProducts = products.filter((p) => p.istrending);
   const bestSellingProducts = products.filter((p) => p.isbestselling);
@@ -60,11 +41,7 @@ export default function Homepage() {
             <ChevronRight size={14} />
           </button>
         </div>
-        {loading ? (
-          <ProductSkeletonRow />
-        ) : (
-          <ProductCarousel products={trendingProducts} />
-        )}
+        <ProductCarousel products={trendingProducts} loading={loading} />
       </div>
 
       {/* SHADES OF CELEBD */}
@@ -89,11 +66,7 @@ export default function Homepage() {
         <h1 className="my-8 text-xl sm:text-2xl font-semibold tracking-wide">
           BEST SELLINGS
         </h1>
-        {loading ? (
-          <ProductSkeletonRow />
-        ) : (
-          <ProductCarousel products={bestSellingProducts} />
-        )}
+        <ProductCarousel products={bestSellingProducts} loading={loading} />
       </div>
 
       <Banner />

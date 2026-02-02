@@ -4,7 +4,6 @@ import { useEffect, useState } from "react";
 import { useParams, useRouter } from "next/navigation";
 import Image from "next/image";
 import { useProductStore } from "@/store/product.store";
-import { ArrowLeft } from "lucide-react";
 
 const OwnItForm = () => {
   const { fetchProducts, products } = useProductStore();

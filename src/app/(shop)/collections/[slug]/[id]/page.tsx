@@ -1,18 +1,27 @@
 "use client";
 
-import { useEffect, useMemo } from "react";
+import { useEffect, useMemo, useState } from "react";
 import { useParams, useRouter } from "next/navigation";
 import { useProductStore } from "@/store/product.store";
-import ProductCard from "@/components/shop/ProductCard"; // adjust path as needed
-import { Loader2, ArrowLeft, Package } from "lucide-react";
+import ProductCard from "@/components/shop/ProductCard";
+import { ProductCardSkeleton } from "@/components/shop/Skeletons";
+import { ArrowLeft, Package } from "lucide-react";
 
 export default function CollectionPage() {
   const { slug, id } = useParams<{ slug: string; id: string }>();
   const router = useRouter();
   const { products, loading, fetchProducts } = useProductStore();
+  const [minLoadingComplete, setMinLoadingComplete] = useState(false);
 
   useEffect(() => {
     fetchProducts();
+
+    // Minimum loading time of 500ms
+    const timer = setTimeout(() => {
+      setMinLoadingComplete(true);
+    }, 500);
+
+    return () => clearTimeout(timer);
   }, [fetchProducts]);
 
   // Filter products whose categoryId matches the [id] route param
@@ -27,18 +36,11 @@ export default function CollectionPage() {
     collectionProducts[0]?.category ||
     slug.charAt(0).toUpperCase() + slug.slice(1).replace(/-/g, " ");
 
-  // ── Loading ──────────────────────────────────────────────────────────────
-  if (loading) {
-    return (
-      <div className="min-h-screen bg-[#0f0f14] flex flex-col items-center justify-center gap-3">
-        <Loader2 className="w-10 h-10 text-orange-500 animate-spin" />
-        <p className="text-gray-400">Loading collection...</p>
-      </div>
-    );
-  }
+  // Show loading only if either API is loading OR minimum time hasn't passed
+  const isLoading = loading || !minLoadingComplete;
 
   // ── Empty state ──────────────────────────────────────────────────────────
-  if (collectionProducts.length === 0) {
+  if (!isLoading && collectionProducts.length === 0) {
     return (
       <div className="min-h-screen bg-[#0f0f14] flex flex-col items-center justify-center gap-4 px-4">
         <Package className="w-16 h-16 text-gray-600" />
@@ -100,11 +102,19 @@ export default function CollectionPage() {
 
       {/* Product Grid */}
       <div className="max-w-6xl mx-auto px-4 py-8">
-        <div className="grid grid-cols-2 md:grid-cols-4 gap-4 md:gap-5">
-          {collectionProducts.map((product) => (
-            <ProductCard key={product._id} product={product} />
-          ))}
-        </div>
+        {isLoading ? (
+          <div className="grid grid-cols-2 md:grid-cols-4 gap-4 md:gap-5">
+            {Array.from({ length: 8 }).map((_, index) => (
+              <ProductCardSkeleton key={index} />
+            ))}
+          </div>
+        ) : (
+          <div className="grid grid-cols-2 md:grid-cols-4 gap-4 md:gap-5">
+            {collectionProducts.map((product) => (
+              <ProductCard key={product._id} product={product} />
+            ))}
+          </div>
+        )}
       </div>
     </div>
   );

@@ -15,7 +15,7 @@ export default function Men() {
     // Minimum loading time of 2 seconds
     const timer = setTimeout(() => {
       setMinLoadingComplete(true);
-    }, 2000);
+    }, 500);
 
     return () => clearTimeout(timer);
   }, [fetchProducts]);
