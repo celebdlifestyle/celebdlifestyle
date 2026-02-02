@@ -34,7 +34,7 @@ export async function POST(req: NextRequest) {
       images,
       price,
       category,
-      categoryId,
+      categorySlug,
       gender,
       tags,
       stock,
@@ -42,7 +42,14 @@ export async function POST(req: NextRequest) {
       isbestselling,
     } = body;
 
-    if (!name || !price || !category || stock === undefined) {
+    if (
+      !name ||
+      !price ||
+      !brand ||
+      !category ||
+      !categorySlug ||
+      stock === undefined
+    ) {
       return NextResponse.json(
         { error: "Missing required fields" },
         { status: 400 },
@@ -77,7 +84,7 @@ export async function POST(req: NextRequest) {
       images: images || [],
       price: Number(price),
       category,
-      categoryId,
+      categorySlug,
       gender,
       istrending: Boolean(istrending),
       isbestselling: Boolean(isbestselling),

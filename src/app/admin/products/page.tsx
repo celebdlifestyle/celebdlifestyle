@@ -166,6 +166,7 @@ function AddEditPanel({ product, categories, onClose, onSaved }: any) {
     brand: product?.brand || "",
     price: product?.price?.toString() || "",
     category: product?.category || "",
+    categorySlug: product?.categorySlug || "",
     gender: product?.gender || "men",
     stock: product?.stock?.toString() || "",
     tags: product?.tags?.join(", ") || "",
@@ -189,6 +190,18 @@ function AddEditPanel({ product, categories, onClose, onSaved }: any) {
     setImages(images.filter((_, i) => i !== index));
   };
 
+  // Handle category change and auto-update categorySlug
+  const handleCategoryChange = (categoryName: string) => {
+    const selectedCategory = categories.find(
+      (cat: any) => cat.name === categoryName,
+    );
+    setForm({
+      ...form,
+      category: categoryName,
+      categorySlug: selectedCategory?.slug || "",
+    });
+  };
+
   async function submit(e: any) {
     e.preventDefault();
     setLoading(true);
@@ -199,6 +212,7 @@ function AddEditPanel({ product, categories, onClose, onSaved }: any) {
         description: form.description,
         brand: form.brand,
         category: form.category,
+        categorySlug: form.categorySlug,
         gender: form.gender,
         images: images,
         thumbnail: images[0] || "",
@@ -464,9 +478,7 @@ function AddEditPanel({ product, categories, onClose, onSaved }: any) {
                   required
                   className="w-full px-4 py-3 bg-white/5 border border-white/10 rounded-lg text-white appearance-none cursor-pointer focus:outline-none focus:border-orange-500 transition-all"
                   value={form.category}
-                  onChange={(e) =>
-                    setForm({ ...form, category: e.target.value })
-                  }
+                  onChange={(e) => handleCategoryChange(e.target.value)}
                 >
                   <option value="" disabled className="bg-[#0f0f14]">
                     Select
@@ -481,6 +493,12 @@ function AddEditPanel({ product, categories, onClose, onSaved }: any) {
                     </option>
                   ))}
                 </select>
+                {/* Hidden input for categorySlug */}
+                <input
+                  type="hidden"
+                  name="categorySlug"
+                  value={form.categorySlug}
+                />
               </div>
             </div>
 

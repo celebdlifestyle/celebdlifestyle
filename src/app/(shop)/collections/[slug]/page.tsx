@@ -8,7 +8,7 @@ import { ProductCardSkeleton } from "@/components/shop/Skeletons";
 import { ArrowLeft, Package } from "lucide-react";
 
 export default function CollectionPage() {
-  const { slug, id } = useParams<{ slug: string; id: string }>();
+  const { slug } = useParams<{ slug: string }>();
   const router = useRouter();
   const { products, loading, fetchProducts } = useProductStore();
   const [minLoadingComplete, setMinLoadingComplete] = useState(false);
@@ -26,8 +26,8 @@ export default function CollectionPage() {
 
   // Filter products whose categoryId matches the [id] route param
   const collectionProducts = useMemo(
-    () => products.filter((p) => p.categoryId === id),
-    [products, id],
+    () => products.filter((p) => p.categorySlug === slug),
+    [products, slug],
   );
 
   // Derive the display name from the first matched product's category field,

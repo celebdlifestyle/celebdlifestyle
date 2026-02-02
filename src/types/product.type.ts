@@ -8,7 +8,7 @@ export type Product = {
   images: string[];
   price: number;
   category: string;
-  categoryId: string | null;
+  categorySlug: string;
   gender: string;
   istrending: boolean;
   isbestselling: boolean;

@@ -109,11 +109,7 @@ export function CollectionsCarousel() {
           ) : (
             categories.slice(0, 6).map((collection) => (
               <CarouselItem
-                onClick={() =>
-                  router.push(
-                    `/collections/${collection.slug}/${collection._id}`,
-                  )
-                }
+                onClick={() => router.push(`/collections/${collection.slug}`)}
                 key={collection._id}
                 className="basis-1/2 lg:basis-1/4 cursor-pointer"
               >

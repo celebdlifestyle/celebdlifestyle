@@ -15,7 +15,7 @@ export default function CategoryCard({
   slug,
 }: CategoryCardProps) {
   return (
-    <Link href={`/collections/${slug}/${_id}`}>
+    <Link href={`/collections/${slug}`}>
       <div className="group relative bg-zinc-900 rounded-lg overflow-hidden border border-zinc-800 hover:border-orange-500/50 transition-all duration-300 transform hover:-translate-y-1 hover:shadow-lg hover:shadow-orange-500/10">
         {/* Image Container */}
         <div className="relative aspect-square overflow-hidden bg-zinc-800">
