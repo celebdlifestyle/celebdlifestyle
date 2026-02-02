@@ -79,12 +79,10 @@ export function CollectionsCarousel() {
 
   useEffect(() => {
     fetchCategories();
-
     // Minimum loading time of 1.2 seconds
     const timer = setTimeout(() => {
       setMinLoadingComplete(true);
     }, 100);
-
     return () => clearTimeout(timer);
   }, [fetchCategories]);
 
@@ -92,12 +90,15 @@ export function CollectionsCarousel() {
   const isLoading = loading || !minLoadingComplete;
 
   return (
-    <div className="relative">
-      <Carousel>
-        <CarouselContent>
+    <div className="relative w-full">
+      <Carousel opts={{ align: "start", loop: false }}>
+        <CarouselContent className="-ml-2 md:-ml-4">
           {isLoading ? (
             Array.from({ length: 4 }).map((_, i) => (
-              <CarouselItem key={i} className="basis-1/2 lg:basis-1/4">
+              <CarouselItem
+                key={i}
+                className="pl-2 md:pl-4 basis-1/2 md:basis-1/3 lg:basis-1/4"
+              >
                 <CategoryCardSkeleton />
               </CarouselItem>
             ))
@@ -107,34 +108,34 @@ export function CollectionsCarousel() {
             </div>
           ) : (
             categories.slice(0, 6).map((collection) => (
-              <Link href={`/collections/${collection.slug}`}>
-                <CarouselItem
-                  key={collection._id}
-                  className="basis-1/2 lg:basis-1/4 cursor-pointer"
-                >
-                  <div className="transition-all duration-300 ease-out hover:scale-[1.03] hover:shadow-xl hover:shadow-black/40 hover:-translate-y-1">
-                    <div className="w-full h-64 lg:h-80 overflow-hidden rounded-md">
+              <CarouselItem
+                key={collection._id}
+                className="pl-2 md:pl-4 basis-1/2 md:basis-1/3 lg:basis-1/4"
+              >
+                <Link href={`/collections/${collection.slug}`}>
+                  <div className="group cursor-pointer">
+                    <div className="relative w-full h-[280px] sm:h-[320px] md:h-[360px] lg:h-[400px] overflow-hidden rounded-md transition-all duration-300 ease-out group-hover:shadow-xl group-hover:shadow-black/40">
                       <Image
                         src={collection.image}
                         alt={collection.name}
-                        width={800}
-                        height={1000}
-                        className="w-full h-full object-cover transition-transform duration-300 hover:scale-105"
+                        fill
+                        sizes="(max-width: 768px) 50vw, (max-width: 1024px) 33vw, 25vw"
+                        className="object-cover transition-transform duration-300 group-hover:scale-105"
                       />
                     </div>
-                    <p className="w-full mt-2 text-sm font-semibold tracking-widest text-center md:text-lg">
+                    <p className="w-full mt-3 text-sm font-semibold tracking-widest text-center md:text-base lg:text-lg transition-transform duration-300 group-hover:-translate-y-0.5">
                       {collection.name}
                     </p>
                   </div>
-                </CarouselItem>
-              </Link>
+                </Link>
+              </CarouselItem>
             ))
           )}
         </CarouselContent>
         {!isLoading && categories.length > 0 && (
           <>
-            <CarouselPrevious className="left-0" />
-            <CarouselNext className="right-0" />
+            <CarouselPrevious className="left-2 -translate-x-0" />
+            <CarouselNext className="right-2 translate-x-0" />
           </>
         )}
       </Carousel>
