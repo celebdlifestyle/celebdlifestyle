@@ -261,10 +261,10 @@ const Product = () => {
                   {productData.stock === 0
                     ? "Out of stock"
                     : productData.stock <= 2
-                      ? `Hurry! Only ${productData.stock} left`
+                      ? `Hurry! Only ${productData.stock} Left`
                       : productData.stock <= 5
-                        ? "Selling fast — limited stock"
-                        : `${productData.stock} left in stock`}
+                        ? "Selling fast — Limited stock"
+                        : `${productData.stock} left in Stock`}
                 </span>
               </div>
             )}
@@ -308,11 +308,11 @@ const Product = () => {
       </div>
 
       {/* Featured Products Section */}
-      <div className="mt-16">
+      <div className="mt-10">
         <h2 className="mb-8 text-2xl font-bold text-center text-gray-100">
           Featured Products
         </h2>
-        <div className="grid grid-cols-1 gap-6 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5">
+        <div className="grid grid-cols-2 gap-6 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5">
           {products.slice(0, visibleProducts).map((product) => (
             <ProductCard key={product._id} product={product} />
           ))}
