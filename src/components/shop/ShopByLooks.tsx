@@ -3,7 +3,7 @@ import Link from "next/link";
 
 export default function ShopByLook() {
   return (
-    <div className="px-4 py-7 mx-auto max-w-7xl md:py-16">
+    <div className="px-4 py-10 mx-auto max-w-7xl md:py-16">
       <div className="grid grid-cols-1 gap-12 md:grid-cols-2 lg:gap-16">
         {/* First Look */}
         <div className="group">

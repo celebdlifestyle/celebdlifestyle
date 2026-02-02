@@ -5,7 +5,7 @@ import { SignUpButton, SignedIn, SignedOut } from "@clerk/nextjs";
 
 export default function CategoriesBanner() {
   return (
-    <div className="relative my-10 py-5">
+    <div className="relative my-10 py-6">
       <Image
         src={Banner}
         alt="banner"
@@ -29,7 +29,7 @@ export default function CategoriesBanner() {
 
 export function NewHereBanner() {
   return (
-    <div className="relative md:p-20  border-gray-200 ">
+    <div className="relative md:p-20 py-12 border-gray-800 ">
       <Image
         src="https://cdn.shopify.com/s/files/1/2185/2813/files/00_NewToAlo_Hero_Desktop_f9ccd18c-2759-4e46-a29f-dbdf833522e9_2000x2000.jpg?v=1746056193"
         alt="banner-image"
