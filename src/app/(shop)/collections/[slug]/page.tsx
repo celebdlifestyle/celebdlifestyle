@@ -1,15 +1,15 @@
 "use client";
 
 import { useEffect, useMemo, useState } from "react";
-import { useParams, useRouter } from "next/navigation";
+import { useParams } from "next/navigation";
 import { useProductStore } from "@/store/product.store";
 import ProductCard from "@/components/shop/ProductCard";
 import { ProductCardSkeleton } from "@/components/shop/Skeletons";
 import { ArrowLeft, Package } from "lucide-react";
+import Link from "next/link";
 
 export default function CollectionPage() {
   const { slug } = useParams<{ slug: string }>();
-  const router = useRouter();
   const { products, loading, fetchProducts } = useProductStore();
   const [minLoadingComplete, setMinLoadingComplete] = useState(false);
 
@@ -24,7 +24,7 @@ export default function CollectionPage() {
     return () => clearTimeout(timer);
   }, [fetchProducts]);
 
-  // Filter products whose categoryId matches the [id] route param
+  // Filter products whose categorySlug matches the [id] route param
   const collectionProducts = useMemo(
     () => products.filter((p) => p.categorySlug === slug),
     [products, slug],
@@ -51,13 +51,13 @@ export default function CollectionPage() {
           This collection doesn't have any products yet. Check back soon or
           browse other collections.
         </p>
-        <button
-          onClick={() => router.push("/collections")}
+        <Link
+          href={"/collections"}
           className="mt-2 flex items-center gap-2 px-5 py-2.5 text-sm text-white bg-orange-500 rounded-xl hover:bg-orange-600 transition-all"
         >
           <ArrowLeft size={16} />
           Back to Collections
-        </button>
+        </Link>
       </div>
     );
   }
@@ -84,13 +84,13 @@ export default function CollectionPage() {
         {/* Content */}
         <div className="relative z-10 max-w-6xl mx-auto px-4 py-10">
           {/* Back link */}
-          <button
-            onClick={() => router.push("/collections")}
+          <Link
+            href={"/collections"}
             className="flex items-center gap-1.5 text-sm text-gray-500 hover:text-orange-400 transition-colors mb-6"
           >
             <ArrowLeft size={15} />
             Collections
-          </button>
+          </Link>
 
           <h1 className="text-4xl font-bold text-white">{categoryName}</h1>
           <p className="mt-1.5 text-gray-400 text-sm">

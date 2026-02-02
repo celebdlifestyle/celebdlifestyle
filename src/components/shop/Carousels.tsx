@@ -7,6 +7,7 @@ import {
   CarouselNext,
 } from "@/components/ui/carousel";
 import Image from "next/image";
+import Link from "next/link";
 import ProductCard from "./ProductCard";
 import { ProductProps } from "@/types/product.type";
 import { CategoryCardSkeleton, ProductCardSkeleton } from "./Skeletons";
@@ -18,7 +19,6 @@ import Slider4 from "@/assets/images/slider-4.jpg";
 
 import { useEffect, useState } from "react";
 import { useCategoryStore } from "@/store/categories.store";
-import { useRouter } from "next/navigation";
 
 export const Sliders = [
   {
@@ -74,7 +74,6 @@ export function ImageCarousel() {
 }
 
 export function CollectionsCarousel() {
-  const router = useRouter();
   const { categories, fetchCategories, loading } = useCategoryStore();
   const [minLoadingComplete, setMinLoadingComplete] = useState(false);
 
@@ -108,26 +107,27 @@ export function CollectionsCarousel() {
             </div>
           ) : (
             categories.slice(0, 6).map((collection) => (
-              <CarouselItem
-                onClick={() => router.push(`/collections/${collection.slug}`)}
-                key={collection._id}
-                className="basis-1/2 lg:basis-1/4 cursor-pointer"
-              >
-                <div className="transition-all duration-300 ease-out hover:scale-[1.03] hover:shadow-xl hover:shadow-black/40 hover:-translate-y-1">
-                  <div className="w-full h-64 lg:h-80 overflow-hidden rounded-md">
-                    <Image
-                      src={collection.image}
-                      alt={collection.name}
-                      width={800}
-                      height={1000}
-                      className="w-full h-full object-cover transition-transform duration-300 hover:scale-105"
-                    />
+              <Link href={`/collections/${collection.slug}`}>
+                <CarouselItem
+                  key={collection._id}
+                  className="basis-1/2 lg:basis-1/4 cursor-pointer"
+                >
+                  <div className="transition-all duration-300 ease-out hover:scale-[1.03] hover:shadow-xl hover:shadow-black/40 hover:-translate-y-1">
+                    <div className="w-full h-64 lg:h-80 overflow-hidden rounded-md">
+                      <Image
+                        src={collection.image}
+                        alt={collection.name}
+                        width={800}
+                        height={1000}
+                        className="w-full h-full object-cover transition-transform duration-300 hover:scale-105"
+                      />
+                    </div>
+                    <p className="w-full mt-2 text-sm font-semibold tracking-widest text-center md:text-lg">
+                      {collection.name}
+                    </p>
                   </div>
-                  <p className="w-full mt-2 text-sm font-semibold tracking-widest text-center md:text-lg">
-                    {collection.name}
-                  </p>
-                </div>
-              </CarouselItem>
+                </CarouselItem>
+              </Link>
             ))
           )}
         </CarouselContent>

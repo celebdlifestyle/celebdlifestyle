@@ -5,7 +5,7 @@ import ProductCard from "@/components/shop/ProductCard";
 import { useParams } from "next/navigation";
 import Image from "next/image";
 import { useProductStore } from "@/store/product.store";
-import { useRouter } from "next/navigation";
+import Link from "next/link";
 
 // Skeleton Loader Component
 const ProductSkeleton = () => {
@@ -101,7 +101,6 @@ const ProductSkeleton = () => {
 
 const Product = () => {
   const { products, fetchProducts } = useProductStore();
-  const router = useRouter();
   const [isLoading, setIsLoading] = useState(true);
 
   useEffect(() => {
@@ -296,18 +295,14 @@ const Product = () => {
             </div>
           )}
 
-          <div
-            onClick={() =>
-              router.push(
-                `/products/${productData.category.toLocaleLowerCase()}/${productData.slug}/ownit`,
-              )
-            }
+          <Link
+            href={`/products/${productData.category.toLocaleLowerCase()}/${productData.slug}/ownit`}
             className="h-14 w-full bg-orange-500 mt-10 rounded-xl cursor-pointer"
           >
             <div className="flex items-center justify-center w-full h-full text-lg font-bold text-white transition-all duration-200 hover:bg-orange-600">
               OWN IT
             </div>
-          </div>
+          </Link>
         </div>
       </div>
 

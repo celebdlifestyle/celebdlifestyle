@@ -7,7 +7,6 @@ import { Search } from "lucide-react";
 import { Tabs, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { useProductStore } from "@/store/product.store";
 import { useCategoryStore } from "@/store/categories.store";
-import { useRouter } from "next/navigation";
 import { useUser, SignedIn, SignedOut, SignInButton } from "@clerk/nextjs";
 import type { Product } from "@/types/product.type";
 import {
@@ -15,6 +14,7 @@ import {
   SidebarProductCardSkeleton,
 } from "./Skeletons";
 import { motion, AnimatePresence } from "framer-motion";
+import Link from "next/link";
 
 type MenuProps = {
   showMenu: boolean;
@@ -22,7 +22,6 @@ type MenuProps = {
 };
 
 export default function Sidebar({ showMenu, setShowMenu }: MenuProps) {
-  const router = useRouter();
   const { user } = useUser();
   const isAdmin = user?.publicMetadata?.role === "admin";
   const {
@@ -89,16 +88,6 @@ export default function Sidebar({ showMenu, setShowMenu }: MenuProps) {
   const uniqueCategories = Array.from(
     new Set(products.map((p) => p.category)),
   ).filter(Boolean);
-
-  const handleCategoryClick = (categoryId: string, slug: string) => {
-    router.push(`/collections/${slug}/${categoryId}`);
-    setShowMenu(false);
-  };
-
-  const handleProductClick = (productId: number) => {
-    router.push(`/products/${productId.toString()}`);
-    setShowMenu(false);
-  };
 
   // Show loading if either data is loading OR minimum time hasn't passed
   const isLoading = productsLoading || categoriesLoading || !minLoadingComplete;
@@ -176,9 +165,9 @@ export default function Sidebar({ showMenu, setShowMenu }: MenuProps) {
             </div>
 
             {isAdmin && (
-              <button
+              <Link
+                href={"/admin"}
                 onClick={() => {
-                  router.push("/admin");
                   setShowMenu(false);
                 }}
                 className="flex items-center justify-center gap-2 px-6 w-full h-14 rounded-md bg-zinc-900 text-white text-lg font-bold tracking-wide transition-all hover:bg-zinc-700 active:bg-zinc-600 cursor-pointer"
@@ -191,7 +180,7 @@ export default function Sidebar({ showMenu, setShowMenu }: MenuProps) {
                   size={14}
                   className="opacity-0 group-hover:opacity-100 transition-opacity"
                 />
-              </button>
+              </Link>
             )}
 
             {/* Search */}
@@ -281,11 +270,9 @@ export default function Sidebar({ showMenu, setShowMenu }: MenuProps) {
                         </div>
                       ) : (
                         categories.slice(0, 8).map((category) => (
-                          <button
+                          <Link
+                            href={`/collections/${category.slug}`}
                             key={category._id}
-                            onClick={() =>
-                              handleCategoryClick(category._id, category.slug)
-                            }
                             className="space-y-2 text-left transition-transform hover:scale-105"
                           >
                             <div className="relative w-full overflow-hidden rounded-lg h-28">
@@ -302,7 +289,7 @@ export default function Sidebar({ showMenu, setShowMenu }: MenuProps) {
                                 </div>
                               </div>
                             </div>
-                          </button>
+                          </Link>
                         ))
                       )
                     ) : filteredProducts.length === 0 ? (
@@ -317,7 +304,6 @@ export default function Sidebar({ showMenu, setShowMenu }: MenuProps) {
                       filteredProducts.slice(0, 6).map((product) => (
                         <button
                           key={product._id}
-                          onClick={() => handleProductClick(product._id)}
                           className="space-y-2 text-left transition-transform hover:scale-105"
                         >
                           <div className="relative w-full overflow-hidden rounded-lg h-28">
@@ -359,27 +345,27 @@ export default function Sidebar({ showMenu, setShowMenu }: MenuProps) {
 
             {/* Bottom Links */}
             <div className="pt-4 mt-2 border-t border-white/10 space-y-1">
-              <button
+              <Link
+                href={"/collections"}
                 onClick={() => {
-                  router.push("/collections");
                   setShowMenu(false);
                 }}
                 className="flex items-center justify-center gap-2 px-6 w-full h-10 rounded-md bg-zinc-900 text-white text-md font-semibold tracking-wide transition-all hover:bg-zinc-700 active:bg-zinc-600 cursor-pointer"
               >
                 <span>All Collections</span>
                 <ChevronRight size={14} />
-              </button>
+              </Link>
 
-              <button
+              <Link
+                href={"/products"}
                 onClick={() => {
-                  router.push("/products");
                   setShowMenu(false);
                 }}
                 className="flex items-center justify-center gap-2 px-6 w-full h-10 rounded-md bg-zinc-900 text-white text-md font-semibold tracking-wide transition-all hover:bg-zinc-700 active:bg-zinc-600 cursor-pointer"
               >
                 <span>All Products</span>
                 <ChevronRight size={14} />
-              </button>
+              </Link>
             </div>
           </motion.div>
         </>

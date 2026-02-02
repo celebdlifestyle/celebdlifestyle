@@ -1,8 +1,7 @@
-import { useRouter } from "next/navigation";
 import Image from "next/image";
+import Link from "next/link";
 
 export default function ShopByLook() {
-  const router = useRouter();
   return (
     <div className="grid items-center justify-center h-full gap-10 my-10 md:gap-5 md:flex ">
       <div className="md:w-[35rem]">
@@ -20,8 +19,8 @@ export default function ShopByLook() {
           </h3>
         </div>
 
-        <div
-          onClick={() => router.push("#")}
+        <Link
+          href={"#"}
           className="block md:ml-28 px-2 text-right md:w-[28rem] bg-black text-white cursor-pointer"
         >
           <p className="text-2xl md:text-3xl hover:underline curso-pointer">
@@ -31,7 +30,7 @@ export default function ShopByLook() {
           <p className="mt-4 text-sm font-semibold underline ">
             Shop Travel at CELEBD
           </p>
-        </div>
+        </Link>
       </div>
 
       <div className="md:w-[35rem]">
@@ -48,8 +47,8 @@ export default function ShopByLook() {
           </h3>
         </div>
 
-        <div
-          onClick={() => router.push("#")}
+        <Link
+          href={"#"}
           className="block md:ml-28 px-2 text-right md:w-[28rem] cursor-pointer bg-black text-white"
         >
           <p className="text-2xl md:text-3xl hover:underline curso-pointer">
@@ -59,7 +58,7 @@ export default function ShopByLook() {
           <p className="mt-4 text-sm font-semibold underline ">
             Shop Summer at CELEBD
           </p>
-        </div>
+        </Link>
       </div>
     </div>
   );

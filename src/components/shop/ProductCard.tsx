@@ -1,21 +1,16 @@
-import { useRouter } from "next/navigation";
 import { useState } from "react";
 import { Product } from "@/types/product.type";
 import Image from "next/image";
+import Link from "next/link";
 
 export default function ProductCard({ product }: { product: Product }) {
   const [isHovered, setIsHovered] = useState(false);
-  const router = useRouter();
 
   const image = isHovered ? product.images[1] : product.images[0];
 
   return (
-    <div
-      onClick={() =>
-        router.push(
-          `/products/${product.category.toLocaleLowerCase()}/${product.slug}`,
-        )
-      }
+    <Link
+      href={`/products/${product.category.toLocaleLowerCase()}/${product.slug}`}
       className="cursor-pointer basis-2/5 md:basis-1/5 rounded-md"
       onMouseEnter={() => setIsHovered(true)}
       onMouseLeave={() => setIsHovered(false)}
@@ -41,6 +36,6 @@ export default function ProductCard({ product }: { product: Product }) {
         <p className="hover:underline">{product.name}</p>
         <p>₹{product.price}</p>
       </div>
-    </div>
+    </Link>
   );
 }

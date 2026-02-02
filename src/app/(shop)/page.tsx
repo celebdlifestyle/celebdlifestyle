@@ -9,11 +9,10 @@ import ShopByLooks from "@/components/shop/ShopByLooks";
 import { NewHereBanner } from "@/components/shop/Banner";
 import { useEffect } from "react";
 import { useProductStore } from "@/store/product.store";
-import { useRouter } from "next/navigation";
 import { ChevronRight } from "lucide-react";
+import Link from "next/link";
 
 export default function Homepage() {
-  const router = useRouter();
   const { products, fetchProducts, loading } = useProductStore();
 
   useEffect(() => {
@@ -33,13 +32,13 @@ export default function Homepage() {
           <h1 className="text-lg sm:text-lg font-semibold tracking-widest">
             TRENDING
           </h1>
-          <button
-            onClick={() => router.push("/products")}
+          <Link
+            href={"/products"}
             className="flex items-center gap-1 px-3 py-1.5 text-xs sm:text-sm font-medium tracking-wide bg-zinc-900 hover:bg-zinc-800 rounded-md transition-colors whitespace-nowrap"
           >
             <span>SHOW MORE</span>
             <ChevronRight size={14} />
-          </button>
+          </Link>
         </div>
         <ProductCarousel products={trendingProducts} loading={loading} />
       </div>
@@ -50,13 +49,13 @@ export default function Homepage() {
           <h1 className="text-lg sm:text-lg font-semibold tracking-widest">
             SHADES OF CELEBD
           </h1>
-          <button
-            onClick={() => router.push("/collections")}
+          <Link
+            href={"/collections"}
             className="flex items-center gap-1 px-3 py-1.5 text-xs sm:text-sm font-medium tracking-wide bg-zinc-900 hover:bg-zinc-800 rounded-md transition-colors whitespace-nowrap"
           >
             <span>SHOW MORE</span>
             <ChevronRight size={14} />
-          </button>
+          </Link>
         </div>
         <CollectionsCarousel />
       </div>

@@ -1,13 +1,13 @@
 "use client";
 
 import { useEffect, useState } from "react";
-import { useParams, useRouter } from "next/navigation";
+import { useParams } from "next/navigation";
 import Image from "next/image";
 import { useProductStore } from "@/store/product.store";
+import Link from "next/link";
 
 const OwnItForm = () => {
   const { fetchProducts, products } = useProductStore();
-  const router = useRouter();
   const params = useParams();
   const { slug } = params;
 
@@ -66,12 +66,8 @@ const OwnItForm = () => {
       {/* Main Content */}
       <div className="max-w-[1400px] mx-auto grid grid-cols-1 lg:grid-cols-2 gap-8 lg:gap-12">
         {/* Left: Product Preview (Desktop Only) */}
-        <div
-          onClick={() =>
-            router.push(
-              `/products/${productData.category.toLocaleLowerCase()}/${productData.slug}`,
-            )
-          }
+        <Link
+          href={`/products/${productData.category.toLocaleLowerCase()}/${productData.slug}`}
           className="hidden lg:flex flex-col justify-between h-full p-8 transition-all duration-200 bg-gray-900 border border-gray-800 cursor-pointer rounded-2xl hover:border-orange-500 hover:shadow-lg hover:shadow-orange-500/10"
         >
           <div>
@@ -136,7 +132,7 @@ const OwnItForm = () => {
           <div className="flex items-center justify-center gap-2 pt-6 mt-6 text-sm text-gray-500 border-t border-gray-800">
             <span>Click to view full details</span>
           </div>
-        </div>
+        </Link>
 
         {/* Right: Form */}
         <div className="h-full">
@@ -145,12 +141,8 @@ const OwnItForm = () => {
             className="flex flex-col justify-between h-full p-6 bg-gray-900 border border-gray-800 shadow-xl sm:p-8 rounded-2xl"
           >
             {/* Mobile Product Preview */}
-            <div
-              onClick={() =>
-                router.push(
-                  `/products/${productData.category.toLocaleLowerCase()}/${productData.slug}`,
-                )
-              }
+            <Link
+              href={`/products/${productData.category.toLocaleLowerCase()}/${productData.slug}`}
               className="flex items-center gap-4 p-4 mb-6 transition-all duration-200 bg-gray-800 cursor-pointer lg:hidden rounded-xl hover:bg-gray-700"
             >
               <div className="relative flex-shrink-0 w-20 h-20 overflow-hidden bg-gray-900 rounded-lg sm:w-24 sm:h-24">
@@ -173,7 +165,7 @@ const OwnItForm = () => {
                   ID: {productData._id}
                 </p>
               </div>
-            </div>
+            </Link>
 
             {/* Form Fields */}
             <div className="flex-1 space-y-5">
