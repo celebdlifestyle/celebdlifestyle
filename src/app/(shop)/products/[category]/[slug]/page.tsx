@@ -299,7 +299,7 @@ const Product = () => {
           <div
             onClick={() =>
               router.push(
-                `/products/${productData.category}/${productData.slug}/ownit`,
+                `/products/${productData.category.toLocaleLowerCase()}/${productData.slug}/ownit`,
               )
             }
             className="h-14 w-full bg-orange-500 mt-10 rounded-xl cursor-pointer"

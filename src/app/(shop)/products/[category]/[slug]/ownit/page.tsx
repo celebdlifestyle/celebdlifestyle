@@ -69,7 +69,9 @@ const OwnItForm = () => {
         {/* Left: Product Preview (Desktop Only) */}
         <div
           onClick={() =>
-            router.push(`/products/${productData.category}/${productData.slug}`)
+            router.push(
+              `/products/${productData.category.toLocaleLowerCase()}/${productData.slug}`,
+            )
           }
           className="hidden lg:flex flex-col justify-between h-full p-8 transition-all duration-200 bg-gray-900 border border-gray-800 cursor-pointer rounded-2xl hover:border-orange-500 hover:shadow-lg hover:shadow-orange-500/10"
         >
@@ -147,7 +149,7 @@ const OwnItForm = () => {
             <div
               onClick={() =>
                 router.push(
-                  `/products/${productData.category}/${productData.slug}`,
+                  `/products/${productData.category.toLocaleLowerCase()}/${productData.slug}`,
                 )
               }
               className="flex items-center gap-4 p-4 mb-6 transition-all duration-200 bg-gray-800 cursor-pointer lg:hidden rounded-xl hover:bg-gray-700"
