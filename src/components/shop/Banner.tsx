@@ -5,18 +5,20 @@ import { SignUpButton, SignedIn, SignedOut } from "@clerk/nextjs";
 
 export default function CategoriesBanner() {
   return (
-    <div className="relative my-10 py-8 ">
-      <Image src={Banner} alt="banner" className="object-cover w-full h-96" />
-
-      <div className="absolute bottom-5 md:bottom-20 grid md:flex gap-2 items-center justify-center md:left-[35%] left-[30%]">
+    <div className="relative my-10 py-5">
+      <Image
+        src={Banner}
+        alt="banner"
+        className="object-cover w-full h-full md:h-96"
+      />
+      <div className="absolute bottom-10 md:bottom-20 left-1/2 -translate-x-1/2 flex flex-col md:flex-row gap-2 items-center justify-center w-full px-4">
         <Link href={"/collections/women"}>
-          <h1 className="px-6 py-2 font-bold text-black bg-white cursor-pointer text-nowrap md:px-10 md:py-3">
+          <h1 className="px-6 py-2 font-bold text-black bg-white cursor-pointer text-nowrap md:px-10 md:py-3 hover:bg-gray-100 transition-colors">
             SHOP WOMEN
           </h1>
         </Link>
-
         <Link href={"/collections/men"}>
-          <h1 className="px-6 py-2 font-bold text-black bg-white cursor-pointer text-nowrap md:px-10 md:py-3">
+          <h1 className="px-6 py-2 font-bold text-black bg-white cursor-pointer text-nowrap md:px-10 md:py-3 hover:bg-gray-100 transition-colors">
             SHOP MEN
           </h1>
         </Link>
