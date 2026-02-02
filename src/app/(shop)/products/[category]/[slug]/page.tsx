@@ -28,6 +28,28 @@ const Product = () => {
 
   const productData = products.find((p) => p.slug.toString() === slug);
 
+  type PlateType =
+    | "CELEBD BLACK PLATE"
+    | "CELEBD GOLD PLATE"
+    | "CELEBD SILVER PLATE"
+    | "CELEBD WHITE PLATE"
+    | null;
+
+  function getPlateType(product: {
+    isCelebdBlackPlated?: boolean;
+    isCelebdGoldPlated?: boolean;
+    isCelebdSilverPlated?: boolean;
+    isCelebdWhitePlated?: boolean;
+  }): PlateType {
+    if (product.isCelebdGoldPlated) return "CELEBD GOLD PLATE";
+    if (product.isCelebdSilverPlated) return "CELEBD SILVER PLATE";
+    if (product.isCelebdBlackPlated) return "CELEBD BLACK PLATE";
+    if (product.isCelebdWhitePlated) return "CELEBD WHITE PLATE";
+
+    return null;
+  }
+  const plateType = productData ? getPlateType(productData) : null;
+
   // Set initial main image when product loads
   useEffect(() => {
     if (productData?.images?.[0]) {
@@ -113,6 +135,45 @@ const Product = () => {
             {productData.name}
           </h1>
 
+          {/* Status Tags */}
+          <div className="flex flex-wrap items-center gap-3">
+            {productData.isTrending && (
+              <span className="px-3 py-1 text-xs font-semibold tracking-wide text-purple-300 uppercase bg-purple-900/50 rounded-full border border-purple-700/50">
+                Trending
+              </span>
+            )}
+
+            {productData.isBestSelling && (
+              <span className="px-3 py-1 text-xs font-semibold tracking-wide text-green-300 uppercase bg-green-900/50 rounded-full border border-green-700/50">
+                Best Selling
+              </span>
+            )}
+
+            {productData.isCelebdBlackPlated && (
+              <span className="px-3 py-1 text-xs font-semibold tracking-wide text-gray-300 uppercase bg-gray-900/80 rounded-full border border-gray-700">
+                Celebd Black Plated
+              </span>
+            )}
+
+            {productData.isCelebdGoldPlated && (
+              <span className="px-3 py-1 text-xs font-semibold tracking-wide text-yellow-300 uppercase bg-yellow-900/50 rounded-full border border-yellow-700/50">
+                Celebd Gold Plated
+              </span>
+            )}
+
+            {productData.isCelebdWhitePlated && (
+              <span className="px-3 py-1 text-xs font-semibold tracking-wide text-gray-800 uppercase bg-gray-100 rounded-full border border-gray-600">
+                Celebd White Plated
+              </span>
+            )}
+
+            {productData.isCelebdSilverPlated && (
+              <span className="px-3 py-1 text-xs font-semibold tracking-wide text-gray-200 uppercase bg-slate-800/80 rounded-full border border-slate-600">
+                Celebd Silver Plated
+              </span>
+            )}
+          </div>
+
           {/* Price */}
           <p className="text-3xl font-bold text-orange-400">
             ₹{productData.price.toLocaleString()}
@@ -140,7 +201,7 @@ const Product = () => {
               <div className="flex items-center justify-between">
                 <span className="text-gray-400">Brand</span>
                 <span className="font-medium text-gray-200">
-                  {productData.brand}
+                  {productData.brand.toUpperCase()}
                 </span>
               </div>
             )}
@@ -151,6 +212,13 @@ const Product = () => {
                 <span className="font-medium text-gray-200">
                   {productData.category}
                 </span>
+              </div>
+            )}
+
+            {plateType && (
+              <div className="flex items-center justify-between">
+                <span className="text-gray-400">Plate Type</span>
+                <span className="font-medium text-gray-200">{plateType}</span>
               </div>
             )}
 

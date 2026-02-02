@@ -171,8 +171,10 @@ export function ProductCarousel({
               </CarouselItem>
             ))
           ) : products.length === 0 ? (
-            <div className="w-full py-12 text-center">
-              <p className="text-gray-500">No products available yet.</p>
+            <div className="w-full h-72 py-12 text-center flex items-center justify-center">
+              <p className="text-gray-500 text-xl font-semibold">
+                No products available yet.
+              </p>
             </div>
           ) : (
             products.map((product) => (

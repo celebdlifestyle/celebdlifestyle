@@ -5,8 +5,9 @@ import { SignUpButton, SignedIn, SignedOut } from "@clerk/nextjs";
 
 export default function CategoriesBanner() {
   return (
-    <div className="relative my-5">
+    <div className="relative my-10 py-8 ">
       <Image src={Banner} alt="banner" className="object-cover w-full h-96" />
+
       <div className="absolute bottom-5 md:bottom-20 grid md:flex gap-2 items-center justify-center md:left-[35%] left-[30%]">
         <Link href={"/collections/women"}>
           <h1 className="px-6 py-2 font-bold text-black bg-white cursor-pointer text-nowrap md:px-10 md:py-3">
@@ -26,7 +27,7 @@ export default function CategoriesBanner() {
 
 export function NewHereBanner() {
   return (
-    <div className="relative md:p-20">
+    <div className="relative md:p-20  border-gray-200 ">
       <Image
         src="https://cdn.shopify.com/s/files/1/2185/2813/files/00_NewToAlo_Hero_Desktop_f9ccd18c-2759-4e46-a29f-dbdf833522e9_2000x2000.jpg?v=1746056193"
         alt="banner-image"
@@ -49,7 +50,10 @@ export function NewHereBanner() {
 
         <SignedOut>
           <SignUpButton>
-            <div className="px-6 py-2 mt-1 font-bold text-center text-black bg-white cursor-pointer md:mt-16 text-nowrap md:px-10 md:py-3">
+            <div
+              className="px-6 py-2 mt-1 font-bold text-center text-black bg-white cursor-pointer md:mt-16 text-nowrap md:px-10 md:py-3
+                            shadow-md hover:shadow-lg transition-all"
+            >
               START HERE
             </div>
           </SignUpButton>

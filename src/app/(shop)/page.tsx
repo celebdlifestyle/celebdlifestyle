@@ -19,21 +19,32 @@ export default function Homepage() {
     fetchProducts();
   }, [fetchProducts]);
 
-  const trendingProducts = products.filter((p) => p.istrending);
-  const bestSellingProducts = products.filter((p) => p.isbestselling);
+  const trendingProducts = products.filter((p) => p.isTrending);
+  const bestSellingProducts = products.filter((p) => p.isBestSelling);
+  const celebdGoldPlatedProducts = products.filter((p) => p.isCelebdGoldPlated);
+  const celebdSilverPlatedProducts = products.filter(
+    (p) => p.isCelebdSilverPlated,
+  );
+  const celebdWhitePlatedProducts = products.filter(
+    (p) => p.isCelebdWhitePlated,
+  );
+  const celebdBlackPlatedProducts = products.filter(
+    (p) => p.isCelebdBlackPlated,
+  );
 
   return (
     <div className="min-h-screen pb-5">
       <ImageCarousel />
 
       {/* TRENDING */}
+
       <div className="mx-3">
         <div className="my-8 flex items-center justify-between gap-3">
           <h1 className="text-lg sm:text-lg font-semibold tracking-widest">
             TRENDING
           </h1>
           <Link
-            href={"/products"}
+            href={"/products/trending"}
             className="flex items-center gap-1 px-3 py-1.5 text-xs sm:text-sm font-medium tracking-wide bg-zinc-900 hover:bg-zinc-800 rounded-md transition-colors whitespace-nowrap"
           >
             <span>SHOW MORE</span>
@@ -43,7 +54,8 @@ export default function Homepage() {
         <ProductCarousel products={trendingProducts} loading={loading} />
       </div>
 
-      {/* SHADES OF CELEBD */}
+      {/* SHADES OF CELEBD - Categories*/}
+
       <div className="mx-3">
         <div className="my-8 flex items-center justify-between gap-3">
           <h1 className="text-lg sm:text-lg font-semibold tracking-widest">
@@ -61,15 +73,114 @@ export default function Homepage() {
       </div>
 
       {/* BEST SELLINGS */}
+
       <div className="mx-3">
-        <h1 className="my-8 text-xl sm:text-2xl font-semibold tracking-wide">
-          BEST SELLINGS
-        </h1>
+        <div className="my-8 flex items-center justify-between gap-3">
+          <h1 className="text-lg sm:text-lg font-semibold tracking-widest">
+            BEST SELLINGS
+          </h1>
+          <Link
+            href={"/products/bestsellings"}
+            className="flex items-center gap-1 px-3 py-1.5 text-xs sm:text-sm font-medium tracking-wide bg-zinc-900 hover:bg-zinc-800 rounded-md transition-colors whitespace-nowrap"
+          >
+            <span>SHOW MORE</span>
+            <ChevronRight size={14} />
+          </Link>
+        </div>
         <ProductCarousel products={bestSellingProducts} loading={loading} />
       </div>
 
+      {/* Banner */}
+
       <Banner />
+
+      {/* Black Plated */}
+
+      <div className="mx-3">
+        <div className="my-8 flex items-center justify-between gap-3">
+          <h1 className="text-lg sm:text-lg font-semibold tracking-widest">
+            CELEBD BLACK PLATED
+          </h1>
+          <Link
+            href={"/products/celebd-black-plated"}
+            className="flex items-center gap-1 px-3 py-1.5 text-xs sm:text-sm font-medium tracking-wide bg-zinc-900 hover:bg-zinc-800 rounded-md transition-colors whitespace-nowrap"
+          >
+            <span>SHOW MORE</span>
+            <ChevronRight size={14} />
+          </Link>
+        </div>
+        <ProductCarousel
+          products={celebdBlackPlatedProducts}
+          loading={loading}
+        />
+      </div>
+
+      {/* Gold Plated */}
+
+      <div className="mx-3">
+        <div className="my-8 flex items-center justify-between gap-3">
+          <h1 className="text-lg sm:text-lg font-semibold tracking-widest">
+            CELEBD GOLD PLATED
+          </h1>
+          <Link
+            href={"/products/celebd-gold-plated"}
+            className="flex items-center gap-1 px-3 py-1.5 text-xs sm:text-sm font-medium tracking-wide bg-zinc-900 hover:bg-zinc-800 rounded-md transition-colors whitespace-nowrap"
+          >
+            <span>SHOW MORE</span>
+            <ChevronRight size={14} />
+          </Link>
+        </div>
+        <ProductCarousel
+          products={celebdGoldPlatedProducts}
+          loading={loading}
+        />
+      </div>
+
+      {/* Shop by look - links not working */}
+
       <ShopByLooks />
+
+      {/* WHITE Plated */}
+
+      <div className="mx-3">
+        <div className="my-8 flex items-center justify-between gap-3">
+          <h1 className="text-lg sm:text-lg font-semibold tracking-widest">
+            CELEBD WHITE PLATED
+          </h1>
+          <Link
+            href={"/products/celebd-white-plated"}
+            className="flex items-center gap-1 px-3 py-1.5 text-xs sm:text-sm font-medium tracking-wide bg-zinc-900 hover:bg-zinc-800 rounded-md transition-colors whitespace-nowrap"
+          >
+            <span>SHOW MORE</span>
+            <ChevronRight size={14} />
+          </Link>
+        </div>
+        <ProductCarousel
+          products={celebdWhitePlatedProducts}
+          loading={loading}
+        />
+      </div>
+
+      {/* SILVER Plated */}
+
+      <div className="mx-3">
+        <div className="my-8 flex items-center justify-between gap-3">
+          <h1 className="text-lg sm:text-lg font-semibold tracking-widest">
+            CELEBD SILVER PLATED
+          </h1>
+          <Link
+            href={"/products/celebd-silver-plated"}
+            className="flex items-center gap-1 px-3 py-1.5 text-xs sm:text-sm font-medium tracking-wide bg-zinc-900 hover:bg-zinc-800 rounded-md transition-colors whitespace-nowrap"
+          >
+            <span>SHOW MORE</span>
+            <ChevronRight size={14} />
+          </Link>
+        </div>
+        <ProductCarousel
+          products={celebdSilverPlatedProducts}
+          loading={loading}
+        />
+      </div>
       <NewHereBanner />
     </div>
   );

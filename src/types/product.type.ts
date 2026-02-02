@@ -10,8 +10,8 @@ export type Product = {
   category: string;
   categorySlug: string;
   gender: string;
-  istrending: boolean;
-  isbestselling: boolean;
+  isTrending: boolean;
+  isBestSelling: boolean;
   isCelebdGoldPlated: boolean;
   isCelebdSilverPlated: boolean;
   isCelebdWhitePlated: boolean;

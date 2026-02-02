@@ -170,8 +170,8 @@ function AddEditPanel({ product, categories, onClose, onSaved }: any) {
     gender: product?.gender || "men",
     stock: product?.stock?.toString() || "",
     tags: product?.tags?.join(", ") || "",
-    istrending: product?.istrending || false,
-    isbestselling: product?.isbestselling || false,
+    isTrending: product?.isTrending || false,
+    isBestSelling: product?.isBestSelling || false,
     isCelebdGoldPlated: product?.isCelebdGoldPlated || false,
     isCelebdSilverPlated: product?.isCelebdSilverPlated || false,
     isCelebdWhitePlated: product?.isCelebdWhitePlated || false,
@@ -247,8 +247,8 @@ function AddEditPanel({ product, categories, onClose, onSaved }: any) {
           .split(",")
           .map((t: any) => t.trim())
           .filter(Boolean),
-        istrending: form.istrending,
-        isbestselling: form.isbestselling,
+        isTrending: form.isTrending,
+        isBestSelling: form.isBestSelling,
         isCelebdGoldPlated: form.isCelebdGoldPlated,
         isCelebdSilverPlated: form.isCelebdSilverPlated,
         isCelebdWhitePlated: form.isCelebdWhitePlated,
@@ -589,15 +589,15 @@ function AddEditPanel({ product, categories, onClose, onSaved }: any) {
                 <button
                   type="button"
                   onClick={() =>
-                    setForm({ ...form, istrending: !form.istrending })
+                    setForm({ ...form, isTrending: !form.isTrending })
                   }
                   className={`relative w-11 h-6 rounded-full transition-colors duration-300 focus:outline-none ${
-                    form.istrending ? "bg-orange-500" : "bg-white/10"
+                    form.isTrending ? "bg-orange-500" : "bg-white/10"
                   }`}
                 >
                   <span
                     className={`absolute top-0.5 left-0.5 w-5 h-5 bg-white rounded-full shadow-md transform transition-transform duration-300 ${
-                      form.istrending ? "translate-x-5" : "translate-x-0"
+                      form.isTrending ? "translate-x-5" : "translate-x-0"
                     }`}
                   />
                 </button>
@@ -614,15 +614,15 @@ function AddEditPanel({ product, categories, onClose, onSaved }: any) {
                 <button
                   type="button"
                   onClick={() =>
-                    setForm({ ...form, isbestselling: !form.isbestselling })
+                    setForm({ ...form, isBestSelling: !form.isBestSelling })
                   }
                   className={`relative w-11 h-6 rounded-full transition-colors duration-300 focus:outline-none ${
-                    form.isbestselling ? "bg-orange-500" : "bg-white/10"
+                    form.isBestSelling ? "bg-orange-500" : "bg-white/10"
                   }`}
                 >
                   <span
                     className={`absolute top-0.5 left-0.5 w-5 h-5 bg-white rounded-full shadow-md transform transition-transform duration-300 ${
-                      form.isbestselling ? "translate-x-5" : "translate-x-0"
+                      form.isBestSelling ? "translate-x-5" : "translate-x-0"
                     }`}
                   />
                 </button>
@@ -636,9 +636,10 @@ function AddEditPanel({ product, categories, onClose, onSaved }: any) {
           <label className="block mb-3 text-sm font-medium text-gray-400">
             Plate Type *
           </label>
-          <div className="grid grid-cols-3 gap-2">
+          <div className="grid grid-cols-4 gap-2">
             <label className="flex items-center gap-3 px-4 py-2.5 bg-white/5 border border-white/10 rounded-lg cursor-pointer transition-all hover:border-orange-500/50 has-[:checked]:border-orange-500 has-[:checked]:bg-orange-500/10">
               <input
+                required
                 type="radio"
                 name="plateType"
                 value="gold"
@@ -653,6 +654,7 @@ function AddEditPanel({ product, categories, onClose, onSaved }: any) {
 
             <label className="flex items-center gap-3 px-4 py-2.5 bg-white/5 border border-white/10 rounded-lg cursor-pointer transition-all hover:border-orange-500/50 has-[:checked]:border-orange-500 has-[:checked]:bg-orange-500/10">
               <input
+                required
                 type="radio"
                 name="plateType"
                 value="silver"
@@ -667,6 +669,7 @@ function AddEditPanel({ product, categories, onClose, onSaved }: any) {
 
             <label className="flex items-center gap-3 px-4 py-2.5 bg-white/5 border border-white/10 rounded-lg cursor-pointer transition-all hover:border-orange-500/50 has-[:checked]:border-orange-500 has-[:checked]:bg-orange-500/10">
               <input
+                required
                 type="radio"
                 name="plateType"
                 value="white"
@@ -681,6 +684,7 @@ function AddEditPanel({ product, categories, onClose, onSaved }: any) {
 
             <label className="flex items-center gap-3 px-4 py-2.5 bg-white/5 border border-white/10 rounded-lg cursor-pointer transition-all hover:border-orange-500/50 has-[:checked]:border-orange-500 has-[:checked]:bg-orange-500/10">
               <input
+                required
                 type="radio"
                 name="plateType"
                 value="black"
@@ -691,18 +695,6 @@ function AddEditPanel({ product, categories, onClose, onSaved }: any) {
               <span className="text-sm font-medium text-white">
                 Black Plated
               </span>
-            </label>
-
-            <label className="flex items-center gap-3 px-4 py-2.5 bg-white/5 border border-white/10 rounded-lg cursor-pointer transition-all hover:border-orange-500/50 has-[:checked]:border-orange-500 has-[:checked]:bg-orange-500/10">
-              <input
-                type="radio"
-                name="plateType"
-                value=""
-                checked={getSelectedPlate() === ""}
-                onChange={() => handlePlateChange("")}
-                className="w-4 h-4 text-orange-500 border-gray-600 focus:ring-orange-500 focus:ring-2"
-              />
-              <span className="text-sm font-medium text-white">None</span>
             </label>
           </div>
         </div>
@@ -779,12 +771,12 @@ function ProductCard({
 
         {/* Trending / Bestselling badges */}
         <div className="absolute top-3 left-3 flex flex-col gap-1">
-          {product.istrending && (
+          {product.isTrending && (
             <span className="px-2 py-0.5 text-xs font-semibold text-white bg-orange-500 rounded-full shadow-lg">
               🔥 Trending
             </span>
           )}
-          {product.isbestselling && (
+          {product.isBestSelling && (
             <span className="px-2 py-0.5 text-xs font-semibold text-white bg-yellow-600 rounded-full shadow-lg">
               ⭐ Bestselling
             </span>
