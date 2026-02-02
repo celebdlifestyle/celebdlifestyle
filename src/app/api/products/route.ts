@@ -40,6 +40,10 @@ export async function POST(req: NextRequest) {
       stock,
       istrending,
       isbestselling,
+      isCelebdGoldPlated,
+      isCelebdSilverPlated,
+      isCelebdWhitePlated,
+      isCelebdBlackPlated,
     } = body;
 
     if (
@@ -88,6 +92,10 @@ export async function POST(req: NextRequest) {
       gender,
       istrending: Boolean(istrending),
       isbestselling: Boolean(isbestselling),
+      isCelebdGoldPlated: Boolean(isCelebdGoldPlated),
+      isCelebdSilverPlated: Boolean(isCelebdSilverPlated),
+      isCelebdWhitePlated: Boolean(isCelebdWhitePlated),
+      isCelebdBlackPlated: Boolean(isCelebdBlackPlated),
       tags: tags || [],
       stock: Number(stock),
       createdAt: new Date(),

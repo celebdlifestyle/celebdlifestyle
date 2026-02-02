@@ -172,6 +172,10 @@ function AddEditPanel({ product, categories, onClose, onSaved }: any) {
     tags: product?.tags?.join(", ") || "",
     istrending: product?.istrending || false,
     isbestselling: product?.isbestselling || false,
+    isCelebdGoldPlated: product?.isCelebdGoldPlated || false,
+    isCelebdSilverPlated: product?.isCelebdSilverPlated || false,
+    isCelebdWhitePlated: product?.isCelebdWhitePlated || false,
+    isCelebdBlackPlated: product?.isCelebdBlackPlated || false,
   });
 
   const handleImageChange = (newImages: string[]) => {
@@ -202,6 +206,26 @@ function AddEditPanel({ product, categories, onClose, onSaved }: any) {
     });
   };
 
+  // Handle plate type selection (only one can be selected at a time)
+  const handlePlateChange = (plateType: string) => {
+    setForm({
+      ...form,
+      isCelebdGoldPlated: plateType === "gold",
+      isCelebdSilverPlated: plateType === "silver",
+      isCelebdWhitePlated: plateType === "white",
+      isCelebdBlackPlated: plateType === "black",
+    });
+  };
+
+  // Get current selected plate type
+  const getSelectedPlate = () => {
+    if (form.isCelebdGoldPlated) return "gold";
+    if (form.isCelebdSilverPlated) return "silver";
+    if (form.isCelebdWhitePlated) return "white";
+    if (form.isCelebdBlackPlated) return "black";
+    return "";
+  };
+
   async function submit(e: any) {
     e.preventDefault();
     setLoading(true);
@@ -225,6 +249,10 @@ function AddEditPanel({ product, categories, onClose, onSaved }: any) {
           .filter(Boolean),
         istrending: form.istrending,
         isbestselling: form.isbestselling,
+        isCelebdGoldPlated: form.isCelebdGoldPlated,
+        isCelebdSilverPlated: form.isCelebdSilverPlated,
+        isCelebdWhitePlated: form.isCelebdWhitePlated,
+        isCelebdBlackPlated: form.isCelebdBlackPlated,
       };
 
       if (product) {
@@ -603,8 +631,84 @@ function AddEditPanel({ product, categories, onClose, onSaved }: any) {
           </div>
         </div>
 
+        {/* Plate Type Selection - Radio Buttons */}
+        <div className="px-8">
+          <label className="block mb-3 text-sm font-medium text-gray-400">
+            Plate Type *
+          </label>
+          <div className="grid grid-cols-3 gap-2">
+            <label className="flex items-center gap-3 px-4 py-2.5 bg-white/5 border border-white/10 rounded-lg cursor-pointer transition-all hover:border-orange-500/50 has-[:checked]:border-orange-500 has-[:checked]:bg-orange-500/10">
+              <input
+                type="radio"
+                name="plateType"
+                value="gold"
+                checked={getSelectedPlate() === "gold"}
+                onChange={() => handlePlateChange("gold")}
+                className="w-4 h-4 text-orange-500 border-gray-600 focus:ring-orange-500 focus:ring-2"
+              />
+              <span className="text-sm font-medium text-white">
+                Gold Plated
+              </span>
+            </label>
+
+            <label className="flex items-center gap-3 px-4 py-2.5 bg-white/5 border border-white/10 rounded-lg cursor-pointer transition-all hover:border-orange-500/50 has-[:checked]:border-orange-500 has-[:checked]:bg-orange-500/10">
+              <input
+                type="radio"
+                name="plateType"
+                value="silver"
+                checked={getSelectedPlate() === "silver"}
+                onChange={() => handlePlateChange("silver")}
+                className="w-4 h-4 text-orange-500 border-gray-600 focus:ring-orange-500 focus:ring-2"
+              />
+              <span className="text-sm font-medium text-white">
+                Silver Plated
+              </span>
+            </label>
+
+            <label className="flex items-center gap-3 px-4 py-2.5 bg-white/5 border border-white/10 rounded-lg cursor-pointer transition-all hover:border-orange-500/50 has-[:checked]:border-orange-500 has-[:checked]:bg-orange-500/10">
+              <input
+                type="radio"
+                name="plateType"
+                value="white"
+                checked={getSelectedPlate() === "white"}
+                onChange={() => handlePlateChange("white")}
+                className="w-4 h-4 text-orange-500 border-gray-600 focus:ring-orange-500 focus:ring-2"
+              />
+              <span className="text-sm font-medium text-white">
+                White Plated
+              </span>
+            </label>
+
+            <label className="flex items-center gap-3 px-4 py-2.5 bg-white/5 border border-white/10 rounded-lg cursor-pointer transition-all hover:border-orange-500/50 has-[:checked]:border-orange-500 has-[:checked]:bg-orange-500/10">
+              <input
+                type="radio"
+                name="plateType"
+                value="black"
+                checked={getSelectedPlate() === "black"}
+                onChange={() => handlePlateChange("black")}
+                className="w-4 h-4 text-orange-500 border-gray-600 focus:ring-orange-500 focus:ring-2"
+              />
+              <span className="text-sm font-medium text-white">
+                Black Plated
+              </span>
+            </label>
+
+            <label className="flex items-center gap-3 px-4 py-2.5 bg-white/5 border border-white/10 rounded-lg cursor-pointer transition-all hover:border-orange-500/50 has-[:checked]:border-orange-500 has-[:checked]:bg-orange-500/10">
+              <input
+                type="radio"
+                name="plateType"
+                value=""
+                checked={getSelectedPlate() === ""}
+                onChange={() => handlePlateChange("")}
+                className="w-4 h-4 text-orange-500 border-gray-600 focus:ring-orange-500 focus:ring-2"
+              />
+              <span className="text-sm font-medium text-white">None</span>
+            </label>
+          </div>
+        </div>
+
         {/* Action Buttons - Sticky Bottom */}
-        <div className="flex gap-3 px-8 py-6 border-t border-white/5 bg-[#0f0f14]">
+        <div className="flex gap-3 px-8 py-6 mt-3 border-t border-white/5 bg-[#0f0f14]">
           <button
             type="button"
             onClick={onClose}

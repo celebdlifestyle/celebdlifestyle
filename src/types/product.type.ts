@@ -12,6 +12,10 @@ export type Product = {
   gender: string;
   istrending: boolean;
   isbestselling: boolean;
+  isCelebdGoldPlated: boolean;
+  isCelebdSilverPlated: boolean;
+  isCelebdWhitePlated: boolean;
+  isCelebdBlackPlated: boolean;
   tags: string[];
   stock: number;
   createdAt: string;

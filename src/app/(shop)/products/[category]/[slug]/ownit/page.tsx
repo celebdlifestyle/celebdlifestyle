@@ -58,7 +58,7 @@ const OwnItForm = () => {
           </h2>
           <div className="w-24 h-1 mx-auto mb-2 bg-orange-500 rounded-full" />
           <p className="text-sm text-gray-400">
-            Fill out the form below to purchase this product
+            Fill out the form below to Own this product
           </p>
         </div>
       </div>
