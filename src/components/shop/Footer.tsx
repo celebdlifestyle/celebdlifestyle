@@ -9,9 +9,9 @@ export default function Footer() {
     <footer className="px-5 py-12 text-sm text-white bg-black border-t border-gray-800  w-full">
       <div className="grid grid-cols-1 gap-8 md:mx-16 md:grid-cols-3 lg:grid-cols-5 lg:gap-10">
         {/* Brand Logo, Motto, Newsletter & Social Media */}
-        <div className="col-span-2 md:col-span-2 mr-12 lg:col-span-2">
+        <div className="col-span-2 md:mr-12">
           <Link
-            className={`${dedot_title.className} font-bold text-4xl md:text-5xl hover:text-gray-300 transition-colors duration-300 inline-block`}
+            className={`${dedot_title.className} font-bold text-[34px] md:text-5xl hover:text-gray-300 transition-colors duration-300 inline-block`}
             href="/"
           >
             CELEBD LIFESTYLE
@@ -21,7 +21,7 @@ export default function Footer() {
             Celebd is the world's new class designed exclusively for the
             achievers, the dreamers, and the relentlessly ambitious. It is a
             "new identity" where status isn't inherited—it is built through
-            personal branding, high-level impact, and digital influence.
+            personal branding, high-level impact, and Social influence.
           </p>
 
           {/* Newsletter Section */}
