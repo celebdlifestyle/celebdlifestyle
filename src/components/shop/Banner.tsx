@@ -39,27 +39,26 @@ export function NewHereBanner() {
         priority
       />
 
-      <div className="absolute bottom-[20%] left-[25%] md:bottom-[40%] md:left-[36%]">
-        <h1 className="text-2xl font-bold text-white md:text-5xl">
-          NEW TO CELEBD?
-        </h1>
+      <div className="absolute inset-0 flex items-center justify-center">
+        <div className="text-center">
+          <h1 className="text-2xl md:mb-10 font-bold text-white md:text-5xl">
+            NEW TO CELEBD?
+          </h1>
 
-        <SignedIn>
-          <div className="px-6 py-2 mt-1 font-bold text-center text-black bg-white cursor-pointer md:mt-16 text-nowrap md:px-10 md:py-3">
-            SHOP HERE
-          </div>
-        </SignedIn>
-
-        <SignedOut>
-          <SignUpButton>
-            <div
-              className="px-6 py-2 mt-1 font-bold text-center text-black bg-white cursor-pointer md:mt-16 text-nowrap md:px-10 md:py-3
-                            shadow-md hover:shadow-lg transition-all"
-            >
-              START HERE
+          <SignedIn>
+            <div className="px-6 py-2 mt-4 font-bold text-center text-black bg-white cursor-pointer md:mt-10 md:px-10 md:py-3">
+              SHOP HERE
             </div>
-          </SignUpButton>
-        </SignedOut>
+          </SignedIn>
+
+          <SignedOut>
+            <SignUpButton>
+              <div className="px-6 py-2 mt-4 font-bold text-center text-black bg-white cursor-pointer md:mt-10 md:px-10 md:py-3 shadow-md hover:shadow-lg transition-all">
+                START HERE
+              </div>
+            </SignUpButton>
+          </SignedOut>
+        </div>
       </div>
     </div>
   );
