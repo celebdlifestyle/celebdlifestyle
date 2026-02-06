@@ -16,7 +16,7 @@ export function ShopMen() {
       {/*Heading*/}
       <div className="my-8 flex items-center justify-between gap-3">
         <h2 className="text-lg sm:text-lg font-semibold tracking-wide md:tracking-widest">
-          OWN MR.CELEBD LOOK
+          MR.CELEBD LOOK
         </h2>
         <Link
           href={"/collections/men"}
@@ -51,7 +51,7 @@ export function ShopWomen() {
       {/*Heading*/}
       <div className="my-8 flex items-center justify-between gap-3">
         <h2 className="text-lg sm:text-lg font-semibold tracking-normal md:tracking-widest">
-          OWN MISS.CELEBD LOOK
+          MISS.CELEBD LOOK
         </h2>
         <Link
           href={"/collections/women"}
