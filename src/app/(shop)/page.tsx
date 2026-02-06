@@ -55,6 +55,10 @@ export default function Homepage() {
         <ProductCarousel products={trendingProducts} loading={loading} />
       </div>
 
+      {/* ShopMen Banner */}
+
+      <ShopWomen />
+
       {/* SHADES OF CELEBD - Categories*/}
 
       <div className="mx-3 md:px-5">
@@ -91,10 +95,9 @@ export default function Homepage() {
         <ProductCarousel products={bestSellingProducts} loading={loading} />
       </div>
 
-      {/* Banner */}
+      {/* ShopMen Banner */}
 
       <ShopMen />
-      <ShopWomen />
 
       {/* Black Plated */}
 
