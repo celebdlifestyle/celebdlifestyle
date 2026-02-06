@@ -123,3 +123,88 @@ export const ProductPageSkeleton = () => {
     </div>
   );
 };
+
+export const OwnItFormSkeleton = () => {
+  return (
+    <div className="min-h-screen px-4 py-8 text-white bg-black sm:px-6 md:px-12 lg:px-16 xl:px-24 animate-pulse">
+      {/* Header Skeleton */}
+      <div className="max-w-[1400px] mx-auto mb-8">
+        <div className="text-center">
+          <div className="h-10 mx-auto mb-3 bg-gray-800 rounded w-60"></div>
+          <div className="w-24 h-1 mx-auto mb-2 bg-gray-800 rounded-full" />
+          <div className="h-4 mx-auto bg-gray-800 rounded w-72"></div>
+        </div>
+      </div>
+
+      {/* Main Content Skeleton */}
+      <div className="max-w-[1400px] mx-auto grid grid-cols-1 lg:grid-cols-2 gap-8 lg:gap-12">
+        {/* Left: Product Preview Skeleton (Desktop Only) */}
+        <div className="hidden lg:flex flex-col justify-between h-full p-8 bg-gray-900 border border-gray-800 rounded-2xl">
+          <div>
+            {/* Product Images Grid Skeleton */}
+            <div className="grid grid-cols-3 gap-3 mb-6">
+              {[1, 2, 3].map((index) => (
+                <div
+                  key={index}
+                  className="relative overflow-hidden bg-gray-800 rounded-xl aspect-square"
+                ></div>
+              ))}
+            </div>
+
+            {/* Product Info Skeleton */}
+            <div className="space-y-3">
+              <div className="w-3/4 h-8 bg-gray-800 rounded"></div>
+              <div className="w-32 h-10 bg-gray-800 rounded"></div>
+              <div className="flex items-center gap-2">
+                <div className="w-24 h-6 bg-gray-800 rounded"></div>
+                <div className="w-20 h-6 bg-gray-800 rounded"></div>
+              </div>
+              <div className="space-y-2">
+                <div className="w-full h-4 bg-gray-800 rounded"></div>
+                <div className="w-full h-4 bg-gray-800 rounded"></div>
+                <div className="w-3/4 h-4 bg-gray-800 rounded"></div>
+              </div>
+              <div className="flex flex-wrap gap-2 pt-2">
+                {[1, 2, 3].map((i) => (
+                  <div
+                    key={i}
+                    className="w-16 h-6 bg-gray-800 rounded-full"
+                  ></div>
+                ))}
+              </div>
+            </div>
+          </div>
+        </div>
+
+        {/* Right: Form Skeleton */}
+        <div className="h-full">
+          <div className="flex flex-col justify-between h-full p-6 bg-gray-900 border border-gray-800 shadow-xl sm:p-8 rounded-2xl">
+            {/* Mobile Product Preview Skeleton */}
+            <div className="flex items-center gap-4 p-4 mb-6 bg-gray-800 lg:hidden rounded-xl">
+              <div className="w-20 h-20 bg-gray-700 rounded-lg sm:w-24 sm:h-24"></div>
+              <div className="flex-1 space-y-2">
+                <div className="w-3/4 h-5 bg-gray-700 rounded"></div>
+                <div className="w-24 h-6 bg-gray-700 rounded"></div>
+                <div className="w-32 h-3 bg-gray-700 rounded"></div>
+              </div>
+            </div>
+
+            {/* Form Fields Skeleton */}
+            <div className="flex-1 space-y-5">
+              {[1, 2, 3, 4, 5].map((i) => (
+                <div key={i} className="space-y-2">
+                  <div className="w-24 h-4 bg-gray-800 rounded"></div>
+                  <div className="w-full h-12 bg-gray-800 rounded-lg"></div>
+                </div>
+              ))}
+            </div>
+
+            {/* Submit Button Skeleton */}
+            <div className="w-full h-12 mt-6 bg-gray-800 rounded-lg"></div>
+            <div className="h-3 mx-auto mt-4 bg-gray-800 rounded w-60"></div>
+          </div>
+        </div>
+      </div>
+    </div>
+  );
+};
