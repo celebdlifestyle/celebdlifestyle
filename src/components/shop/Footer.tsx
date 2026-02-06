@@ -111,10 +111,37 @@ export default function Footer() {
           ]}
         />
 
-        <FooterSection
-          title="My Account"
-          links={["Login or Register", "Order History", "Shipping & Billing"]}
-        />
+        {/* My Account and Policies Section For Desktop */}
+
+        <span className="hidden md:grid w-full grid-cols-2 md:grid-cols-1 col-span-2 md:col-span-1 justify-between">
+          <FooterSection
+            title="My Account"
+            links={["Login or Register", "Order History", "Shipping & Billing"]}
+          />
+
+          <FooterSection
+            title="Policies"
+            links={["Privacy", "Terms", "Cookie Policy", "Cookie Preferences"]}
+          />
+        </span>
+
+        {/* My Account Section For Mobile */}
+
+        <span className="md:hidden">
+          <FooterSection
+            title="Policies"
+            links={["Privacy", "Terms", "Cookie Policy", "Cookie Preferences"]}
+          />
+        </span>
+
+        {/* My Account Section For Mobile */}
+
+        <span className="md:hidden">
+          <FooterSection
+            title="My Account"
+            links={["Login or Register", "Order History", "Shipping & Billing"]}
+          />
+        </span>
       </div>
 
       {/* Bottom legal bar */}
@@ -140,14 +167,14 @@ export default function Footer() {
               href="/pages/terms"
               className="px-3 py-1 text-xs text-gray-400 hover:text-white transition-colors duration-200"
             >
-              Terms
+              Terms & Conditions
             </Link>
             <span className="text-gray-700">•</span>
             <Link
               href="/pages/privacy"
               className="px-3 py-1 text-xs text-gray-400 hover:text-white transition-colors duration-200"
             >
-              Privacy
+              Privacy Policy
             </Link>
             <span className="text-gray-700">•</span>
             <Link
