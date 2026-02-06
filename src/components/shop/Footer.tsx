@@ -165,28 +165,28 @@ export default function Footer() {
           <div className="flex flex-wrap items-center justify-center md:gap-1">
             <Link
               href="/pages/terms"
-              className="px-3 py-1 text-xs text-gray-400 hover:text-white transition-colors duration-200"
+              className="px-1 md:px-3 py-1 text-xs text-gray-400 hover:text-white transition-colors duration-200"
             >
-              Terms & Conditions
+              Terms
             </Link>
             <span className="text-gray-700">•</span>
             <Link
               href="/pages/privacy"
-              className="px-3 py-1 text-xs text-gray-400 hover:text-white transition-colors duration-200"
+              className="px-1 md:px-3 py-1 text-xs text-gray-400 hover:text-white transition-colors duration-200"
             >
-              Privacy Policy
+              Privacy
             </Link>
             <span className="text-gray-700">•</span>
             <Link
               href="/pages/cookie-policy"
-              className="px-3 py-1 text-xs text-gray-400 hover:text-white transition-colors duration-200"
+              className="px-1 md:px-3 py-1 text-xs text-gray-400 hover:text-white transition-colors duration-200"
             >
               Cookie Policy
             </Link>
             <span className="text-gray-700">•</span>
             <Link
               href="/pages/cookie-preferences"
-              className="px-3 py-1 text-xs text-gray-400 hover:text-white transition-colors duration-200"
+              className="px-1 md:px-3 py-1 text-xs text-gray-400 hover:text-white transition-colors duration-200"
             >
               Cookie Preferences
             </Link>
