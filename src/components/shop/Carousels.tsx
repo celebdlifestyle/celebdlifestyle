@@ -8,6 +8,8 @@ import {
 } from "@/components/ui/carousel";
 import Image from "next/image";
 import Link from "next/link";
+import { useEffect, useState } from "react";
+import { useCategoryStore } from "@/store/categories.store";
 import ProductCard from "./ProductCard";
 import { ProductProps } from "@/types/product.type";
 import { CategoryCardSkeleton, ProductCardSkeleton } from "./Skeletons";
@@ -19,9 +21,6 @@ import Slider3 from "@/assets/images_21_9/21_9_Slider3.jpg";
 import Slider1_mobile from "@/assets/images_16_9/16_9_Slider1.jpg";
 import Slider2_mobile from "@/assets/images_16_9/16_9_Slider2.jpg";
 import Slider3_mobile from "@/assets/images_16_9/16_9_Slider3.jpg";
-
-import { useEffect, useState } from "react";
-import { useCategoryStore } from "@/store/categories.store";
 
 export const Sliders = [
   {
