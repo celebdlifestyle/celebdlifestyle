@@ -15,8 +15,8 @@ export function ShopMen() {
     <div className="relative mx-3 md:px-5 ">
       {/*Heading*/}
       <div className="my-8 flex items-center justify-between gap-3">
-        <h2 className="text-lg sm:text-lg font-semibold tracking-wide md:tracking-widest">
-          MR.CELEBD LOOK
+        <h2 className="text-lg sm:text-lg font-semibold tracking-widest">
+          MR. CELEBD LOOK
         </h2>
         <Link
           href={"/collections/men"}
@@ -50,8 +50,8 @@ export function ShopWomen() {
     <div className="relative mx-3 md:px-5">
       {/*Heading*/}
       <div className="my-8 flex items-center justify-between gap-3">
-        <h2 className="text-lg sm:text-lg font-semibold tracking-normal md:tracking-widest">
-          MISS.CELEBD LOOK
+        <h2 className="text-lg sm:text-lg font-semibold tracking-widest">
+          MISS CELEBD LOOK
         </h2>
         <Link
           href={"/collections/women"}
