@@ -6,7 +6,7 @@ import { dedot_title } from "@/app/fonts/font";
 
 export default function Footer() {
   return (
-    <footer className="px-5 py-12 text-sm text-white bg-black border-t border-gray-800  w-full">
+    <footer className="px-5 pt-12 pb-5 text-sm text-white bg-black border-t border-gray-800  w-full">
       <div className="grid grid-cols-1 gap-8 md:mx-16 md:grid-cols-3 lg:grid-cols-5 lg:gap-10">
         {/* Brand Logo, Motto, Newsletter & Social Media */}
         <div className="col-span-2 md:mr-12">
@@ -135,7 +135,7 @@ export default function Footer() {
           </p>
 
           {/* Legal Links */}
-          <div className="flex flex-wrap items-center gap-1">
+          <div className="flex flex-wrap items-center justify-center md:gap-1">
             <Link
               href="/pages/terms"
               className="px-3 py-1 text-xs text-gray-400 hover:text-white transition-colors duration-200"
