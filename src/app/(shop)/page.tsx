@@ -4,7 +4,8 @@ import {
   CollectionsCarousel,
   ProductCarousel,
 } from "@/components/shop/Carousels";
-import Banner from "@/components/shop/Banner";
+import { ShopMen } from "@/components/shop/Banner";
+import { ShopWomen } from "@/components/shop/Banner";
 import ShopByLooks from "@/components/shop/ShopByLooks";
 import { NewHereBanner } from "@/components/shop/Banner";
 import { useEffect } from "react";
@@ -92,13 +93,14 @@ export default function Homepage() {
 
       {/* Banner */}
 
-      <Banner />
+      <ShopMen />
+      <ShopWomen />
 
       {/* Black Plated */}
 
       <div className="mx-3 md:px-5">
         <div className="my-8 flex items-center justify-between gap-3">
-          <h1 className="text-lg sm:text-lg font-semibold tracking-widest">
+          <h1 className="text-lg sm:text-lg font-semibold tracking-wide md:tracking-widest">
             CELEBD BLACK PLATED
           </h1>
           <Link
@@ -119,7 +121,7 @@ export default function Homepage() {
 
       <div className="mx-3 md:px-5">
         <div className="my-8 flex items-center justify-between gap-3">
-          <h1 className="text-lg sm:text-lg font-semibold tracking-widest">
+          <h1 className="text-lg sm:text-lg font-semibold tracking-wide md:tracking-widest">
             CELEBD GOLD PLATED
           </h1>
           <Link
@@ -144,7 +146,7 @@ export default function Homepage() {
 
       <div className="mx-3 md:px-5">
         <div className="my-8 flex items-center justify-between gap-3">
-          <h1 className="text-lg sm:text-lg font-semibold tracking-widest">
+          <h1 className="text-lg sm:text-lg font-semibold tracking-wide md:tracking-widest">
             CELEBD WHITE PLATED
           </h1>
           <Link
@@ -165,7 +167,7 @@ export default function Homepage() {
 
       <div className="mx-3 md:px-5">
         <div className="my-8 flex items-center justify-between gap-3">
-          <h1 className="text-lg sm:text-lg font-semibold tracking-widest">
+          <h1 className="text-lg sm:text-lg font-semibold tracking-wide md:tracking-widest">
             CELEBD SILVER PLATED
           </h1>
           <Link

@@ -1,5 +1,7 @@
 import Image from "next/image";
 import Link from "next/link";
+import image1 from "@/assets/images_1_1/1_1_Look1.jpg";
+import image2 from "@/assets/images_1_1/1_1_Look2.jpg";
 
 export default function ShopByLook() {
   return (
@@ -9,7 +11,7 @@ export default function ShopByLook() {
         <div className="group">
           <div className="relative overflow-hidden">
             <Image
-              src="https://cdn.shopify.com/s/files/1/2185/2813/files/ssb_editorial_1200x1200.jpg?v=1750102499"
+              src={image1}
               alt="Vacation Mode Collection"
               width={600}
               height={600}
@@ -29,7 +31,7 @@ export default function ShopByLook() {
                   Your packing list has never looked better.
                 </p>
                 <p className="inline-block text-[10px] font-semibold tracking-wider transition-transform border-b border-white md:text-xs group-hover:translate-x-2">
-                  SHOP TRAVEL AT CELEBD →
+                  OWN THE TRAVEL LOOK AT CELEBD →
                 </p>
               </Link>
             </div>
@@ -40,7 +42,7 @@ export default function ShopByLook() {
         <div className="group">
           <div className="relative overflow-hidden">
             <Image
-              src="https://cdn.shopify.com/s/files/1/2185/2813/files/editorial_trending_1200x1200.jpg?v=1750706203"
+              src={image2}
               alt="Trend Report Collection"
               width={600}
               height={600}
@@ -60,7 +62,7 @@ export default function ShopByLook() {
                   Seasons shift & so does the opportunity to reset your closet.
                 </p>
                 <p className="inline-block text-[10px] font-semibold tracking-wider transition-transform border-b border-white md:text-xs group-hover:translate-x-2">
-                  SHOP SUMMER AT CELEBD →
+                  OWN SUMMER LOOK AT CELEBD →
                 </p>
               </Link>
             </div>

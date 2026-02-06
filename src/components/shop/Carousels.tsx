@@ -12,10 +12,15 @@ import ProductCard from "./ProductCard";
 import { ProductProps } from "@/types/product.type";
 import { CategoryCardSkeleton, ProductCardSkeleton } from "./Skeletons";
 
-import Slider1 from "@/assets/images/slider-1.jpg";
-import Slider2 from "@/assets/images/slider-2.jpg";
-import Slider3 from "@/assets/images/slider-3.jpg";
-import Slider4 from "@/assets/images/slider-4.jpg";
+import Slider1 from "@/assets/images_21_9/21_9_Slider1.jpg";
+import Slider2 from "@/assets/images_21_9/21_9_Slider2.jpg";
+import Slider3 from "@/assets/images_21_9/21_9_Slider3.jpg";
+import Slider4 from "@/assets/images_21_9/21_9_Slider4.jpg";
+
+import Slider1_mobile from "@/assets/images_16_9/16_9_Slider1.jpg";
+import Slider2_mobile from "@/assets/images_16_9/16_9_Slider2.jpg";
+import Slider3_mobile from "@/assets/images_16_9/16_9_Slider3.jpg";
+import Slider4_mobile from "@/assets/images_16_9/16_9_Slider4.jpg";
 
 import { useEffect, useState } from "react";
 import { useCategoryStore } from "@/store/categories.store";
@@ -25,21 +30,25 @@ export const Sliders = [
     id: 1,
     title: "Streetwear Collection",
     image: Slider1,
+    mobileImage: Slider1_mobile,
   },
   {
     id: 2,
     title: "Hoodies & Sweatshirts",
     image: Slider2,
+    mobileImage: Slider2_mobile,
   },
   {
     id: 3,
     title: "Casual Summer Fits",
     image: Slider3,
+    mobileImage: Slider3_mobile,
   },
   {
     id: 4,
-    title: "Trending Accessories",
+    title: "Casual Summer Fits",
     image: Slider4,
+    mobileImage: Slider4_mobile,
   },
 ];
 
@@ -59,13 +68,30 @@ export function ImageCarousel() {
     >
       <CarouselContent>
         {Sliders.map((slide) => (
-          <CarouselItem key={slide.id} className="basis-1/1">
-            <Image
-              src={slide.image}
-              alt={slide.title}
-              className="w-full h-auto object-cover object-top md:h-[35rem]"
-              priority={slide.id === 1} // first image loads faster
-            />
+          <CarouselItem key={slide.id} className="basis-full">
+            {/* Desktop */}
+            <div className="hidden md:block relative w-full aspect-[21/9] overflow-hidden">
+              <Image
+                src={slide.image}
+                alt={slide.title || "Carousel image"}
+                fill
+                className="object-cover"
+                sizes="100vw"
+                quality={90}
+              />
+            </div>
+
+            {/* Mobile */}
+            <div className="md:hidden relative w-full aspect-[16/9] overflow-hidden">
+              <Image
+                src={slide.mobileImage}
+                alt={slide.title || "Carousel image"}
+                fill
+                className="object-cover"
+                sizes="100vw"
+                quality={90}
+              />
+            </div>
           </CarouselItem>
         ))}
       </CarouselContent>
