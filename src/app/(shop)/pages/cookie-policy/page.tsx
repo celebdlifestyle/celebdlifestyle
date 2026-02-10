@@ -175,7 +175,7 @@ export default function CookiePolicyPage() {
           <p className="mt-3 text-gray-300">
             For more information, visit our{" "}
             <Link
-              href="/cookie-preferences"
+              href="/pages/cookie-preferences"
               className="text-orange-500 underline hover:text-orange-400"
             >
               Cookie Preferences

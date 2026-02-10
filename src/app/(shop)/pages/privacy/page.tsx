@@ -133,7 +133,7 @@ export default function PrivacyPolicyPage() {
           <p className="mt-3 text-sm text-gray-400">
             For more details, please see our{" "}
             <Link
-              href="/cookie-policy"
+              href="/pages/cookie-policy"
               className="text-orange-500 underline hover:text-orange-400"
             >
               Cookie Policy

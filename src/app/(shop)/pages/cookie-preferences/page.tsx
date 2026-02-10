@@ -218,7 +218,7 @@ export default function CookiePreferencesPage() {
             For detailed information about the cookies we use and why, please
             see our{" "}
             <Link
-              href="/cookie-policy"
+              href="/pages/cookie-policy"
               className="text-orange-500 underline hover:text-orange-400"
             >
               Cookie Policy
@@ -228,7 +228,7 @@ export default function CookiePreferencesPage() {
           <p className="text-gray-300">
             For information about how we handle your personal data, visit our{" "}
             <Link
-              href="/privacy-policy"
+              href="/pages/privacy-policy"
               className="text-orange-500 underline hover:text-orange-400"
             >
               Privacy Policy
