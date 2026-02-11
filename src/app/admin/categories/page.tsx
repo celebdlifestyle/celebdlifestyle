@@ -371,7 +371,11 @@ export default function CategoriesPage() {
                     <div className="relative group">
                       <div
                         className="relative overflow-hidden bg-gray-900 rounded-lg"
-                        style={{ aspectRatio: "4/5" }}
+                        style={{
+                          aspectRatio: "1/1",
+                          maxWidth: "280px",
+                          margin: "0 auto",
+                        }}
                       >
                         <img
                           src={categoryForm.image}
@@ -408,7 +412,7 @@ export default function CategoriesPage() {
                         }
                       />
                       <p className="mt-2 text-xs text-center text-gray-500">
-                        Upload a category image (4:5 ratio recommended)
+                        Upload a category image (1:1 square ratio recommended)
                       </p>
                     </div>
                   )}
@@ -465,8 +469,8 @@ function CategoryCard({
       onMouseEnter={() => setShowActions(true)}
       onMouseLeave={() => setShowActions(false)}
     >
-      {/* Image - 4:5 aspect ratio */}
-      <div className="relative" style={{ aspectRatio: "4/5" }}>
+      {/* Image - 1:1 aspect ratio (square) */}
+      <div className="relative" style={{ aspectRatio: "1/1" }}>
         {category.image ? (
           <img
             src={category.image}
