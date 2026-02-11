@@ -1,6 +1,7 @@
 import Navbar from "@/components/shop/Navbar";
 import Footer from "@/components/shop/Footer";
 import ImageGuard from "@/components/shop/ImageGuard";
+import { Analytics } from "@vercel/analytics/next";
 
 export default function ShopLayout({
   children,
@@ -12,6 +13,7 @@ export default function ShopLayout({
       <ImageGuard />
       <Navbar />
       {children}
+      <Analytics />
       <Footer />
     </>
   );
