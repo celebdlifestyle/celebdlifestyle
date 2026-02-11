@@ -1,7 +1,15 @@
 "use client";
 
 import { useState, useEffect } from "react";
-import { Plus, Search, X, Trash2, Package, Loader2 } from "lucide-react";
+import {
+  Plus,
+  Search,
+  X,
+  Trash2,
+  Package,
+  Loader2,
+  Filter,
+} from "lucide-react";
 import type { Product } from "@/types/product.type";
 import ImageUploader from "@/components/admin/ImageUploader";
 import { useProductStore } from "@/store/product.store";
@@ -14,18 +22,24 @@ export default function ProductsPage() {
   const [showPanel, setShowPanel] = useState(false);
   const [activeProduct, setActiveProduct] = useState<Product | null>(null);
   const [searchTerm, setSearchTerm] = useState("");
+  const [selectedCategory, setSelectedCategory] = useState<string>("");
 
   useEffect(() => {
     fetchProducts();
     fetchCategories();
   }, [fetchProducts, fetchCategories]);
 
-  const filteredProducts = products.filter(
-    (p) =>
+  const filteredProducts = products.filter((p) => {
+    const matchesSearch =
       p.name?.toLowerCase().includes(searchTerm.toLowerCase()) ||
       p.category?.toLowerCase().includes(searchTerm.toLowerCase()) ||
-      p.brand?.toLowerCase().includes(searchTerm.toLowerCase()),
-  );
+      p.brand?.toLowerCase().includes(searchTerm.toLowerCase());
+
+    const matchesCategory =
+      selectedCategory === "" || p.category === selectedCategory;
+
+    return matchesSearch && matchesCategory;
+  });
 
   return (
     <div className="space-y-6">
@@ -50,18 +64,61 @@ export default function ProductsPage() {
         </button>
       </div>
 
-      {/* Search */}
-      <div className="relative max-w-md">
-        <Search
-          className="absolute text-gray-500 -translate-y-1/2 left-4 top-1/2"
-          size={18}
-        />
-        <input
-          value={searchTerm}
-          onChange={(e) => setSearchTerm(e.target.value)}
-          placeholder="Search by name, category, or brand..."
-          className="w-full pl-11 pr-4 py-3 bg-[#13131a] border border-white/5 rounded-xl text-white placeholder-gray-500 focus:outline-none focus:ring-2 focus:ring-orange-500 focus:border-transparent transition-all"
-        />
+      {/* Search and Filter */}
+      <div className="flex gap-3 max-w-3xl">
+        {/* Search */}
+        <div className="relative flex-1">
+          <Search
+            className="absolute text-gray-500 -translate-y-1/2 left-4 top-1/2 pointer-events-none"
+            size={18}
+          />
+          <input
+            value={searchTerm}
+            onChange={(e) => setSearchTerm(e.target.value)}
+            placeholder="Search by name, category, or brand..."
+            className="w-full pl-11 pr-4 py-3 bg-[#13131a] border border-white/5 rounded-xl text-white placeholder-gray-500 focus:outline-none focus:ring-2 focus:ring-orange-500 focus:border-transparent transition-all"
+          />
+        </div>
+
+        {/* Category Filter */}
+        <div className="relative min-w-[200px]">
+          <Filter
+            className="absolute text-gray-500 -translate-y-1/2 left-4 top-1/2 pointer-events-none"
+            size={18}
+          />
+          <select
+            value={selectedCategory}
+            onChange={(e) => setSelectedCategory(e.target.value)}
+            className="w-full pl-11 pr-4 py-3 bg-[#13131a] border border-white/5 rounded-xl text-white appearance-none cursor-pointer focus:outline-none focus:ring-2 focus:ring-orange-500 focus:border-transparent transition-all"
+          >
+            <option value="" className="bg-[#0f0f14]">
+              All Categories
+            </option>
+            {categories.map((category: any) => (
+              <option
+                key={category._id}
+                value={category.name}
+                className="bg-[#0f0f14]"
+              >
+                {category.name}
+              </option>
+            ))}
+          </select>
+        </div>
+
+        {/* Clear Filters Button */}
+        {(searchTerm || selectedCategory) && (
+          <button
+            onClick={() => {
+              setSearchTerm("");
+              setSelectedCategory("");
+            }}
+            className="px-4 py-3 text-gray-400 border border-white/5 rounded-xl bg-[#13131a] hover:bg-white/5 hover:text-white transition-all"
+            title="Clear filters"
+          >
+            <X size={18} />
+          </button>
+        )}
       </div>
 
       {/* Grid */}
@@ -76,14 +133,16 @@ export default function ProductsPage() {
         <div className="flex flex-col items-center justify-center py-20">
           <Package className="w-16 h-16 mb-4 text-gray-600" />
           <h3 className="mb-2 text-xl font-semibold text-white">
-            {searchTerm ? "No products found" : "No products yet"}
+            {searchTerm || selectedCategory
+              ? "No products found"
+              : "No products yet"}
           </h3>
           <p className="mb-6 text-gray-400">
-            {searchTerm
-              ? "Try adjusting your search"
+            {searchTerm || selectedCategory
+              ? "Try adjusting your search or filters"
               : "Get started by adding your first product"}
           </p>
-          {!searchTerm && (
+          {!searchTerm && !selectedCategory && (
             <button
               onClick={() => {
                 setActiveProduct(null);
@@ -317,18 +376,19 @@ function AddEditPanel({ product, categories, onClose, onSaved }: any) {
                 </h3>
               </div>
 
-              {/* Image Grid */}
+              {/* Image Grid - 4:5 aspect ratio */}
               <div className="grid grid-cols-3 gap-3">
                 {/* Existing Images */}
                 {images.map((image, index) => (
                   <div
                     key={index}
-                    className="relative overflow-hidden bg-white/5 rounded-lg group aspect-square"
+                    className="relative overflow-hidden bg-white/5 rounded-lg group"
+                    style={{ aspectRatio: "4/5" }}
                   >
                     <img
                       src={image}
                       alt={`Product ${index + 1}`}
-                      className="object-cover w-full h-full p-2"
+                      className="object-cover w-full h-full"
                     />
 
                     {/* Hover Overlay */}
@@ -365,7 +425,8 @@ function AddEditPanel({ product, categories, onClose, onSaved }: any) {
                   <button
                     type="button"
                     onClick={() => setEditingImageIndex(-1)}
-                    className="flex flex-col items-center justify-center gap-1 transition-all border-2 border-dashed rounded-lg aspect-square border-white/10 hover:border-orange-500/50 hover:bg-orange-500/5"
+                    className="flex flex-col items-center justify-center gap-1 transition-all border-2 border-dashed rounded-lg border-white/10 hover:border-orange-500/50 hover:bg-orange-500/5"
+                    style={{ aspectRatio: "4/5" }}
                   >
                     <Plus className="text-gray-500" size={20} />
                     <span className="text-[10px] text-gray-500">Add Image</span>
@@ -376,7 +437,8 @@ function AddEditPanel({ product, categories, onClose, onSaved }: any) {
               {/* Helper Text */}
               {images.length === 0 && (
                 <p className="mt-3 text-xs text-gray-500">
-                  Click "Add Image" to upload product images
+                  Click "Add Image" to upload product images (4:5 ratio
+                  recommended)
                 </p>
               )}
               {images.length > 0 && (
@@ -744,16 +806,16 @@ function ProductCard({
       onMouseEnter={() => setShowActions(true)}
       onMouseLeave={() => setShowActions(false)}
     >
-      {/* Image */}
-      <div className="relative">
+      {/* Image - 4:5 aspect ratio */}
+      <div className="relative" style={{ aspectRatio: "4/5" }}>
         {product.images?.[0] || product.thumbnail ? (
           <img
             src={product.images?.[0] || product.thumbnail}
             alt={product.name}
-            className="object-cover w-full h-48"
+            className="object-cover w-full h-full"
           />
         ) : (
-          <div className="flex items-center justify-center h-48 bg-white/5">
+          <div className="flex items-center justify-center w-full h-full bg-white/5">
             <Package className="text-gray-600" size={40} />
           </div>
         )}
